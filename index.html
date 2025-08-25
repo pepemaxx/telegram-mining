@@ -1,438 +1,203 @@
+<!-- نسخه کامل بازی با تب‌های اضافه شده: پیش‌بینی مسابقه و آزمون لغات -->
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>بازی کلیکر تلگرام – ماینینگ ۲۴ ساعته</title>
-  <style>
-    :root{
-      --bg:#f6f7fb; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --brand:#4f46e5; --brand-50:#eef2ff; --good:#059669; --warn:#f59e0b; --danger:#ef4444;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:IRANSans, Vazirmatn, Segoe UI, Roboto, sans-serif}
-    header{position:sticky;top:0;z-index:10;background:rgba(246,247,251,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:36px;height:36px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 6px 18px rgba(99,102,241,.25)}
-    h1{font-size:18px;margin:0}
-    .sub{font-size:12px;color:var(--muted)}
-
-    main{max-width:760px;margin:0 auto;padding:16px 16px 110px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:0 6px 18px rgba(15,23,42,.04);margin-top:12px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .muted{color:var(--muted);font-size:12px}
-    .big{font-size:28px;font-weight:800}
-    .pill{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:#f8fafc}
-    .pill.good{background:#ecfdf5;color:#065f46;border-color:#d1fae5}
-    .pill.warn{background:#fffbeb;color:#92400e;border-color:#fde68a}
-
-    .btn{border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .btn-brand{background:var(--brand);color:#fff}
-    .btn-gray{background:#e5e7eb;color:#111827}
-    .btn-good{background:var(--good);color:#fff}
-
-    .progress{height:10px;border-radius:999px;background:#e7eaf3;overflow:hidden}
-    .progress>div{height:100%;background:#6366f1;transition:width .2s}
-
-    .mine-wrap{display:grid;gap:12px}
-    .mine-cta{height:60px;font-size:16px}
-    #timer{font-weight:800;color:#e11d48;font-size:22px}
-
-    nav.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--border);background:rgba(255,255,255,.92);backdrop-filter:blur(10px)}
-    .tabs-inner{max-width:760px;margin:0 auto;height:72px;display:grid;grid-template-columns:repeat(4,1fr)}
-    .tab-btn{appearance:none;background:none;border:none;color:#64748b;font-size:14px;display:flex;align-items:center;justify-content:center}
-    .tab-btn .pill{background:transparent}
-    .tab-btn.active{color:var(--brand)}
-    .tab-btn.active .pill{background:var(--brand-50);border-color:#e0e7ff}
-
-    .kicker{color:#111827;font-weight:700}
-    .accent{color:#1d4ed8}
-
-    .list{list-style:none;margin:0;padding:0}
-    .list li{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)}
-
-    .task{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .task .meta{display:flex;flex-direction:column}
-    .task a{color:#1d4ed8;text-decoration:none}
-
-    section.tab{display:none}
-    section.tab.active{display:block}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی ماینینگ تلگرام</title>
+    <style>
+        body {font-family: sans-serif; background: #f5f5f5; margin:0; padding:0; direction: rtl;}
+        header {background:#4caf50; color:#fff; padding:10px; text-align:center; font-size:20px;}
+        .tab-content {display:none; padding:15px;}
+        .active {display:block;}
+        .tabs {position: fixed; bottom:0; width:100%; display:flex; background:#fff; border-top:1px solid #ccc;}
+        .tab {flex:1; text-align:center; padding:10px; cursor:pointer;}
+        .tab.active {background:#4caf50; color:#fff;}
+        .card {background:#fff; margin:10px 0; padding:10px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+        button {padding:8px 12px; background:#4caf50; color:#fff; border:none; border-radius:5px; cursor:pointer;}
+        button:disabled {background:#999;}
+        .task a {color:#007bff; text-decoration:none;}
+        .task {margin:5px 0;}
+        .progress-bar {height:20px; background:#ddd; border-radius:10px; overflow:hidden; margin:10px 0;}
+        .progress {height:100%; background:#4caf50; width:0%; transition:width 0.5s;}
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1>بازی کلیکر – ماینینگ روزانه</h1>
-          <div class="sub">ماینینگ ۲۴ ساعته • ذخیره دائمی (LocalStorage)</div>
-        </div>
-      </div>
-      <button id="resetBtn" class="btn btn-gray">بازنشانی</button>
-    </header>
+<header>بازی ماینینگ تلگرام</header>
 
-    <main>
-      <!-- Mining -->
-      <section class="tab active" id="tab-mining">
-        <div class="card row">
-          <div>
-            <div class="muted">موجودی</div>
-            <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">سکه</span></div>
-          </div>
-          <div style="text-align:end">
-            <div class="muted">وضعیت ماینینگ</div>
-            <div id="miningStatus" class="pill">غیرفعال</div>
-          </div>
-        </div>
+<div id="mining" class="tab-content active">
+    <div class="card">
+        <div>درآمد فعلی: <span id="minedCoins">0</span> سکه</div>
+        <div class="progress-bar"><div class="progress" id="miningProgress"></div></div>
+        <button id="startMining">شروع ماینینگ ۲۴ ساعته</button>
+        <button id="claimMining" disabled>اتمام و دریافت</button>
+        <div>زمان باقی‌مانده: <span id="miningTimer">--:--:--</span></div>
+    </div>
+</div>
 
-        <div class="card mine-wrap">
-          <div class="row" style="align-items:flex-end">
-            <div>
-              <div class="muted">زمان باقی‌مانده</div>
-              <div id="timer">00:00:00</div>
-            </div>
-            <div style="text-align:end">
-              <div class="muted">درآمد این دوره</div>
-              <div class="kicker"><span id="sessionEarnings" class="accent">0</span> سکه</div>
-            </div>
-          </div>
-          <div class="progress"><div id="progressBar" style="width:0%"></div></div>
-          <div class="row">
-            <button id="startBtn" class="btn btn-brand mine-cta">شروع ماینینگ ۲۴ ساعته</button>
-            <button id="claimBtn" class="btn btn-good mine-cta" disabled>اتمام و دریافت</button>
-          </div>
-          <div class="muted">نرخ فعلی: <span id="rateText">0</span> سکه/ثانیه • اگر از بازی خارج شوید، هنگام بازگشت ادامه محاسبه می‌شود.</div>
-        </div>
-      </section>
+<div id="wallet" class="tab-content">
+    <div class="card">
+        <div>موجودی کیف پول: <span id="walletBalance">0</span> سکه</div>
+        <h4>تراکنش‌ها:</h4>
+        <ul id="transactions"></ul>
+    </div>
+</div>
 
-      <!-- Wallet -->
-      <section class="tab" id="tab-wallet">
-        <div class="card row">
-          <div>
-            <div class="muted">موجودی کل</div>
-            <div class="big" id="walletBalance">0</div>
-          </div>
-          <button class="btn btn-gray" disabled title="برای دنیای واقعی به بک‌اند نیاز است">برداشت</button>
-        </div>
-        <div class="card">
-          <div class="kicker" style="margin-bottom:8px">تراکنش‌ها</div>
-          <ul id="txList" class="list"></ul>
-          <div id="noTx" class="muted">هنوز تراکنشی وجود ندارد.</div>
-        </div>
-      </section>
+<div id="friends" class="tab-content">
+    <div class="card">
+        <div>لینک دعوت: <input id="inviteLink" readonly style="width:80%"> <button id="copyLink">کپی</button></div>
+        <button id="simulateReferral">شبیه‌سازی دعوت</button>
+    </div>
+</div>
 
-      <!-- Friends / Referral -->
-      <section class="tab" id="tab-friends">
-        <div class="card">
-          <div class="kicker" style="margin-bottom:8px">لینک دعوت شما</div>
-          <div id="refLink" class="muted" style="word-break:break-all;background:#f1f5f9;border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
-          <div style="margin-top:8px;display:flex;gap:8px">
-            <button id="copyRef" class="btn btn-brand">کپی لینک</button>
-            <button id="mockInvite" class="btn btn-gray">شبیه‌سازی دعوت +۱</button>
-          </div>
-        </div>
-        <div class="card row">
-          <div>
-            <div class="muted">تعداد دعوت‌ها</div>
-            <div class="big" id="friendsCount">0</div>
-          </div>
-          <div class="pill good">به‌ازای هر دوست: ۳۰ سکه</div>
-        </div>
-      </section>
+<div id="tasks" class="tab-content">
+    <div class="card">
+        <div class="task"><a href="https://t.me/examplechannel" target="_blank">عضویت در کانال تلگرام ما</a> <button class="claimTask" data-coins="10">دریافت</button></div>
+        <div class="task"><a href="https://instagram.com/example" target="_blank">فالو اینستاگرام</a> <button class="claimTask" data-coins="10">دریافت</button></div>
+        <div class="task"><a href="https://twitter.com/example" target="_blank">فالو توییتر</a> <button class="claimTask" data-coins="10">دریافت</button></div>
+    </div>
+</div>
 
-      <!-- Tasks -->
-      <section class="tab" id="tab-tasks">
-        <div class="card">
-          <div class="kicker" style="margin-bottom:8px">وظایف روزانه/اجتماعی</div>
-          <div id="tasksWrap" class="stack"></div>
-          <div class="muted" style="margin-top:8px">* لینک‌ها نمونه هستند؛ برای اعتبارسنجی واقعی نیاز به بک‌اند دارید.</div>
-        </div>
-      </section>
-    </main>
+<div id="predict" class="tab-content">
+    <div class="card">
+        <h3>پیش‌بینی مسابقات</h3>
+        <div id="matches"></div>
+    </div>
+</div>
 
-    <nav class="tabs">
-      <div class="tabs-inner">
-        <button class="tab-btn active" data-tab="mining"><span class="pill">ماینینگ</span></button>
-        <button class="tab-btn" data-tab="wallet"><span class="pill">کیف پول</span></button>
-        <button class="tab-btn" data-tab="friends"><span class="pill">دوستان</span></button>
-        <button class="tab-btn" data-tab="tasks"><span class="pill">وظایف</span></button>
-      </div>
-    </nav>
-  </div>
+<div id="words" class="tab-content">
+    <div class="card">
+        <h3>آزمون لغات ۵۰۴</h3>
+        <div id="wordQuiz"></div>
+    </div>
+</div>
 
-  <script>
-    // ===== Config =====
-    const DURATION_MS = 24 * 60 * 60 * 1000; // 24h mining period
-    const RATE_PER_SEC = 0.02; // سکه در ثانیه (دلخواه)
-    const REF_REWARD = 30; // جایزه هر دعوت
+<div class="tabs">
+    <div class="tab active" data-target="mining">ماینینگ</div>
+    <div class="tab" data-target="wallet">کیف پول</div>
+    <div class="tab" data-target="friends">دوستان</div>
+    <div class="tab" data-target="tasks">وظایف</div>
+    <div class="tab" data-target="predict">پیش‌بینی</div>
+    <div class="tab" data-target="words">لغات</div>
+</div>
 
-    const STORAGE_KEY = 'tg_clicker_plain_persist_v2';
+<script>
+// سوئیچ تب‌ها
+const tabs = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    contents.forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.target).classList.add('active');
+  });
+});
 
-    // ===== State =====
-    const state = load() || {
-      balance: 0,
-      tx: [], // {id, type:'earn'|'spend', amount, ts, note}
-      miningStartTime: null, // ms epoch
-      friends: 0,
-      completedTasks: []
-    };
+// کیف پول و تراکنش
+let walletBalance = parseInt(localStorage.getItem('walletBalance')||0);
+document.getElementById('walletBalance').innerText = walletBalance;
+function addTransaction(desc,amount){
+  const li = document.createElement('li');
+  li.textContent = `${desc}: ${amount} سکه`;
+  document.getElementById('transactions').appendChild(li);
+}
 
-    // ===== Elements =====
-    const $ = (id)=>document.getElementById(id);
-    const balanceEl = $('balance');
-    const miningStatusEl = $('miningStatus');
-    const timerEl = $('timer');
-    const sessionEarningsEl = $('sessionEarnings');
-    const progressBarEl = $('progressBar');
-    const startBtn = $('startBtn');
-    const claimBtn = $('claimBtn');
-    const rateText = $('rateText');
-
-    const walletBalanceEl = $('walletBalance');
-    const txListEl = $('txList');
-    const noTxEl = $('noTx');
-
-    const refLinkEl = $('refLink');
-    const copyRefBtn = $('copyRef');
-    const mockInviteBtn = $('mockInvite');
-    const friendsCountEl = $('friendsCount');
-
-    const tasksWrap = $('tasksWrap');
-
-    // ===== Tasks (with sample links) =====
-    const TASKS = [
-      { id:'t1', title:'عضویت در کانال تلگرام', url:'https://t.me/telegram', reward:15 },
-      { id:'t2', title:'فالو اینستاگرام', url:'https://instagram.com/instagram', reward:20 },
-      { id:'t3', title:'فالو توییتر/X', url:'https://twitter.com/Twitter', reward:20 },
-      { id:'t4', title:'سابسکرایب یوتیوب', url:'https://youtube.com/@YouTube', reward:25 },
-      { id:'t5', title:'عضویت در گروه نمونه', url:'https://t.me/samples', reward:10 },
-    ];
-
-    // ===== Init =====
-    rateText.textContent = RATE_PER_SEC.toLocaleString('fa-IR');
-    setupTabs();
-    setupMining();
-    setupFriends();
-    renderWallet();
-    renderTasks();
-    setupReset();
-
-    // ===== Tabs =====
-    function setupTabs(){
-      document.querySelectorAll('.tab-btn').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-          document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-        });
-      });
+// ماینینگ با تایمر پایدار
+const startBtn=document.getElementById('startMining');
+const claimBtn=document.getElementById('claimMining');
+const minedCoinsEl=document.getElementById('minedCoins');
+const timerEl=document.getElementById('miningTimer');
+const progressEl=document.getElementById('miningProgress');
+let miningStart=parseInt(localStorage.getItem('miningStart')||0);
+let claimed=false;
+const duration=24*60*60*1000; //24ساعت
+function updateMining(){
+  if(miningStart){
+    const elapsed=Date.now()-miningStart;
+    if(elapsed<duration){
+      const remaining=duration-elapsed;
+      const hrs=Math.floor(remaining/3600000);
+      const mins=Math.floor((remaining%3600000)/60000);
+      const secs=Math.floor((remaining%60000)/1000);
+      timerEl.textContent=`${hrs}:${mins}:${secs}`;
+      const mined=Math.floor((elapsed/duration)*100);
+      minedCoinsEl.textContent=mined;
+      progressEl.style.width=(elapsed/duration*100)+"%";
+      startBtn.disabled=true; claimBtn.disabled=true;
+    } else {
+      timerEl.textContent="تمام شد";
+      minedCoinsEl.textContent=100;
+      startBtn.disabled=true; claimBtn.disabled=false;
     }
+  } else {
+    timerEl.textContent="--:--:--"; minedCoinsEl.textContent=0;
+    startBtn.disabled=false; claimBtn.disabled=true;
+    progressEl.style.width="0%";
+  }
+}
+setInterval(updateMining,1000);
+startBtn.onclick=()=>{miningStart=Date.now();localStorage.setItem('miningStart',miningStart);}
+claimBtn.onclick=()=>{walletBalance+=100;localStorage.setItem('walletBalance',walletBalance);document.getElementById('walletBalance').innerText=walletBalance;addTransaction('پاداش ماینینگ',100);miningStart=0;localStorage.removeItem('miningStart');updateMining();}
 
-    // ===== Mining (persistent) =====
-    let intervalId = null;
+// لینک دعوت
+const invite=document.getElementById('inviteLink');
+invite.value=window.location.href+"?ref=USER";
 
-    function setupMining(){
-      updateMiningUI();
-      startBtn.addEventListener('click',()=>{
-        if(state.miningStartTime) return; // already active
-        state.miningStartTime = Date.now();
-        pushTx({type:'info', amount:0, note:'شروع ماینینگ ۲۴ساعته'});
-        save();
-        updateMiningUI();
-        tick();
-        intervalId = setInterval(tick, 1000);
-      });
-      claimBtn.addEventListener('click', finalizeMining);
+document.getElementById('copyLink').onclick=()=>{invite.select();document.execCommand('copy');alert('کپی شد');}
+document.getElementById('simulateReferral').onclick=()=>{walletBalance+=50;localStorage.setItem('walletBalance',walletBalance);document.getElementById('walletBalance').innerText=walletBalance;addTransaction('پاداش دعوت',50);}
 
-      // if a session is active, resume ticking
-      if(state.miningStartTime){
-        const {remaining} = miningMetrics();
-        if(remaining>0){
-          intervalId = setInterval(tick, 1000);
-          tick();
-        }else{
-          // period already finished while user was away -> finalize immediately
-          finalizeMining();
-        }
-      }
+// وظایف
+const taskButtons=document.querySelectorAll('.claimTask');
+taskButtons.forEach(btn=>{
+  btn.onclick=()=>{
+    if(!btn.disabled){
+      const c=parseInt(btn.dataset.coins);
+      walletBalance+=c;localStorage.setItem('walletBalance',walletBalance);
+      document.getElementById('walletBalance').innerText=walletBalance;
+      addTransaction('پاداش وظیفه',c);
+      btn.disabled=true;
     }
+  }
+});
 
-    function miningMetrics(){
-      if(!state.miningStartTime) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
-      const now = Date.now();
-      const elapsed = Math.max(0, now - state.miningStartTime);
-      const remaining = Math.max(0, DURATION_MS - elapsed);
-      const clampedElapsed = Math.min(elapsed, DURATION_MS);
-      const rewardNow = (clampedElapsed/1000) * RATE_PER_SEC;
-      const progress = (clampedElapsed / DURATION_MS) * 100;
-      return {elapsed, remaining, progress, rewardNow};
-    }
+// پیش‌بینی مسابقه نمونه
+const matches=[
+  {id:1,teamA:'تیم الف',teamB:'تیم ب'},
+  {id:2,teamA:'تیم ج',teamB:'تیم د'},
+  {id:3,teamA:'تیم ه',teamB:'تیم و'}
+];
+const matchesDiv=document.getElementById('matches');
+matches.forEach(m=>{
+  const div=document.createElement('div');
+  div.innerHTML=`${m.teamA} vs ${m.teamB} <button data-mid="${m.id}" data-opt="A">برد ${m.teamA}</button> <button data-mid="${m.id}" data-opt="B">برد ${m.teamB}</button> <button data-mid="${m.id}" data-opt="D">مساوی</button>`;
+  matchesDiv.appendChild(div);
+});
+document.querySelectorAll('#matches button').forEach(btn=>{
+  btn.onclick=()=>{alert('پیش‌بینی ثبت شد');}
+});
 
-    function formatHHMMSS(ms){
-      const s = Math.max(0, Math.floor(ms/1000));
-      const h = String(Math.floor(s/3600)).padStart(2,'0');
-      const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
-      const ss = String(s%60).padStart(2,'0');
-      return `${h}:${m}:${ss}`;
-    }
-
-    function tick(){
-      const {remaining, progress, rewardNow} = miningMetrics();
-      timerEl.textContent = formatHHMMSS(remaining);
-      sessionEarningsEl.textContent = rewardNow.toFixed(2);
-      progressBarEl.style.width = `${progress}%`;
-
-      if(remaining<=0){
-        clearInterval(intervalId); intervalId=null;
-        claimBtn.disabled = false;
-        miningStatusEl.textContent = 'پایان‌یافته – منتظر دریافت';
-        miningStatusEl.className = 'pill warn';
-      }
-    }
-
-    function finalizeMining(){
-      if(!state.miningStartTime) return;
-      const {rewardNow} = miningMetrics();
-      if(rewardNow>0){
-        state.balance += rewardNow;
-        pushTx({type:'earn', amount:rewardNow, note:'پایان دوره ماینینگ'});
-      }
-      state.miningStartTime = null;
-      save();
-      updateMiningUI();
-      renderWallet();
-    }
-
-    function updateMiningUI(){
-      balanceEl.textContent = Math.floor(state.balance).toLocaleString('fa-IR');
-      walletBalanceEl.textContent = Math.floor(state.balance).toLocaleString('fa-IR');
-
-      if(state.miningStartTime){
-        startBtn.disabled = true;
-        claimBtn.disabled = true; // تا پایان دوره
-        miningStatusEl.textContent = 'فعال';
-        miningStatusEl.className = 'pill good';
-        const {remaining, progress, rewardNow} = miningMetrics();
-        timerEl.textContent = formatHHMMSS(remaining);
-        sessionEarningsEl.textContent = rewardNow.toFixed(2);
-        progressBarEl.style.width = `${progress}%`;
-      }else{
-        startBtn.disabled = false;
-        claimBtn.disabled = true;
-        miningStatusEl.textContent = 'غیرفعال';
-        miningStatusEl.className = 'pill';
-        timerEl.textContent = '00:00:00';
-        sessionEarningsEl.textContent = '0';
-        progressBarEl.style.width = '0%';
-      }
-    }
-
-    // ===== Wallet / TX =====
-    function renderWallet(){
-      walletBalanceEl.textContent = Math.floor(state.balance).toLocaleString('fa-IR');
-      txListEl.innerHTML = '';
-      if(!state.tx.length){ noTxEl.style.display='block'; return; }
-      noTxEl.style.display='none';
-      state.tx.slice(0,50).forEach(t=>{
-        const li=document.createElement('li');
-        const left=document.createElement('div');
-        const right=document.createElement('div');
-        left.innerHTML = `<div>${t.type==='earn'?'+':''}${t.amount.toFixed(2)}</div><div class="muted">${t.note||'—'}</div>`;
-        right.className='muted';
-        right.textContent=new Date(t.ts).toLocaleString();
-        li.appendChild(left); li.appendChild(right);
-        txListEl.appendChild(li);
-      });
-    }
-
-    function pushTx({type, amount, note}){
-      state.tx.unshift({id:randId(), type, amount:amount||0, ts:Date.now(), note});
-      state.tx = state.tx.slice(0,200);
-      save();
-    }
-
-    // ===== Friends =====
-    function setupFriends(){
-      const url = new URL(window.location.href);
-      const ref = url.searchParams.get('ref');
-      // ساخت لینک دعوت شخصی (بدون ref یا با مقدار دلخواه)
-      const base = `${location.origin}${location.pathname}`.replace(/index\.html$/,'');
-      const myRef = 'USER_'+randId().slice(0,6); // نمونه؛ در نسخه واقعی از user.id تلگرام استفاده کنید
-      const myLink = `${base}${base.endsWith('/')?'':'/'}index.html?ref=${encodeURIComponent(myRef)}`;
-      refLinkEl.textContent = myLink;
-
-      copyRefBtn.addEventListener('click', async ()=>{
-        try{ await navigator.clipboard.writeText(myLink); }catch(e){}
-      });
-      mockInviteBtn.addEventListener('click',()=>{
-        state.friends += 1;
-        state.balance += REF_REWARD;
-        pushTx({type:'earn', amount:REF_REWARD, note:'پاداش دعوت'});
-        friendsCountEl.textContent = state.friends;
-        updateMiningUI();
-        renderWallet();
-      });
-      friendsCountEl.textContent = state.friends;
-
-      // اگر کاربر با ref وارد شده، می‌توان این را در بک‌اند ثبت کرد.
-      if(ref){
-        // فقط نمایش اطلاع؛ امتیازدهی واقعی باید سروری باشد.
-        pushTx({type:'info', amount:0, note:`ورود از طریق دعوت ${ref}`});
-        renderWallet();
-      }
-    }
-
-    // ===== Tasks =====
-    function renderTasks(){
-      tasksWrap.innerHTML='';
-      TASKS.forEach(t=>{
-        const done = state.completedTasks.includes(t.id);
-        const card = document.createElement('div');
-        card.className='card task';
-        const meta = document.createElement('div');
-        meta.className='meta';
-        meta.innerHTML = `<a href="${t.url}" target="_blank" rel="noopener">${t.title}</a><span class="muted">پاداش: ${t.reward} سکه</span>`;
-        const btn = document.createElement('button');
-        btn.className='btn '+(done?'btn-gray':'btn-good');
-        btn.textContent = done?'دریافت شد':'دریافت';
-        btn.disabled = done;
-        btn.addEventListener('click',()=>claimTask(t));
-        card.appendChild(meta); card.appendChild(btn);
-        tasksWrap.appendChild(card);
-      });
-    }
-
-    function claimTask(t){
-      if(state.completedTasks.includes(t.id)) return;
-      state.completedTasks.push(t.id);
-      state.balance += t.reward;
-      pushTx({type:'earn', amount:t.reward, note:`پاداش وظیفه: ${t.title}`});
-      save();
-      renderTasks();
-      updateMiningUI();
-      renderWallet();
-    }
-
-    // ===== Reset =====
-    function setupReset(){
-      $('resetBtn').addEventListener('click',()=>{
-        if(!confirm('همه پیشرفت‌ها (لوکال) حذف شود؟')) return;
-        const keepRef = state.friends; // اگر خواستید صفر کنید، این خط را بردارید
-        Object.assign(state,{balance:0, tx:[], miningStartTime:null, friends:keepRef, completedTasks:[]});
-        save();
-        updateMiningUI();
-        renderWallet();
-        renderTasks();
-      });
-    }
-
-    // ===== Persistence =====
-    function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
-    function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
-    function randId(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
-  </script>
+// آزمون لغات نمونه روزانه
+const words=[
+  {q:'Meaning of Abandon?',a:['ترک کردن','دوست داشتن'],c:0},
+  {q:'Meaning of Keen?',a:['تیز و مشتاق','کسل'],c:0},
+  {q:'Meaning of Jealous?',a:['حسود','مهربان'],c:0},
+  {q:'Meaning of Tact?',a:['تدبیر','بی ملاحظه'],c:0},
+  {q:'Meaning of Oath?',a:['قسم','دروغ'],c:0}
+];
+const quizDiv=document.getElementById('wordQuiz');
+words.forEach((w,i)=>{
+  const div=document.createElement('div');
+  div.innerHTML=`<p>${w.q}</p><button data-i="${i}" data-o="0">${w.a[0]}</button><button data-i="${i}" data-o="1">${w.a[1]}</button>`;
+  quizDiv.appendChild(div);
+});
+quizDiv.querySelectorAll('button').forEach(btn=>{
+  btn.onclick=()=>{
+    const wi=words[btn.dataset.i];
+    if(parseInt(btn.dataset.o)===wi.c){walletBalance+=5;localStorage.setItem('walletBalance',walletBalance);document.getElementById('walletBalance').innerText=walletBalance;addTransaction('پاداش لغت',5);alert('درست! ۵ سکه گرفتید');} else {alert('اشتباه');}
+    btn.parentElement.querySelectorAll('button').forEach(b=>b.disabled=true);
+  }
+});
+</script>
 </body>
 </html>
