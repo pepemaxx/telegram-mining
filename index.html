@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PiNet — Daily Mining</title>
+  <title>PiNet — ماینینگ روزانه</title>
   <style>
     :root{
-      --bg1:#0f172a; --bg2:#1e293b; --ink:#ffffff; --muted:#cbd5e1; --card:rgba(255,255,255,.05);
-      --brand:#facc15; --border:rgba(255,255,255,.1);
+      --bg1:#5a189a; --bg2:#7b2cbf; --ink:#ffffff; --muted:#e2e8f0; --card:rgba(0,0,0,.22);
+      --brand:#f1c40f; --border:rgba(255,255,255,.2);
       --good:#10b981; --warn:#f59e0b;
     }
     *{box-sizing:border-box}
     body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);
-      font-family:Inter, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;height:100vh;overflow:hidden;}
+      font-family:Inter, Vazirmatn, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;height:100vh;overflow:hidden;}
     #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
     main{flex:1;overflow-y:auto;padding:16px 16px 96px;max-width:820px;margin:0 auto}
 
-    /* Cards and shared elements */
+    /* کارت‌ها و عناصر عمومی */
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:0 6px 24px rgba(0,0,0,.15);margin-top:12px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .muted{color:var(--muted);font-size:12px}
@@ -28,7 +28,7 @@
     .progress>div{height:100%;background:var(--brand);transition:width .25s}
     .btn{border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
     .btn:disabled{opacity:.6;cursor:not-allowed}
-    .btn-gold{background:var(--brand);color:#1e293b}
+    .btn-gold{background:var(--brand);color:#4c1d95}
     .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid var(--border)}
     input{background:rgba(255,255,255,.08);border:1px solid var(--border);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
     input::placeholder{color:#cbd5e1}
@@ -39,40 +39,41 @@
     section.tab{display:none}
     section.tab.active{display:block}
 
-    /* Bottom tabs */
-    nav.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--border);background:rgba(0,0,0,.25);backdrop-filter:blur(10px)}
+    /* تب‌های پایین */
+    nav.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--border);background:rgba(0,0,0,.18);backdrop-filter:blur(10px)}
     .tabs-inner{max-width:820px;margin:0 auto;height:72px;display:grid;grid-template-columns:repeat(5,1fr)}
-    .tab-btn{appearance:none;background:none;border:none;color:#cbd5e1;font-size:14px;display:flex;align-items:center;justify-content:center}
+    .tab-btn{appearance:none;background:none;border:none;color:#e2e8f0;font-size:14px;display:flex;align-items:center;justify-content:center}
     .tab-btn .pill{background:transparent}
     .tab-btn.active{color:var(--brand)}
-    .tab-btn.active .pill{background:rgba(250,204,21,.12);border-color:rgba(250,204,21,.35)}
+    .tab-btn.active .pill{background:rgba(241,196,15,.12);border-color:rgba(241,196,15,.35)}
 
-    /* Background central coin + orbits */
+    /* پس‌زمینه — سکه مرکزی و حلقه‌ها */
     .bg-stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
-    .emblem{position:relative;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.05);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(0,0,0,.25) inset, 0 0 0 1px var(--border);}
-    .emblem .pi{font-size:96px;line-height:1;color:var(--brand);font-weight:900;text-shadow:0 0 24px rgba(250,204,21,.35);}
-    .emblem .label{position:absolute;bottom:18px;font-weight:800;letter-spacing:.6px;color:var(--brand);text-shadow:0 0 18px rgba(250,204,21,.35)}
+    .emblem{position:relative;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.06);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(0,0,0,.25) inset, 0 0 0 1px var(--border);}
+    .emblem .pi{font-size:96px;line-height:1;color:var(--brand);font-weight:900;text-shadow:0 0 24px rgba(241,196,15,.35);}
+    .emblem .label{position:absolute;bottom:18px;font-weight:800;letter-spacing:.6px;color:var(--brand);text-shadow:0 0 18px rgba(241,196,15,.35)}
     .rings{position:absolute;inset:0;display:grid;place-items:center;}
-    .ring{position:absolute;border:2px solid rgba(250,204,21,.25);border-radius:50%;animation:pulse 6s linear infinite;}
+    .ring{position:absolute;border:2px solid rgba(241,196,15,.35);border-radius:50%;animation:pulse 6s linear infinite;}
     .ring.r1{width:360px;height:360px;animation-delay:0s}
     .ring.r2{width:520px;height:520px;animation-delay:1s}
     .ring.r3{width:680px;height:680px;animation-delay:2s}
     @keyframes pulse{0%{opacity:.45}50%{opacity:.2}100%{opacity:.45}}
 
-    /* Orbiting coins */
+    /* منظومه سکه‌های پای در مدار */
     .solar{position:absolute;inset:0;display:grid;place-items:center;}
-    .orbit{position:absolute;border:1px dashed rgba(250,204,21,.35);border-radius:50%;animation:spin 12s linear infinite}
+    .orbit{position:absolute;border:1px dashed rgba(241,196,15,.35);border-radius:50%;animation:spin 12s linear infinite}
     .orbit.o1{width:320px;height:320px;animation-duration:8s}
     .orbit.o2{width:460px;height:460px;animation-duration:12s}
     .orbit.o3{width:620px;height:620px;animation-duration:16s}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .coin{position:absolute;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff7c2, #facc15 45%, #b88700 80%);box-shadow:0 0 14px rgba(250,204,21,.6)}
-    .coin::after{content:"π";position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:#1e293b}
+    .coin{position:absolute;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff7c2, #f1c40f 45%, #b88700 80%);box-shadow:0 0 14px rgba(241,196,15,.6)}
+    .coin::after{content:"π";position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:#4c1d95}
+    /* قرار دادن سکه روی محیط مدار (مثل سیاره در بالای مدار) */
     .orbit .coin{top:-14px;left:calc(50% - 14px)}
   </style>
 </head>
 <body>
-  <!-- Background emblem and coins -->
+  <!-- پس‌زمینه: سکه مرکزی + حلقه‌ها + منظومه‌ی سکه‌های پای -->
   <div class="bg-stage" aria-hidden="true">
     <div class="rings">
       <div class="ring r1"></div>
@@ -96,38 +97,32 @@
       <section class="tab active" id="tab-mining">
         <div class="card row">
           <div>
-            <div class="muted">Wallet Balance</div>
-            <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">Coins</span></div>
+            <div class="muted">موجودی کیف</div>
+            <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">کوین</span></div>
           </div>
           <div style="text-align:end">
-            <div class="muted">Mining Status</div>
-            <div id="miningStatus" class="pill">Inactive</div>
+            <div class="muted">وضعیت ماینینگ</div>
+            <div id="miningStatus" class="pill">غیرفعال</div>
           </div>
         </div>
 
         <div class="card">
           <div class="row" style="align-items:flex-end">
             <div>
-              <div class="muted">Time Remaining</div>
+              <div class="muted">زمان باقیمانده</div>
               <div id="timer" class="big">00:00:00</div>
             </div>
             <div style="text-align:end">
-              <div class="muted">Earnings This Session</div>
-              <div class="big" style="color:var(--brand)"><span id="sessionEarnings">0</span> Coins</div>
+              <div class="muted">درآمد این جلسه</div>
+              <div class="big" style="color:var(--brand)"><span id="sessionEarnings">0</span> کوین</div>
             </div>
           </div>
           <div class="progress" style="margin-top:10px"><div id="progressBar" style="width:0%"></div></div>
           <div class="row" style="margin-top:12px">
-            <button id="startBtn" class="btn btn-gold">Start 24h Mining</button>
-            <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
+            <button id="startBtn" class="btn btn-gold">شروع ماینینگ ۲۴ساعته</button>
+            <button id="claimBtn" class="btn btn-ghost" disabled>اتمام و Claim</button>
           </div>
-          <div class="muted" style="margin-top:8px">Current rate: <span id="rateText">0</span> coin/sec • Progress is saved even if you close the page.</div>
-        </div>
-
-        <!-- News Section -->
-        <div class="card">
-          <div class="kicker">Latest News</div>
-          <ul id="newsList" class="list"></ul>
+          <div class="muted" style="margin-top:8px">نرخ فعلی: <span id="rateText">0</span> کوین/ثانیه • حتی با بستن صفحه، پیشرفت ذخیره می‌شود.</div>
         </div>
       </section>
 
@@ -147,73 +142,405 @@
             <div class="big" id="usdtBalance">0</div>
           </div>
         </div>
+
+        <div class="card">
+          <div class="kicker">تبدیل‌ها</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: هر 100 کوین = 1 Pi • هر 1 Pi = 5 USDT</div>
+          <div class="input-row" style="margin-bottom:8px">
+            <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
+            <button id="coinsToPiBtn" class="btn btn-gold">تبدیل Coins → Pi</button>
+          </div>
+          <div class="input-row" style="margin-bottom:8px">
+            <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار Pi">
+            <button id="piToUsdtBtn" class="btn btn-gold">تبدیل Pi → USDT</button>
+          </div>
+
+          <div class="muted">برداشت بعداً اضافه می‌شود.</div>
+        </div>
+
+        <div class="card">
+          <div class="kicker">تراکنش‌ها</div>
+          <ul id="txList" class="list"></ul>
+          <div id="noTx" class="muted">تراکنشی وجود ندارد.</div>
+        </div>
       </section>
 
       <!-- Friends -->
       <section class="tab" id="tab-friends">
         <div class="card">
-          <div class="kicker">Invite Link</div>
+          <div class="kicker">لینک دعوت شما</div>
           <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.09);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            <button id="copyRef" class="btn btn-gold">کپی لینک</button>
+            <button id="mockInvite" class="btn btn-ghost">شبیه‌سازی دعوت +1</button>
+            <button id="mockActivate" class="btn btn-ghost">شبیه‌سازی فعال +1</button>
+          </div>
+        </div>
+        <div class="card row">
+          <div>
+            <div class="muted">دعوت‌شده</div>
+            <div class="big" id="friendsInvited">0</div>
+          </div>
+          <div>
+            <div class="muted">فعال</div>
+            <div class="big" id="friendsActive">0</div>
+          </div>
+          <div class="pill good">+30 کوین برای هر دوست فعال</div>
+        </div>
+
+        <div class="card">
+          <div class="kicker">لیست برترین‌ها (نمونه)</div>
+          <ol id="leaderList" style="text-align:right; padding-right:20px"></ol>
+          <div style="margin-top:8px" class="muted">رتبه شما: <b id="myRank">#112131</b></div>
         </div>
       </section>
 
       <!-- Tasks -->
       <section class="tab" id="tab-tasks">
         <div class="card">
-          <div class="kicker">Tasks (Demo)</div>
-          <div class="muted">Social tasks will be listed here.</div>
+          <div class="kicker">تسک‌های اجتماعی (نمایشی)</div>
+          <div id="tasksWrap"></div>
+          <div class="muted" style="margin-top:8px">* لینک‌ها نمونه هستند. تأیید واقعی نیاز به بک‌اند دارد.</div>
         </div>
       </section>
 
       <!-- Profile -->
       <section class="tab" id="tab-profile">
         <div class="card">
-          <div class="kicker">Profile</div>
-          <div class="input-row">
-            <input id="firstName" placeholder="First Name"/>
-            <input id="lastName" placeholder="Last Name"/>
-            <input id="userId" placeholder="User ID" disabled/>
-            <button id="saveProfile" class="btn btn-gold">Save</button>
+          <div class="kicker">پروفایل</div>
+          <div class="input-row" style="margin-bottom:8px">
+            <input id="firstName" placeholder="نام"/>
+            <input id="lastName" placeholder="نام‌خانوادگی"/>
+            <input id="userId" placeholder="شماره کاربر" disabled/>
+            <button id="saveProfile" class="btn btn-gold">ذخیره</button>
           </div>
+          <div class="muted">* این اطلاعات فقط روی همین دستگاه ذخیره می‌شود. آی‌دی کاربر از <b>112131</b> شروع شده و برای شما ثابت می‌ماند.</div>
         </div>
       </section>
     </main>
 
     <nav class="tabs">
       <div class="tabs-inner">
-        <button class="tab-btn active" data-tab="mining"><span class="pill">Mining</span></button>
-        <button class="tab-btn" data-tab="wallet"><span class="pill">Wallet</span></button>
-        <button class="tab-btn" data-tab="friends"><span class="pill">Friends</span></button>
-        <button class="tab-btn" data-tab="tasks"><span class="pill">Tasks</span></button>
-        <button class="tab-btn" data-tab="profile"><span class="pill">Profile</span></button>
+        <button class="tab-btn active" data-tab="mining"><span class="pill">ماینینگ</span></button>
+        <button class="tab-btn" data-tab="wallet"><span class="pill">کیف پول</span></button>
+        <button class="tab-btn" data-tab="friends"><span class="pill">دوستان</span></button>
+        <button class="tab-btn" data-tab="tasks"><span class="pill">تسک‌ها</span></button>
+        <button class="tab-btn" data-tab="profile"><span class="pill">پروفایل</span></button>
       </div>
     </nav>
   </div>
 
   <script>
-    // Tabs
-    document.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-      });
-    });
+    // ===== Config =====
+    const DURATION_MS = 24*60*60*1000; // 24h
+    const RATE_PER_SEC = 0.05; // coins per second (demo)
+    const REF_REWARD = 30;     // coins per active friend
+    const COINS_PER_PI = 100;  // conversion rate demo
+    const USDT_PER_PI = 5;     // conversion rate demo
+    const STORAGE_KEY = 'pinet_clicker_state_spa_v1';
 
-    // Demo News
-    const news = [
-      "🚀 PiNet reaches 50M pioneers!",
-      "🔥 Mining rewards halved, start now!",
-      "📢 Partnership rumors with major exchange...",
-      "💡 New feature: Tasks and social rewards added!"
+    // ===== Seeded user profile (ID starts at 112131 and persists on this device) =====
+    function initState(){
+      const saved = load();
+      if(saved) return saved;
+      return {
+        coins: 0,
+        pi: 0,
+        usdt: 0,
+        tx: [], // {id, type, amount, ts, note}
+        miningStart: null, // epoch ms
+        friendsInvited: 0,
+        friendsActive: 0,
+        profile: { first: 'کاربر', last: '', id: 112131 },
+        myRank: 112131,
+        completedTasks: []
+      };
+    }
+    const state = initState();
+
+    // ===== Elements =====
+    const $ = (id)=>document.getElementById(id);
+    // Mining
+    const balanceEl = $('balance');
+    const miningStatusEl = $('miningStatus');
+    const timerEl = $('timer');
+    const sessionEarningsEl = $('sessionEarnings');
+    const progressBarEl = $('progressBar');
+    const startBtn = $('startBtn');
+    const claimBtn = $('claimBtn');
+    const rateText = $('rateText');
+
+    // Wallet
+    const coinsBalanceEl = $('coinsBalance');
+    const piBalanceEl = $('piBalance');
+    const usdtBalanceEl = $('usdtBalance');
+    const txListEl = $('txList');
+    const noTxEl = $('noTx');
+    const coinsToPiAmt = $('coinsToPiAmt');
+    const coinsToPiBtn = $('coinsToPiBtn');
+    const piToUsdtAmt = $('piToUsdtAmt');
+    const piToUsdtBtn = $('piToUsdtBtn');
+
+    // Friends
+    const refLinkEl = $('refLink');
+    const copyRefBtn = $('copyRef');
+    const mockInviteBtn = $('mockInvite');
+    const mockActivateBtn = $('mockActivate');
+    const friendsInvitedEl = $('friendsInvited');
+    const friendsActiveEl = $('friendsActive');
+    const leaderListEl = $('leaderList');
+    const myRankEl = $('myRank');
+
+    // Tasks
+    const tasksWrap = $('tasksWrap');
+
+    // Profile
+    const firstNameInput = $('firstName');
+    const lastNameInput = $('lastName');
+    const userIdInput = $('userId');
+    const saveProfileBtn = $('saveProfile');
+
+    // ===== Tasks (sample) =====
+    const TASKS = [
+      { id:'t1', title:'عضویت در تلگرام', url:'https://t.me/telegram', reward:15 },
+      { id:'t2', title:'فالو در اینستاگرام', url:'https://instagram.com/instagram', reward:20 },
+      { id:'t3', title:'فالو در X (توییتر)', url:'https://twitter.com/Twitter', reward:20 },
+      { id:'t4', title:'سابسکرایب یوتیوب', url:'https://youtube.com/@YouTube', reward:25 },
+      { id:'t5', title:'عضویت در گروه نمونه', url:'https://t.me/samples', reward:10 },
     ];
-    const newsList = document.getElementById("newsList");
-    news.forEach(n=>{
-      const li=document.createElement("li");
-      li.textContent = n;
-      newsList.appendChild(li);
-    });
+
+    const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
+
+    // ===== Init =====
+    rateText.textContent = RATE_PER_SEC.toString();
+    setupTabs();
+    setupMining();
+    setupWallet();
+    setupFriends();
+    setupTasks();
+    setupProfile();
+
+    // ===== Tabs =====
+    function setupTabs(){
+      document.querySelectorAll('.tab-btn').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+          document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+        });
+      });
+    }
+
+    // ===== Mining =====
+    let tickId = null;
+
+    function setupMining(){
+      updateMiningUI();
+      startBtn.addEventListener('click',()=>{
+        if(state.miningStart) return;
+        state.miningStart = Date.now();
+        pushTx({type:'info', amount:0, note:'شروع ماینینگ ۲۴ساعته'});
+        save();
+        updateMiningUI();
+        runTick();
+      });
+      claimBtn.addEventListener('click', finalizeMining);
+
+      if(state.miningStart){
+        const {remaining} = miningMetrics();
+        if(remaining>0){ runTick(); } else { finalizeMining(); }
+      }
+    }
+
+    function runTick(){
+      clearInterval(tickId);
+      tick();
+      tickId = setInterval(tick, 1000);
+    }
+
+    function miningMetrics(){
+      if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
+      const now = Date.now();
+      const elapsed = Math.max(0, now - state.miningStart);
+      const remaining = Math.max(0, DURATION_MS - elapsed);
+      const clamped = Math.min(elapsed, DURATION_MS);
+      const rewardNow = (clamped/1000) * RATE_PER_SEC; // live earnings
+      const progress = (clamped / DURATION_MS) * 100;
+      return {elapsed, remaining, progress, rewardNow};
+    }
+
+    function formatHHMMSS(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      const h = String(Math.floor(s/3600)).padStart(2,'0');
+      const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      return `${h}:${m}:${ss}`;
+    }
+
+    function tick(){
+      const {remaining, progress, rewardNow} = miningMetrics();
+      timerEl.textContent = formatHHMMSS(remaining);
+      sessionEarningsEl.textContent = rewardNow.toFixed(2);
+      progressBarEl.style.width = `${progress}%`;
+
+      if(remaining<=0){
+        clearInterval(tickId); tickId=null;
+        claimBtn.disabled = false;
+        miningStatusEl.textContent = 'کامل شده — Claim کنید';
+        miningStatusEl.className = 'pill warn';
+      }
+    }
+
+    function finalizeMining(){
+      if(!state.miningStart) return;
+      const {rewardNow} = miningMetrics();
+      if(rewardNow>0){
+        state.coins += rewardNow;
+        pushTx({type:'earn', amount:rewardNow, note:'پاداش جلسه ماینینگ'});
+      }
+      state.miningStart = null;
+      save();
+      updateMiningUI();
+      renderWallet();
+    }
+
+    function updateMiningUI(){
+      balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+      if(state.miningStart){
+        startBtn.disabled = true; claimBtn.disabled = true;
+        miningStatusEl.textContent = 'فعال';
+        miningStatusEl.className = 'pill good';
+        const {remaining, progress, rewardNow} = miningMetrics();
+        timerEl.textContent = formatHHMMSS(remaining);
+        sessionEarningsEl.textContent = rewardNow.toFixed(2);
+        progressBarEl.style.width = `${progress}%`;
+      }else{
+        startBtn.disabled = false; claimBtn.disabled = true;
+        miningStatusEl.textContent = 'غیرفعال';
+        miningStatusEl.className = 'pill';
+        timerEl.textContent = '00:00:00';
+        sessionEarningsEl.textContent = '0';
+        progressBarEl.style.width = '0%';
+      }
+    }
+
+    // ===== Wallet / Conversions =====
+    function setupWallet(){
+      renderWallet();
+      coinsToPiBtn.addEventListener('click',()=>{
+        const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
+        if(!coins) return;
+        if(coins > state.coins) return alert('موجودی کوین کافی نیست');
+        const pi = coins / COINS_PER_PI;
+        state.coins -= coins; state.pi += pi;
+        pushTx({type:'swap', amount:pi, note:`تبدیل ${coins} کوین → ${pi.toFixed(2)} Pi`});
+        save(); renderWallet(); updateMiningUI();
+        coinsToPiAmt.value='';
+      });
+      piToUsdtBtn.addEventListener('click',()=>{
+        const pi = Math.max(0, Number(piToUsdtAmt.value||0));
+        if(!pi) return;
+        if(pi > state.pi) return alert('موجودی Pi کافی نیست');
+        const usdt = pi * USDT_PER_PI;
+        state.pi -= pi; state.usdt += usdt;
+        pushTx({type:'swap', amount:usdt, note:`تبدیل ${pi} Pi → ${usdt.toFixed(2)} USDT`});
+        save(); renderWallet();
+        piToUsdtAmt.value='';
+      });
+    }
+
+    function renderWallet(){
+      coinsBalanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+      piBalanceEl.textContent = Number(state.pi).toFixed(2);
+      usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
+      // tx
+      txListEl.innerHTML='';
+      if(!state.tx.length){ noTxEl.style.display='block'; return; }
+      noTxEl.style.display='none';
+      state.tx.slice(0,50).forEach(t=>{
+        const li=document.createElement('li');
+        const left=document.createElement('div');
+        const right=document.createElement('div');
+        left.innerHTML = `<div>${t.type==='earn'?'+':''}${t.amount.toFixed(2)}</div><div class="muted">${t.note||'—'}</div>`;
+        right.className='muted';
+        right.textContent = new Date(t.ts).toLocaleString();
+        li.appendChild(left); li.appendChild(right);
+        txListEl.appendChild(li);
+      });
+    }
+
+    function pushTx({type, amount, note}){
+      state.tx.unshift({id:rid(), type, amount:amount||0, ts:Date.now(), note});
+      state.tx = state.tx.slice(0,200); save();
+    }
+
+    // ===== Friends / Ranking =====
+    function setupFriends(){
+      // Referral link (client-side demo)
+      const base = `${location.origin}${location.pathname}`.replace(/index\.html?$/,'');
+      const myRef = ('REF_'+rid().slice(0,6));
+      const myLink = `${base}${base.endsWith('/')?'':'/'}index.html?ref=${encodeURIComponent(myRef)}`;
+      refLinkEl.textContent = myLink;
+      copyRefBtn.addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(myLink); }catch(e){}
+      });
+
+      mockInviteBtn.addEventListener('click',()=>{ state.friendsInvited++; save(); renderFriendsBox(); });
+      mockActivateBtn.addEventListener('click',()=>{ state.friendsActive++; state.coins += REF_REWARD; pushTx({type:'earn', amount:REF_REWARD, note:'پاداش دوست فعال'}); save(); renderFriendsBox(); renderWallet(); updateMiningUI();});
+
+      leaderListEl.innerHTML = FAKE_TOP10.map((n,i)=>`<li>#${i+1} — ${n}</li>`).join('');
+      myRankEl.textContent = `#${state.myRank}`;
+
+      renderFriendsBox();
+
+      // If visited with ?ref, just log info
+      const url = new URL(location.href); const ref = url.searchParams.get('ref');
+      if(ref){ pushTx({type:'info', amount:0, note:`ورود با لینک دعوت ${ref}`}); save(); renderWallet(); }
+    }
+
+    function renderFriendsBox(){
+      friendsInvitedEl.textContent = state.friendsInvited;
+      friendsActiveEl.textContent = state.friendsActive;
+    }
+
+    // ===== Tasks =====
+    function setupTasks(){ renderTasks(); }
+    function renderTasks(){
+      tasksWrap.innerHTML='';
+      TASKS.forEach(t=>{
+        const done = state.completedTasks.includes(t.id);
+        const row = document.createElement('div'); row.className='row'; row.style.margin='8px 0';
+        const link = document.createElement('a'); link.href=t.url; link.target='_blank'; link.textContent=t.title; link.style.color='#fff';
+        const right = document.createElement('div');
+        const btn = document.createElement('button'); btn.className='btn '+(done?'btn-ghost':'btn-gold'); btn.textContent = done?'Claim شد':'Claim'; btn.disabled=done;
+        btn.addEventListener('click',()=>{
+          if(done) return; state.completedTasks.push(t.id); state.coins += t.reward; pushTx({type:'earn', amount:t.reward, note:`تسک: ${t.title}`}); save(); renderTasks(); renderWallet(); updateMiningUI(); });
+        right.appendChild(btn);
+        row.appendChild(link); row.appendChild(right);
+        tasksWrap.appendChild(row);
+      });
+    }
+
+    // ===== Profile =====
+    function setupProfile(){
+      // اگر پروفایل قبلاً ذخیره نشده بود، همین مقدار اولیه ذخیره شود تا آی‌دی ثابت بماند
+      if(!load()) save();
+      firstNameInput.value = state.profile.first || '';
+      lastNameInput.value = state.profile.last || '';
+      userIdInput.value = state.profile.id || 112131;
+
+      saveProfileBtn.addEventListener('click',()=>{
+        state.profile.first = firstNameInput.value.trim()||'کاربر';
+        state.profile.last  = lastNameInput.value.trim()||'';
+        save(); alert('پروفایل ذخیره شد');
+      });
+    }
+
+    // ===== Persistence =====
+    function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
+    function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
+    function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
   </script>
 </body>
 </html>
