@@ -1,63 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Clicker Game - Pi Net</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pi Clicker Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* دکمه سکه طلایی */
+    .coin-btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #222;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      transition: transform 0.2s ease-in-out;
+    }
+    .coin-btn:active {
+      transform: scale(0.9);
+    }
+  </style>
 </head>
-<body>
-  <!-- تب‌ها -->
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="mining">Mining</button>
-    <button class="tab-btn" data-tab="tasks">Tasks</button>
-    <button class="tab-btn" data-tab="friends">Friends</button>
-    <button class="tab-btn" data-tab="wallet">Wallet</button>
+<body class="bg-gray-900 text-white flex flex-col h-screen">
+  <!-- Main Content -->
+  <div id="content" class="flex-grow p-4 overflow-y-auto"></div>
+
+  <!-- Bottom Navigation -->
+  <div class="flex justify-around bg-gray-800 border-t border-gray-700">
+    <button onclick="showTab('mining')" id="tab-mining" class="p-3 flex-1">⛏ Mining</button>
+    <button onclick="showTab('wallet')" id="tab-wallet" class="p-3 flex-1">💰 Wallet</button>
+    <button onclick="showTab('tasks')" id="tab-tasks" class="p-3 flex-1">📋 Tasks</button>
+    <button onclick="showTab('friends')" id="tab-friends" class="p-3 flex-1">👥 Friends</button>
   </div>
 
-  <!-- محتوای تب‌ها -->
-  <div id="content">
-    <!-- Mining -->
-    <div id="mining" class="tab-content active">
-      <h2>Mining Zone</h2>
-      <p>Click the Pi coin to mine!</p>
+  <script>
+    let clicks = 0;
+    const newsFeed = [
+      "📢 Pi Network reaches 50M users!",
+      "🔥 Mining rewards halved, hurry up!",
+      "🚀 Pi partnership with major exchange rumored...",
+    ];
 
-      <!-- دکمه کلیک به شکل سکه -->
-      <button id="click-btn" class="coin">
-        <span class="coin-text">Pi Net</span>
-      </button>
+    function showTab(tab) {
+      document.querySelectorAll("button").forEach(btn => btn.classList.remove("bg-gray-700", "text-yellow-400"));
+      document.getElementById("tab-" + tab).classList.add("bg-gray-700", "text-yellow-400");
 
-      <p>Clicks: <span id="click-count">0</span></p>
+      let html = "";
+      if (tab === "mining") {
+        html = `
+          <div class="flex flex-col items-center space-y-6">
+            <h1 class="text-2xl font-bold">Mining Center</h1>
+            <div class="coin-btn" onclick="manualClick()">Pi Net</div>
+            <p class="text-lg">Your Clicks: <span id="counter">${clicks}</span></p>
+            <div class="w-full bg-gray-800 p-4 rounded-lg">
+              <h2 class="text-xl font-semibold mb-2">Latest News</h2>
+              <ul class="space-y-2">${newsFeed.map(n => `<li>👉 ${n}</li>`).join("")}</ul>
+            </div>
+          </div>
+        `;
+      }
+      else if (tab === "wallet") {
+        html = `
+          <div class="p-4">
+            <h1 class="text-2xl font-bold mb-4">Wallet</h1>
+            <p>Balance: <span class="text-yellow-400">${clicks}</span> Pi</p>
+          </div>
+        `;
+      }
+      else if (tab === "tasks") {
+        html = `
+          <div class="p-4">
+            <h1 class="text-2xl font-bold mb-4">Tasks</h1>
+            <ul class="space-y-2">
+              <li>✅ Daily login bonus</li>
+              <li>🔗 Invite 3 friends</li>
+              <li>📺 Watch a short ad</li>
+            </ul>
+          </div>
+        `;
+      }
+      else if (tab === "friends") {
+        html = `
+          <div class="p-4">
+            <h1 class="text-2xl font-bold mb-4">Friends</h1>
+            <p>You haven’t invited anyone yet.</p>
+          </div>
+        `;
+      }
+      document.getElementById("content").innerHTML = html;
+    }
 
-      <!-- بخش خبرها -->
-      <div id="news">
-        <h3>Latest News</h3>
-        <ul id="news-list"></ul>
-      </div>
-    </div>
+    function manualClick() {
+      clicks++;
+      document.getElementById("counter").textContent = clicks;
+    }
 
-    <!-- Tasks -->
-    <div id="tasks" class="tab-content">
-      <h2>Daily Tasks</h2>
-      <ul>
-        <li>Login Bonus</li>
-        <li>Invite a Friend</li>
-        <li>Complete a Survey</li>
-      </ul>
-    </div>
-
-    <!-- Friends -->
-    <div id="friends" class="tab-content">
-      <h2>Friends</h2>
-      <p>Invite friends and earn rewards!</p>
-    </div>
-
-    <!-- Wallet -->
-    <div id="wallet" class="tab-content">
-      <h2>Your Wallet</h2>
-      <p>Total Pi Coins: <span id="wallet-balance">0</span></p>
-    </div>
-  </div>
-
-  <script src="main.js"></script>
+    // Load Mining tab first
+    showTab("mining");
+  </script>
 </body>
 </html>
