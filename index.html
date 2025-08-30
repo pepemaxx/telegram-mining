@@ -1,231 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PiNet Mining App</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url("pinet-coin-bg.png") no-repeat center center fixed;
-      background-size: cover;
-      color: white;
+<script>
+const API = "https://pinet-backend-production.up.railway.app";
+
+let balances = { coins: 0, pi: 0, usdt: 0 };
+let miningStart = null;
+const duration = 24*3600*1000;
+const rate = 0.05;
+
+function $(id){return document.getElementById(id)}
+
+// Tabs
+document.querySelectorAll(".tabs button").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    btn.classList.add("active");
+    $("tab-"+btn.dataset.tab).classList.add("active");
+  };
+});
+
+// Start mining
+$("startBtn").onclick=()=>{
+  miningStart=Date.now();
+  localStorage.setItem("miningStart",miningStart);
+  $("startBtn").disabled=true;
+  $("claimBtn").disabled=true;
+};
+
+// Claim
+$("claimBtn").onclick=()=>{
+  let elapsed = duration; // یعنی کل ۲۴ ساعت تمام شده
+  let earned = Math.floor(elapsed/1000*rate);
+  balances.coins+=earned;
+  localStorage.setItem("balances",JSON.stringify(balances));
+  miningStart=null;
+  localStorage.removeItem("miningStart");
+  $("startBtn").disabled=false;
+  $("claimBtn").disabled=true;
+  $("sessionEarnings").textContent=0;
+  $("timer").textContent="24:00:00";
+  renderBalances();
+};
+
+// Tick timer
+setInterval(()=>{
+  if(miningStart){
+    let elapsed = Date.now()-miningStart;
+    let remain = duration-elapsed;
+    if(remain<=0){
+      $("timer").textContent="00:00:00";
+      $("sessionEarnings").textContent=Math.floor(duration/1000*rate);
+      $("claimBtn").disabled=false;
+    }else{
+      let h=Math.floor(remain/3600000);
+      let m=Math.floor((remain%3600000)/60000);
+      let s=Math.floor((remain%60000)/1000);
+      $("timer").textContent=`${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+      $("sessionEarnings").textContent=Math.floor(elapsed/1000*rate);
     }
-    header {
-      background: rgba(0,0,0,0.7);
-      padding: 15px;
-      text-align: center;
-    }
-    header .title {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    header .sub {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      background: rgba(0,0,0,0.8);
-    }
-    .tab {
-      flex: 1;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .tab.active {
-      background: #ffcc00;
-      color: black;
-    }
-    .tab-content {
-      display: none;
-      padding: 20px;
-      min-height: 400px;
-      background: rgba(0,0,0,0.6);
-    }
-    .tab-content.active {
-      display: block;
-    }
-    button {
-      background: #ffcc00;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    button:disabled {
-      background: gray;
-      cursor: not-allowed;
-    }
-    .wallet-box {
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <div class="title">PiNet – Daily Mining</div>
-      <div class="sub">24h mining • Connected to backend</div>
-    </div>
-  </header>
+  }
+},1000);
 
-  <div class="tabs">
-    <div class="tab active" data-tab="mining">Mining</div>
-    <div class="tab" data-tab="wallet">Wallet</div>
-    <div class="tab" data-tab="tasks">Tasks</div>
-    <div class="tab" data-tab="news">News</div>
-  </div>
+// Wallet functions
+function renderBalances(){
+  $("coinsBalance").textContent=balances.coins;
+  $("piBalance").textContent=balances.pi;
+  $("usdtBalance").textContent=balances.usdt;
+}
+$("coinsToPiBtn").onclick=()=>{
+  let amt=+$("coinsToPiAmt").value;
+  if(balances.coins>=amt){
+    balances.coins-=amt; balances.pi+=amt/100;
+    renderBalances(); localStorage.setItem("balances",JSON.stringify(balances));
+  }
+};
+$("piToUsdtBtn").onclick=()=>{
+  let amt=+$("piToUsdtAmt").value;
+  if(balances.pi>=amt){
+    balances.pi-=amt; balances.usdt+=amt*5;
+    renderBalances(); localStorage.setItem("balances",JSON.stringify(balances));
+  }
+};
+$("withdrawBtn").onclick=()=>{
+  alert("Withdraw request sent to backend!");
+};
 
-  <div id="mining" class="tab-content active">
-    <h2>Mining</h2>
-    <p id="timer">Timer: 24:00:00</p>
-    <button id="startBtn">Start Mining</button>
-    <button id="claimBtn" disabled>Claim Reward</button>
-  </div>
+// Manual mining
+let cooldown=false;
+$("manualMineBtn").onclick=()=>{
+  if(cooldown)return;
+  balances.coins+=0.5;
+  renderBalances();
+  cooldown=true;
+  $("manualCooldown").textContent="Cooldown 10s";
+  setTimeout(()=>{cooldown=false;$("manualCooldown").textContent="";},10000);
+};
 
-  <div id="wallet" class="tab-content">
-    <h2>Wallet</h2>
-    <div class="wallet-box">
-      <p><b>Coin:</b> <span id="coinBalance">0</span></p>
-      <p><b>PiNet:</b> <span id="pinetBalance">0</span></p>
-      <p><b>USDT:</b> <span id="usdtBalance">0</span></p>
-    </div>
-    <button onclick="convertCoinToPiNet()">Convert Coin → PiNet</button>
-    <button onclick="convertPiNetToUSDT()">Convert PiNet → USDT</button>
-    <button onclick="withdrawPiNet()">Withdraw PiNet</button>
-    <button onclick="withdrawUSDT()">Withdraw USDT</button>
-  </div>
-
-  <div id="tasks" class="tab-content">
-    <h2>Daily Tasks</h2>
-    <ul>
-      <li>Check-in Daily</li>
-      <li>Invite Friends</li>
-      <li>Manual Mining Bonus</li>
-    </ul>
-  </div>
-
-  <div id="news" class="tab-content">
-    <h2>Latest News</h2>
-    <p>Coming soon: PiNet Exchange listings & new features!</p>
-  </div>
-
-  <script>
-    const API_BASE = "https://pinet-backend-production.up.railway.app";
-
-    let mining = {
-      start: null,
-      duration: 24 * 60 * 60 * 1000
-    };
-
-    let balances = { coin: 0, pinet: 0, usdt: 0 };
-
-    function $(id){ return document.getElementById(id); }
-
-    // Tab switch
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-        tab.classList.add("active");
-        $(tab.dataset.tab).classList.add("active");
-      });
-    });
-
-    // Mining Start
-    $("startBtn").addEventListener("click", async () => {
-      mining.start = Date.now();
-      localStorage.setItem("miningStart", mining.start);
-      updateMiningUI();
-    });
-
-    // Claim Reward
-    $("claimBtn").addEventListener("click", async () => {
-      balances.coin += 10;
-      localStorage.setItem("balances", JSON.stringify(balances));
-      mining.start = null;
-      localStorage.removeItem("miningStart");
-      updateMiningUI();
-      renderBalances();
-      await fetch(`${API_BASE}/claim`, {method: "POST"});
-    });
-
-    function updateMiningUI(){
-      if(mining.start){
-        $("startBtn").disabled = true;
-        $("claimBtn").disabled = true;
-      }else{
-        $("startBtn").disabled = false;
-        $("claimBtn").disabled = true;
-        $("timer").textContent = "Timer: 24:00:00";
-      }
-    }
-
-    function tick(){
-      if(mining.start){
-        let elapsed = Date.now() - mining.start;
-        let remain = mining.duration - elapsed;
-        if(remain <= 0){
-          $("timer").textContent = "Finished!";
-          $("claimBtn").disabled = false;
-          $("startBtn").disabled = false;
-        }else{
-          let h = Math.floor(remain/3600000);
-          let m = Math.floor((remain%3600000)/60000);
-          let s = Math.floor((remain%60000)/1000);
-          $("timer").textContent = `Timer: ${h}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
-        }
-      }
-    }
-    setInterval(tick, 1000);
-
-    // Wallet Functions
-    function renderBalances(){
-      $("coinBalance").textContent = balances.coin;
-      $("pinetBalance").textContent = balances.pinet;
-      $("usdtBalance").textContent = balances.usdt;
-    }
-
-    function convertCoinToPiNet(){
-      if(balances.coin >= 10){
-        balances.coin -= 10;
-        balances.pinet += 1;
-        renderBalances();
-        localStorage.setItem("balances", JSON.stringify(balances));
-      }else alert("Not enough Coin!");
-    }
-
-    function convertPiNetToUSDT(){
-      if(balances.pinet >= 1){
-        balances.pinet -= 1;
-        balances.usdt += 1;
-        renderBalances();
-        localStorage.setItem("balances", JSON.stringify(balances));
-      }else alert("Not enough PiNet!");
-    }
-
-    function withdrawPiNet(){ alert("PiNet withdrawal requested!"); }
-    function withdrawUSDT(){ alert("USDT withdrawal requested!"); }
-
-    // Load State
-    window.onload = () => {
-      let savedStart = localStorage.getItem("miningStart");
-      if(savedStart) mining.start = parseInt(savedStart);
-      let savedBalances = localStorage.getItem("balances");
-      if(savedBalances) balances = JSON.parse(savedBalances);
-      renderBalances();
-      updateMiningUI();
-    };
-  </script>
-</body>
-</html>
+// Load state
+window.onload=()=>{
+  let saved=localStorage.getItem("balances");
+  if(saved) balances=JSON.parse(saved);
+  renderBalances();
+  let ms=localStorage.getItem("miningStart");
+  if(ms) miningStart=parseInt(ms);
+};
+</script>
