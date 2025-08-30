@@ -19,7 +19,6 @@ body{
               linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow:hidden;
 }
-/* Global BG Pi coin across all tabs */
 body::after{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
   background:
@@ -106,46 +105,42 @@ section.tab.active{display:block}
 </head>
 <body>
 <div id="app">
-<!-- Header -->
-<header>
-  <div>
-    <div class="title">PiNet – Daily Mining</div>
-    <div class="sub">24h mining • Local persistence + API fallback</div>
-  </div>
-  <div class="row" style="gap:8px">
-    <button id="resetBtn" class="btn btn-ghost">ریست</button>
-  </div>
-</header>
-
-<!-- Main -->
-<main>
-<!-- Mining -->
-<section class="tab active" id="tab-mining">
-  <div class="card row">
+  <!-- Header -->
+  <header>
     <div>
-      <div class="kicker">Wallet Balance</div>
-      <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
+      <div class="title">PiNet – Daily Mining</div>
+      <div class="sub">24h mining • Local persistence + API fallback</div>
     </div>
-    <div style="text-align:end">
-      <div class="kicker">Mining Status</div>
-      <div id="miningStatus" class="pill">Inactive</div>
+    <div class="row" style="gap:8px">
+      <!-- Reset removed -->
     </div>
-  </div>
+  </header>
 
-  <div class="card">
-    <div class="row" style="align-items:flex-end">
-      <div>
-        <div class="kicker">Time remaining</div>
-        <div id="timer" class="big">00:00:00</div>
+  <!-- Main -->
+  <main>
+    <!-- Mining -->
+    <section class="tab active" id="tab-mining">
+      <div class="card row">
+        <div>
+          <div class="kicker">Wallet Balance</div>
+          <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
+        </div>
+        <div style="text-align:end">
+          <div class="kicker">Mining Status</div>
+          <div id="miningStatus" class="pill">Inactive</div>
+        </div>
       </div>
-      <div style="text-align:end">
-        <div class="kicker">Session earnings</div>
-        <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
-      </div>
-    </div>
-    <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
-    <div class="row" style="margin-top:12px">
-      <button id="startBtn" class="btn btn-gold">Start 24h</button>
-      <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
-    </div>
-    <div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.
+
+      <div class="card">
+        <div class="row" style="align-items:flex-end">
+          <div>
+            <div class="kicker">Time remaining</div>
+            <div id="timer" class="big">00:00:00</div>
+          </div>
+          <div style="text-align:end">
+            <div class="kicker">Session earnings</div>
+            <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
+          </div>
+        </div>
+        <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
+        <div class="row" style="margin-top:
