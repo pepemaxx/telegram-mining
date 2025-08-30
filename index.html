@@ -1,98 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PiNet – Daily Mining Clicker</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PiNet – Daily Mining</title>
   <style>
     :root{
       --bg1:#5a189a; --bg2:#7b2cbf; --ink:#ffffff; --muted:#e2e8f0; --card:rgba(0,0,0,.22);
-      --brand:#f1c40f; /* gold */
-      --border:rgba(255,255,255,.2);
-      --good:#10b981; --warn:#f59e0b; --disabled:rgba(255,255,255,.4);
+      --brand:#f1c40f; --border:rgba(255,255,255,.2); --good:#10b981; --warn:#f59e0b;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);font-family:Inter, Poppins, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;height:100vh;overflow:hidden;}
+    html,body{height:100%;margin:0;font-family:Inter, Vazirmatn, system-ui, -apple-system;}
+    body{
+      margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);
+      overflow:hidden;
+    }
+    /* background emblem */
+    body::after{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+      background: url('https://i.imgur.com/8L1Xk6D.png') center 20%/360px no-repeat;
+      opacity:.06; filter:saturate(1.05);
+    }
 
-    /* ===== Background emblem (center coin with concentric circular lines) ===== */
-    .bg-stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
-    .emblem{position:relative;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.06);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(0,0,0,.25) inset, 0 0 0 1px var(--border);}
-    .emblem .pi{font-size:96px;line-height:1;color:var(--brand);font-weight:900;text-shadow:0 0 24px rgba(241,196,15,.35);}
-    .emblem .label{position:absolute;bottom:18px;font-weight:800;letter-spacing:.6px;color:var(--brand);text-shadow:0 0 18px rgba(241,196,15,.35)}
-    /* three concentric circular lines */
-    .rings{position:absolute;inset:0;display:grid;place-items:center;}
-    .ring{position:absolute;border:2px solid rgba(241,196,15,.35);border-radius:50%;animation:pulse 6s linear infinite;}
-    .ring.r1{width:360px;height:360px;animation-delay:0s}
-    .ring.r2{width:520px;height:520px;animation-delay:1s}
-    .ring.r3{width:680px;height:680px;animation-delay:2s}
-    @keyframes pulse{0%{opacity:.45}50%{opacity:.2}100%{opacity:.45}}
-
-    /* ===== App frame ===== */
-    #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
-    header{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.15);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+    #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;}
+    header{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.15);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
     .title{font-weight:800;font-size:18px}
     .sub{font-size:12px;color:var(--muted)}
-    .btn{border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .btn-gold{background:var(--brand);color:#4c1d95}
-    .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid var(--border)}
+    main{flex:1;overflow-y:auto;padding:16px 16px 110px;max-width:980px;margin:0 auto}
 
-    main{flex:1;overflow-y:auto;padding:16px 16px 100px;max-width:820px;margin:0 auto}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:0 6px 24px rgba(0,0,0,.15);margin-top:12px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .muted{color:var(--muted);font-size:12px}
-    .big{font-size:28px;font-weight:800}
-    .pill{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.06)}
-    .pill.good{background:rgba(16,185,129,.15);color:#d1fae5;border-color:rgba(16,185,129,.4)}
-    .pill.warn{background:rgba(245,158,11,.14);color:#fff;border-color:rgba(245,158,11,.45)}
+    .big{font-size:28px;font-weight:900}
+    .kicker{font-size:12px;color:var(--muted);font-weight:800}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+    .pill.good{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3)}
+    .pill.warn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35)}
 
-    .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
-    .progress>div{height:100%;background:var(--brand);transition:width .25s}
+    .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:10px}
+    .progress>div{height:100%;background:linear-gradient(90deg,#fde047,#f59e0b);width:0;transition:width .25s}
 
-    .mine-wrap{display:grid;gap:12px}
-    .mine-cta{height:56px;font-size:16px}
-    #timer{font-weight:800;color:#fee440;font-size:22px}
-    .accent{color:var(--brand)}
+    .btn{border:none;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
+    .btn-gold{background:linear-gradient(135deg,#fde047,#f59e0b);color:#3b0764}
+    .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--border)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
 
-    nav.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--border);background:rgba(0,0,0,.18);backdrop-filter:blur(10px)}
-    .tabs-inner{max-width:820px;margin:0 auto;height:72px;display:grid;grid-template-columns:repeat(5,1fr)}
-    .tab-btn{appearance:none;background:none;border:none;color:#e2e8f0;font-size:14px;display:flex;align-items:center;justify-content:center}
-    .tab-btn .pill{background:transparent}
-    .tab-btn.active{color:var(--brand)}
-    .tab-btn.active .pill{background:rgba(241,196,15,.12);border-color:rgba(241,196,15,.35)}
-
-    .list{list-style:none;margin:0;padding:0}
-    .list li{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)}
-
-    input, select{background:rgba(255,255,255,.08);border:1px solid var(--border);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
-    input::placeholder{color:#cbd5e1}
+    input,select{background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;border-radius:10px;padding:8px 10px;outline:none}
     .input-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
+    nav.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--border);background:rgba(0,0,0,.18);backdrop-filter:blur(10px);z-index:6}
+    .tabs-inner{max-width:980px;margin:0 auto;height:72px;display:grid;grid-template-columns:repeat(5,1fr)}
+    .tab-btn{appearance:none;background:none;border:none;color:#e2e8f0;font-size:13px;display:flex;align-items:center;justify-content:center}
+    .tab-btn.active{color:var(--brand)}
     section.tab{display:none}
     section.tab.active{display:block}
+
+    .news-item{padding:10px;border-bottom:1px dashed rgba(255,255,255,.04);font-size:13px}
+    .news-scroll{max-height:180px;overflow:auto}
+    @media (max-width:720px){ .big{font-size:20px} main{padding:12px 12px 120px} }
   </style>
 </head>
 <body>
-  <!-- Background center emblem with concentric circular lines -->
-  <div class="bg-stage" aria-hidden="true">
-    <div class="rings">
-      <div class="ring r1"></div>
-      <div class="ring r2"></div>
-      <div class="ring r3"></div>
-    </div>
-    <div class="emblem">
-      <div class="pi">π</div>
-      <div class="label">PiNet</div>
-    </div>
-  </div>
-
   <div id="app">
     <header>
       <div>
         <div class="title">PiNet – Daily Mining</div>
-        <div class="sub">24h mining • Persistent (LocalStorage)</div>
+        <div class="sub">24h mining • Persistent (LocalStorage) • API fallback</div>
       </div>
-      <button id="resetBtn" class="btn btn-ghost">Reset</button>
+      <!-- reset removed -->
+      <div></div>
     </header>
 
     <main>
@@ -100,32 +77,41 @@
       <section class="tab active" id="tab-mining">
         <div class="card row">
           <div>
-            <div class="muted">Wallet Balance</div>
+            <div class="kicker">Wallet Balance</div>
             <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
           </div>
           <div style="text-align:end">
-            <div class="muted">Mining Status</div>
+            <div class="kicker">Mining Status</div>
             <div id="miningStatus" class="pill">Inactive</div>
           </div>
         </div>
 
-        <div class="card mine-wrap">
+        <div class="card">
           <div class="row" style="align-items:flex-end">
             <div>
-              <div class="muted">Time remaining</div>
-              <div id="timer">00:00:00</div>
+              <div class="kicker">Time remaining</div>
+              <div id="timer" class="big">00:00:00</div>
             </div>
             <div style="text-align:end">
-              <div class="muted">Earnings this session</div>
+              <div class="kicker">Earnings this session</div>
               <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
             </div>
           </div>
+
           <div class="progress"><div id="progressBar" style="width:0%"></div></div>
-          <div class="row">
-            <button id="startBtn" class="btn btn-gold mine-cta">Start 24h mining</button>
-            <button id="claimBtn" class="btn btn-ghost mine-cta" disabled>Finish & Claim</button>
+
+          <div class="row" style="margin-top:12px">
+            <button id="startBtn" class="btn btn-gold">Start 24h mining</button>
+            <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
           </div>
-          <div class="muted">Current rate: <span id="rateText">0</span> coin/sec • Close app anytime; progress continues.</div>
+
+          <div class="muted" style="margin-top:8px">Current rate: <b id="rateText">0.05</b> coin/sec • Close app anytime; progress continues.</div>
+        </div>
+
+        <!-- News (fetched from backend /news) -->
+        <div class="card">
+          <div class="kicker" style="font-weight:800;margin-bottom:8px">Latest News</div>
+          <div id="newsBox" class="news-scroll"></div>
         </div>
       </section>
 
@@ -133,32 +119,36 @@
       <section class="tab" id="tab-wallet">
         <div class="card row">
           <div>
-            <div class="muted">Coins</div>
+            <div class="kicker">Coins</div>
             <div class="big" id="coinsBalance">0</div>
           </div>
           <div>
-            <div class="muted">Pi</div>
-            <div class="big" id="piBalance">0</div>
+            <div class="kicker">Pi</div>
+            <div class="big" id="piBalance">0.00</div>
           </div>
           <div>
-            <div class="muted">USDT</div>
-            <div class="big" id="usdtBalance">0</div>
+            <div class="kicker">USDT</div>
+            <div class="big" id="usdtBalance">0.00</div>
           </div>
         </div>
+
         <div class="card">
           <div class="kicker" style="font-weight:800;margin-bottom:8px">Conversions</div>
           <div class="muted" style="margin-bottom:6px">Rates (demo): 100 coins → 1 Pi • 1 Pi → 5 USDT</div>
-          <div class="input-row" style="margin-bottom:8px">
+
+          <div class="input-row" style="margin-top:8px">
             <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coins amount">
             <button id="coinsToPiBtn" class="btn btn-gold">Convert Coins → Pi</button>
           </div>
-          <div class="input-row" style="margin-bottom:8px">
+
+          <div class="input-row" style="margin-top:8px">
             <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="Pi amount">
             <button id="piToUsdtBtn" class="btn btn-gold">Convert Pi → USDT</button>
           </div>
-          <div class="input-row">
-            <button class="btn btn-ghost" id="withdrawPiBtn" disabled title="Coming soon">Withdraw Pi</button>
-            <button class="btn btn-ghost" id="withdrawUsdtBtn" disabled title="Coming soon">Withdraw USDT</button>
+
+          <div class="input-row" style="margin-top:10px">
+            <button id="withdrawPiBtn" class="btn btn-ghost" title="Coming soon">Withdraw Pi</button>
+            <button id="withdrawUsdtBtn" class="btn btn-ghost" title="Coming soon">Withdraw USDT</button>
           </div>
           <div class="muted" style="margin-top:8px">Withdrawals are <b>coming soon</b>.</div>
         </div>
@@ -170,17 +160,18 @@
         </div>
       </section>
 
-      <!-- Friends / Referral + Ranking -->
+      <!-- Friends -->
       <section class="tab" id="tab-friends">
         <div class="card">
           <div class="kicker" style="font-weight:800;margin-bottom:8px">Your invite link</div>
-          <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.09);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
+          <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.04);border:1px dashed var(--border);padding:10px;border-radius:10px"></div>
           <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
             <button id="copyRef" class="btn btn-gold">Copy link</button>
             <button id="mockInvite" class="btn btn-ghost">Simulate invite +1</button>
             <button id="mockActivate" class="btn btn-ghost">Simulate active +1</button>
           </div>
         </div>
+
         <div class="card row">
           <div>
             <div class="muted">Invited</div>
@@ -206,6 +197,15 @@
           <div class="kicker" style="font-weight:800;margin-bottom:8px">Social Tasks (demo)</div>
           <div id="tasksWrap"></div>
           <div class="muted" style="margin-top:8px">* Links are examples. Real verification needs a backend.</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="kicker" style="font-weight:800;margin-bottom:8px">Manual Mining</div>
+          <div class="row">
+            <div class="muted">Each click: +0.5 coin (Cooldown 10s)</div>
+            <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
+          </div>
+          <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
         </div>
       </section>
 
@@ -236,93 +236,50 @@
   </div>
 
   <script>
-    // ===== Config =====
-    const DURATION_MS = 24*60*60*1000; // 24h
-    const RATE_PER_SEC = 0.05; // coins per second (demo)
-    const REF_REWARD = 30;     // coins per active friend
-    const COINS_PER_PI = 100;  // conversion rate demo
-    const USDT_PER_PI = 5;     // conversion rate demo
-    const STORAGE_KEY = 'pinet_clicker_state_v3';
+    /* ================== Config ================== */
+    const API_BASE = 'https://pinet-backend-production.up.railway.app';
+    const STORAGE_KEY = 'pinet_clicker_state_v4';
+    const DURATION_MS = 24*60*60*1000;
+    const RATE_PER_SEC = 0.05;
+    const COINS_PER_PI = 100;
+    const USDT_PER_PI = 5;
+    const REF_REWARD = 30;
+    const MANUAL_GAIN = 0.5;
+    const MANUAL_COOLDOWN = 10*1000;
 
-    // ===== State =====
-    const state = load() || {
-      coins: 0,
-      pi: 0,
-      usdt: 0,
-      tx: [], // {id, type, amount, ts, note}
-      miningStart: null, // epoch ms
-      friendsInvited: 0,
-      friendsActive: 0,
-      profile: { first: 'John', last: 'Doe', id: '123456' },
-      myRank: 112131,
-      completedTasks: []
+    /* ================== State ================== */
+    let state = load() || {
+      coins:0, pi:0, usdt:0, tx:[], miningStart:null,
+      friendsInvited:0, friendsActive:0,
+      profile:{first:'John', last:'Doe', id:'123456'},
+      myRank:112131, completedTasks:[], lastManual:0
     };
 
-    // ===== Elements =====
-    const $ = (id)=>document.getElementById(id);
-    // Mining
-    const balanceEl = $('balance');
-    const miningStatusEl = $('miningStatus');
-    const timerEl = $('timer');
-    const sessionEarningsEl = $('sessionEarnings');
-    const progressBarEl = $('progressBar');
-    const startBtn = $('startBtn');
-    const claimBtn = $('claimBtn');
-    const rateText = $('rateText');
+    /* ================== Elements ================== */
+    const $ = id => document.getElementById(id);
+    const balanceEl = $('balance'), miningStatusEl = $('miningStatus'), timerEl = $('timer'),
+      sessionEarningsEl = $('sessionEarnings'), progressBarEl = $('progressBar'), startBtn = $('startBtn'),
+      claimBtn = $('claimBtn'), rateText = $('rateText');
 
-    // Wallet
-    const coinsBalanceEl = $('coinsBalance');
-    const piBalanceEl = $('piBalance');
-    const usdtBalanceEl = $('usdtBalance');
-    const txListEl = $('txList');
-    const noTxEl = $('noTx');
-    const coinsToPiAmt = $('coinsToPiAmt');
-    const coinsToPiBtn = $('coinsToPiBtn');
-    const piToUsdtAmt = $('piToUsdtAmt');
-    const piToUsdtBtn = $('piToUsdtBtn');
+    const coinsBalanceEl = $('coinsBalance'), piBalanceEl = $('piBalance'), usdtBalanceEl = $('usdtBalance'),
+      txListEl = $('txList'), noTxEl = $('noTx'),
+      coinsToPiAmt = $('coinsToPiAmt'), coinsToPiBtn = $('coinsToPiBtn'),
+      piToUsdtAmt = $('piToUsdtAmt'), piToUsdtBtn = $('piToUsdtBtn');
 
-    // Friends
-    const refLinkEl = $('refLink');
-    const copyRefBtn = $('copyRef');
-    const mockInviteBtn = $('mockInvite');
-    const mockActivateBtn = $('mockActivate');
-    const friendsInvitedEl = $('friendsInvited');
-    const friendsActiveEl = $('friendsActive');
-    const leaderListEl = $('leaderList');
-    const myRankEl = $('myRank');
+    const refLinkEl = $('refLink'), copyRefBtn = $('copyRef'), mockInviteBtn = $('mockInvite'), mockActivateBtn = $('mockActivate'),
+      friendsInvitedEl = $('friendsInvited'), friendsActiveEl = $('friendsActive'), leaderListEl = $('leaderList'), myRankEl = $('myRank');
 
-    // Tasks
-    const tasksWrap = $('tasksWrap');
+    const tasksWrap = $('tasksWrap'), manualMineBtn = $('manualMineBtn'), manualCooldownEl = $('manualCooldown');
 
-    // Profile
-    const firstNameInput = $('firstName');
-    const lastNameInput = $('lastName');
-    const userIdInput = $('userId');
-    const saveProfileBtn = $('saveProfile');
+    const firstNameInput = $('firstName'), lastNameInput = $('lastName'), userIdInput = $('userId'), saveProfileBtn = $('saveProfile');
 
-    // ===== Tasks (sample links) =====
-    const TASKS = [
-      { id:'t1', title:'Join our Telegram', url:'https://t.me/telegram', reward:15 },
-      { id:'t2', title:'Follow on Instagram', url:'https://instagram.com/instagram', reward:20 },
-      { id:'t3', title:'Follow on X', url:'https://twitter.com/Twitter', reward:20 },
-      { id:'t4', title:'Subscribe on YouTube', url:'https://youtube.com/@YouTube', reward:25 },
-      { id:'t5', title:'Join sample group', url:'https://t.me/samples', reward:10 },
-    ];
+    const newsBox = $('newsBox');
 
-    // ===== Leaderboard (NO countries in names) =====
-    const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
-
-    // ===== Init =====
+    /* ================== Init ================== */
     rateText.textContent = RATE_PER_SEC.toString();
-    setupTabs();
-    setupMining();
-    setupWallet();
-    setupFriends();
-    setupTasks();
-    setupProfile();
-    setupReset();
+    setupTabs(); setupMining(); setupWallet(); setupFriends(); setupTasks(); setupProfile(); loadNews(); renderAll();
 
-    // ===== Tabs =====
+    /* ================== Tabs ================== */
     function setupTabs(){
       document.querySelectorAll('.tab-btn').forEach(btn=>{
         btn.addEventListener('click',()=>{
@@ -334,44 +291,18 @@
       });
     }
 
-    // ===== Mining =====
+    /* ================== Mining ================== */
     let tickId = null;
-
-    function setupMining(){
-      updateMiningUI();
-      startBtn.addEventListener('click',()=>{
-        if(state.miningStart) return;
-        state.miningStart = Date.now();
-        pushTx({type:'info', amount:0, note:'Started 24h mining'});
-        save();
-        updateMiningUI();
-        runTick();
-      });
-      claimBtn.addEventListener('click', finalizeMining);
-
-      if(state.miningStart){
-        const {remaining} = miningMetrics();
-        if(remaining>0){ runTick(); } else { finalizeMining(); }
-      }
-    }
-
-    function runTick(){
-      clearInterval(tickId);
-      tick();
-      tickId = setInterval(tick, 1000);
-    }
-
     function miningMetrics(){
       if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
       const now = Date.now();
       const elapsed = Math.max(0, now - state.miningStart);
       const remaining = Math.max(0, DURATION_MS - elapsed);
       const clamped = Math.min(elapsed, DURATION_MS);
-      const rewardNow = (clamped/1000) * RATE_PER_SEC; // live earnings
+      const rewardNow = (clamped/1000) * RATE_PER_SEC;
       const progress = (clamped / DURATION_MS) * 100;
       return {elapsed, remaining, progress, rewardNow};
     }
-
     function formatHHMMSS(ms){
       const s = Math.max(0, Math.floor(ms/1000));
       const h = String(Math.floor(s/3600)).padStart(2,'0');
@@ -386,72 +317,101 @@
       sessionEarningsEl.textContent = rewardNow.toFixed(2);
       progressBarEl.style.width = `${progress}%`;
 
-      if(remaining<=0){
-        clearInterval(tickId); tickId=null;
+      if(!state.miningStart){
+        miningStatusEl.textContent = 'Inactive'; miningStatusEl.className='pill'; claimBtn.disabled = true;
+        return;
+      }
+
+      if(remaining <= 0){
+        clearInterval(tickId); tickId = null;
         claimBtn.disabled = false;
         miningStatusEl.textContent = 'Completed – claim pending';
         miningStatusEl.className = 'pill warn';
+        // set earnings to full
+        const fullEarn = (DURATION_MS/1000) * RATE_PER_SEC;
+        sessionEarningsEl.textContent = fullEarn.toFixed(2);
+        progressBarEl.style.width = '100%';
+      } else {
+        miningStatusEl.textContent = 'Active'; miningStatusEl.className = 'pill good';
       }
     }
 
-    function finalizeMining(){
+    function runTick(){
+      clearInterval(tickId);
+      tick();
+      tickId = setInterval(tick, 1000);
+    }
+
+    startBtn.addEventListener('click', async ()=>{
+      // every start restarts session
+      state.miningStart = Date.now();
+      pushTx({type:'info', amount:0, note:'Started 24h mining'});
+      save();
+      updateMiningUI();
+      runTick();
+      // notify backend
+      try{ await fetch(`${API_BASE}/mining/start`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ts: state.miningStart})}); }catch(e){}
+    });
+
+    claimBtn.addEventListener('click', async ()=>{
       if(!state.miningStart) return;
-      const {rewardNow} = miningMetrics();
-      if(rewardNow>0){
-        state.coins += rewardNow;
-        pushTx({type:'earn', amount:rewardNow, note:'Mining session reward'});
+      const {rewardNow, remaining} = miningMetrics();
+      // when claim, if not fully finished but allowed, we will award current rewardNow
+      const earned = rewardNow;
+      if(earned > 0){
+        state.coins += earned;
+        pushTx({type:'earn', amount:earned, note:'Mining session reward'});
       }
       state.miningStart = null;
       save();
       updateMiningUI();
       renderWallet();
-    }
+      // send claim to backend
+      try{ await fetch(`${API_BASE}/mining/claim`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({earned})}); }catch(e){}
+    });
 
     function updateMiningUI(){
       balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
       if(state.miningStart){
         startBtn.disabled = true; claimBtn.disabled = true;
-        miningStatusEl.textContent = 'Active';
-        miningStatusEl.className = 'pill good';
-        const {remaining, progress, rewardNow} = miningMetrics();
-        timerEl.textContent = formatHHMMSS(remaining);
-        sessionEarningsEl.textContent = rewardNow.toFixed(2);
-        progressBarEl.style.width = `${progress}%`;
-      }else{
+        runTick();
+      } else {
         startBtn.disabled = false; claimBtn.disabled = true;
-        miningStatusEl.textContent = 'Inactive';
-        miningStatusEl.className = 'pill';
         timerEl.textContent = '00:00:00';
         sessionEarningsEl.textContent = '0';
         progressBarEl.style.width = '0%';
       }
     }
 
-    // ===== Wallet / Conversions =====
+    /* ================== Wallet ================== */
     function setupWallet(){
       renderWallet();
-      coinsToPiBtn.addEventListener('click',()=>{
+      coinsToPiBtn.addEventListener('click', async ()=>{
         const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
-        if(!coins) return;
+        if(!coins) return alert('Enter amount');
         if(coins > state.coins) return alert('Not enough coins');
         const pi = coins / COINS_PER_PI;
         state.coins -= coins; state.pi += pi;
         pushTx({type:'swap', amount:pi, note:`Converted ${coins} coins → ${pi.toFixed(2)} Pi`});
         save(); renderWallet(); updateMiningUI();
         coinsToPiAmt.value='';
+        try{ await fetch(`${API_BASE}/convert/coins-to-pi`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})}); }catch(e){}
       });
-      piToUsdtBtn.addEventListener('click',()=>{
+
+      piToUsdtBtn.addEventListener('click', async ()=>{
         const pi = Math.max(0, Number(piToUsdtAmt.value||0));
-        if(!pi) return;
+        if(!pi) return alert('Enter amount');
         if(pi > state.pi) return alert('Not enough Pi');
         const usdt = pi * USDT_PER_PI;
         state.pi -= pi; state.usdt += usdt;
         pushTx({type:'swap', amount:usdt, note:`Converted ${pi} Pi → ${usdt.toFixed(2)} USDT`});
         save(); renderWallet();
         piToUsdtAmt.value='';
+        try{ await fetch(`${API_BASE}/convert/pi-to-usdt`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})}); }catch(e){}
       });
-      $('withdrawPiBtn').addEventListener('click',()=>alert('Withdraw Pi – Coming soon'));
-      $('withdrawUsdtBtn').addEventListener('click',()=>alert('Withdraw USDT – Coming soon'));
+
+      $('withdrawPiBtn').addEventListener('click', ()=>alert('Withdraw Pi – Coming soon'));
+      $('withdrawUsdtBtn').addEventListener('click', ()=>alert('Withdraw USDT – Coming soon'));
     }
 
     function renderWallet(){
@@ -462,99 +422,164 @@
       txListEl.innerHTML='';
       if(!state.tx.length){ noTxEl.style.display='block'; return; }
       noTxEl.style.display='none';
-      state.tx.slice(0,50).forEach(t=>{
-        const li=document.createElement('li');
-        const left=document.createElement('div');
-        const right=document.createElement('div');
-        left.innerHTML = `<div>${t.type==='earn'?'+':''}${t.amount.toFixed(2)}</div><div class="muted">${t.note||'—'}</div>`;
-        right.className='muted';
-        right.textContent = new Date(t.ts).toLocaleString();
-        li.appendChild(left); li.appendChild(right);
-        txListEl.appendChild(li);
+      state.tx.slice(0,80).forEach(t=>{
+        const li = document.createElement('li');
+        const left = document.createElement('div'); left.innerHTML = `<div>${t.type==='earn'?'+':''}${Number(t.amount).toFixed(2)}</div><div class="muted">${t.note||'—'}</div>`;
+        const right = document.createElement('div'); right.className='muted'; right.textContent = new Date(t.ts).toLocaleString();
+        li.appendChild(left); li.appendChild(right); txListEl.appendChild(li);
       });
     }
 
     function pushTx({type, amount, note}){
       state.tx.unshift({id:rid(), type, amount:amount||0, ts:Date.now(), note});
-      state.tx = state.tx.slice(0,200); save();
+      state.tx = state.tx.slice(0,200);
+      save();
     }
 
-    // ===== Friends / Ranking =====
+    /* ================== Friends ================== */
+    const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
     function setupFriends(){
-      // Build my referral link (client-side demo)
       const base = `${location.origin}${location.pathname}`.replace(/index\.html$/,'');
       const myRef = ('REF_'+rid().slice(0,6));
       const myLink = `${base}${base.endsWith('/')?'':'/'}index.html?ref=${encodeURIComponent(myRef)}`;
       refLinkEl.textContent = myLink;
-      copyRefBtn.addEventListener('click', async ()=>{
-        try{ await navigator.clipboard.writeText(myLink); }catch(e){}
-      });
+      copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); alert('Copied'); }catch(e){alert('Copy failed')} });
 
-      // Simulators
-      mockInviteBtn.addEventListener('click',()=>{ state.friendsInvited++; save(); renderFriendsBox(); });
-      mockActivateBtn.addEventListener('click',()=>{ state.friendsActive++; state.coins += REF_REWARD; pushTx({type:'earn', amount:REF_REWARD, note:'Active friend reward'}); save(); renderFriendsBox(); renderWallet(); updateMiningUI();});
+      mockInviteBtn.addEventListener('click', ()=>{ state.friendsInvited++; save(); renderFriends(); });
+      mockActivateBtn.addEventListener('click', ()=>{ state.friendsActive++; state.coins += REF_REWARD; pushTx({type:'earn', amount:REF_REWARD, note:'Active friend reward'}); save(); renderFriends(); renderWallet(); updateMiningUI(); });
 
-      // Leaderboard top10
       leaderListEl.innerHTML = FAKE_TOP10.map((n,i)=>`<li>#${i+1} — ${n}</li>`).join('');
       myRankEl.textContent = `#${state.myRank}`;
-
-      renderFriendsBox();
-
-      // If visited with ?ref, log info (no reward client-side for security)
+      renderFriends();
       const url = new URL(location.href); const ref = url.searchParams.get('ref');
       if(ref){ pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`}); save(); renderWallet(); }
     }
+    function renderFriends(){ friendsInvitedEl.textContent = state.friendsInvited; friendsActiveEl.textContent = state.friendsActive; }
 
-    function renderFriendsBox(){
-      friendsInvitedEl.textContent = state.friendsInvited;
-      friendsActiveEl.textContent = state.friendsActive;
+    /* ================== Tasks ================== */
+    const TASKS = [
+      { id:'t1', title:'Join our Telegram', url:'https://t.me/telegram', reward:15 },
+      { id:'t2', title:'Follow on Instagram', url:'https://instagram.com/instagram', reward:20 },
+      { id:'t3', title:'Follow on X', url:'https://twitter.com/Twitter', reward:20 },
+      { id:'t4', title:'Subscribe on YouTube', url:'https://youtube.com/@YouTube', reward:25 },
+      { id:'t5', title:'Join sample group', url:'https://t.me/samples', reward:10 },
+    ];
+    function setupTasks(){
+      renderTasks();
+      manualMineBtn.addEventListener('click', ()=>{
+        const now = Date.now();
+        const remaining = state.lastManual ? (MANUAL_COOLDOWN - (now - state.lastManual)) : 0;
+        if(remaining>0){ manualCooldownEl.textContent = `Cooldown: ${Math.ceil(remaining/1000)}s`; return; }
+        state.coins += MANUAL_GAIN; state.lastManual = now;
+        pushTx({type:'earn', amount:MANUAL_GAIN, note:'Manual mine'}); save(); renderWallet(); updateMiningUI();
+        let iv = setInterval(()=>{ const r = MANUAL_COOLDOWN - (Date.now() - state.lastManual); if(r<=0){ manualCooldownEl.textContent=''; clearInterval(iv);} else manualCooldownEl.textContent = `Cooldown: ${Math.ceil(r/1000)}s`; },250);
+      });
     }
-
-    // ===== Tasks =====
-    function setupTasks(){ renderTasks(); }
     function renderTasks(){
-      tasksWrap.innerHTML='';
-      TASKS.forEach(t=>{
+      tasksWrap.innerHTML=''; TASKS.forEach(t=>{
         const done = state.completedTasks.includes(t.id);
         const row = document.createElement('div'); row.className='row'; row.style.margin='8px 0';
-        const link = document.createElement('a'); link.href=t.url; link.target='_blank'; link.textContent=t.title; link.style.color='#fff';
-        const right = document.createElement('div');
-        const btn = document.createElement('button'); btn.className='btn '+(done?'btn-ghost':'btn-gold'); btn.textContent = done?'Claimed':'Claim'; btn.disabled=done;
-        btn.addEventListener('click',()=>{
-          if(done) return; state.completedTasks.push(t.id); state.coins += t.reward; pushTx({type:'earn', amount:t.reward, note:`Task: ${t.title}`}); save(); renderTasks(); renderWallet(); updateMiningUI(); });
-        right.appendChild(btn);
-        row.appendChild(link); row.appendChild(right);
-        tasksWrap.appendChild(row);
+        const left = document.createElement('div'); left.innerHTML = `<b>${t.title}</b> ${t.url?`<a href="${t.url}" target="_blank" style="color:#fff;text-decoration:underline;margin-right:6px">باز کردن</a>`:''}<div class="muted">+${t.reward} coins</div>`;
+        const right = document.createElement('div'); const btn = document.createElement('button'); btn.className='btn '+(done?'btn-ghost':'btn-gold'); btn.textContent = done? 'Claimed':'Claim'; btn.disabled = done;
+        btn.addEventListener('click', ()=>{ if(done) return; state.completedTasks.push(t.id); state.coins += t.reward; pushTx({type:'earn', amount:t.reward, note:`Task: ${t.title}`}); save(); renderTasks(); renderWallet(); updateMiningUI(); });
+        right.appendChild(btn); row.appendChild(left); row.appendChild(right); tasksWrap.appendChild(row);
       });
     }
 
-    // ===== Profile =====
+    /* ================== News ================== */
+    async function loadNews(){
+      newsBox.innerHTML = '';
+      try{
+        const res = await fetch(`${API_BASE}/news`);
+        if(res.ok){
+          const data = await res.json();
+          if(Array.isArray(data) && data.length){ data.slice(0,8).forEach(n=>{ const d = document.createElement('div'); d.className='news-item'; d.innerHTML = `<b>${n.title}</b><div class="muted">${n.content||''}</div>`; newsBox.appendChild(d); }); return; }
+        }
+      }catch(e){}
+      // fallback
+      const f1 = document.createElement('div'); f1.className='news-item'; f1.innerHTML = `<b>Welcome to PiNet!</b><div class="muted">Start mining and earn coins.</div>`; newsBox.appendChild(f1);
+      const f2 = document.createElement('div'); f2.className='news-item'; f2.innerHTML = `<b>Manual Mining</b><div class="muted">Click Mine for bonus coins.</div>`; newsBox.appendChild(f2);
+    }
+
+    /* ================== Profile ================== */
     function setupProfile(){
       firstNameInput.value = state.profile.first || '';
       lastNameInput.value = state.profile.last || '';
       userIdInput.value = state.profile.id || '';
-      saveProfileBtn.addEventListener('click',()=>{
-        state.profile.first = firstNameInput.value.trim()||'John';
-        state.profile.last  = lastNameInput.value.trim()||'Doe';
-        state.profile.id    = userIdInput.value.trim()||'123456';
-        save(); alert('Saved!');
+      saveProfileBtn.addEventListener('click', async ()=>{
+        state.profile.first = firstNameInput.value.trim() || 'John';
+        state.profile.last  = lastNameInput.value.trim() || 'Doe';
+        state.profile.id    = userIdInput.value.trim() || '123456';
+        save(); alert('Saved locally');
+        try{ await fetch(`${API_BASE}/profile`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(state.profile)}); }catch(e){}
       });
     }
 
-    // ===== Reset =====
-    function setupReset(){
-      $('resetBtn').addEventListener('click',()=>{
-        if(!confirm('Reset all local progress?')) return;
-        const keepRank = state.myRank;
-        Object.assign(state,{coins:0, pi:0, usdt:0, tx:[], miningStart:null, friendsInvited:0, friendsActive:0, profile:{ first:'John', last:'Doe', id:'123456' }, myRank:keepRank, completedTasks:[]});
-        save(); updateMiningUI(); renderWallet(); renderFriendsBox(); renderTasks(); setupProfile();
-      });
-    }
-
-    // ===== Persistence =====
-    function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
-    function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
+    /* ================== Helpers & Persistence ================== */
+    function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)); }catch(e){ return null; } }
+    function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
     function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
+
+    /* ================== Render all & boot ================== */
+    function renderAll(){
+      updateMiningUI();
+      renderWallet();
+      renderFriends();
+      renderTasks();
+    }
+
+    function renderFriends(){
+      friendsInvitedEl.textContent = state.friendsInvited;
+      friendsActiveEl.textContent = state.friendsActive;
+    }
+
+    function renderWallet(){ renderWallet(); } // forward declare to avoid lint issues
+    function renderWallet(){
+      coinsBalanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+      piBalanceEl.textContent = Number(state.pi).toFixed(2);
+      usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
+      // tx
+      txListEl.innerHTML = '';
+      if(!state.tx.length){ noTxEl.style.display='block'; return; }
+      noTxEl.style.display='none';
+      state.tx.slice(0,80).forEach(t=>{
+        const li = document.createElement('li');
+        const left = document.createElement('div'); left.innerHTML = `<div>${t.type==='earn'?'+':''}${Number(t.amount).toFixed(2)}</div><div class="muted">${t.note||'—'}</div>`;
+        const right = document.createElement('div'); right.className='muted'; right.textContent = new Date(t.ts).toLocaleString();
+        li.appendChild(left); li.appendChild(right); txListEl.appendChild(li);
+      });
+    }
+
+    // Continue ticking if miningStart exists
+    if(state.miningStart){
+      runTick();
+    }
+
+    // Boot tasks & friends & profile
+    setupFriends();
+    setupTasks();
+    setupProfile();
+    loadNews();
+    renderAll();
+
+    // expose load balances from server (best-effort)
+    async function loadBalancesFromServer(){
+      try{
+        const res = await fetch(`${API_BASE}/state`);
+        if(!res.ok) return;
+        const data = await res.json();
+        if(typeof data.coins === 'number') state.coins = data.coins;
+        if(typeof data.pi === 'number') state.pi = data.pi;
+        if(typeof data.usdt === 'number') state.usdt = data.usdt;
+        if(Array.isArray(data.tx)) state.tx = data.tx;
+        if(data.profile) state.profile = data.profile;
+        if(data.miningStart) state.miningStart = data.miningStart;
+        save(); renderAll();
+        if(state.miningStart) runTick();
+      }catch(e){}
+    }
+    // try load server state on init (non-blocking)
+    loadBalancesFromServer();
   </script>
 </body>
 </html>
