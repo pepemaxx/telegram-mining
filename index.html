@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>PiNet – Daily Mining</title>
 <style>
-/* ====== Theme ====== */
 :root{
   --bg1:#4c1d95; --bg2:#7b2cbf; --ink:#fff; --muted:#cbd5e1;
   --brand:#f1c40f; --border:rgba(255,255,255,.18); --card:rgba(255,255,255,.08);
@@ -19,7 +18,6 @@ body{
               linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow:hidden;
 }
-/* Global BG Pi coin across all tabs */
 body::after{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
   background:
@@ -28,8 +26,6 @@ body::after{
   opacity:.06;
   filter: saturate(1.2);
 }
-
-/* Layout */
 #app{position:relative; z-index:1; height:100%; display:flex; flex-direction:column}
 header{
   position:sticky; top:0; z-index:5; background:rgba(0,0,0,.18); backdrop-filter:blur(10px);
@@ -38,8 +34,6 @@ header{
 .title{font-weight:900; font-size:18px; letter-spacing:.2px}
 .sub{font-size:12px; color:var(--muted)}
 main{flex:1; overflow-y:auto; padding:16px 16px 100px; max-width:980px; margin:0 auto; width:100%}
-
-/* Cards */
 .card{
   background:var(--card); border:1px solid var(--border); border-radius:18px; padding:16px;
   box-shadow: 0 8px 30px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.04);
@@ -49,37 +43,28 @@ main{flex:1; overflow-y:auto; padding:16px 16px 100px; max-width:980px; margin:0
 .grid-2{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px}
 .grid-3{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px}
 @media (max-width:720px){ .grid-2,.grid-3{grid-template-columns:1fr} }
-
 .big{font-size:28px; font-weight:900}
 .kicker{font-size:12px; letter-spacing:.6px; color:var(--muted); font-weight:800; text-transform:uppercase}
 .muted{color:var(--muted); font-size:12px}
 .accent{color:var(--brand)}
-
-/* Buttons & Inputs */
 .btn{border:none; border-radius:14px; padding:10px 14px; font-weight:800; cursor:pointer; transition:transform .05s ease, filter .2s}
 .btn:active{transform: translateY(1px)}
 .btn-gold{background:linear-gradient(135deg,#fde047,#f59e0b); color:#3b0764}
 .btn-ghost{background:rgba(255,255,255,.10); color:#fff; border:1px solid var(--border)}
 .btn-danger{background:linear-gradient(135deg,#fca5a5,#ef4444); color:#3b0764}
 .btn:disabled{opacity:.6; cursor:not-allowed}
-
 input, select{
   background:rgba(255,255,255,.10); color:#fff; border:1px solid var(--border); border-radius:12px;
   padding:10px 12px; outline:none; width:100%
 }
 input::placeholder{color:#cbd5e1}
 .input-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-
-/* Status & progress */
 .pill{font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.06)}
 .pill.good{background:rgba(16,185,129,.18); border-color:rgba(16,185,129,.4); color:#d1fae5}
 .pill.warn{background:rgba(245,158,11,.16); border-color:rgba(245,158,11,.45)}
 .pill.bad{background:rgba(239,68,68,.16); border-color:rgba(239,68,68,.45)}
-
 .progress{height:10px; border-radius:999px; background:rgba(255,255,255,.18); overflow:hidden}
 .progress>div{height:100%; background:linear-gradient(90deg,#fde047,#f59e0b); width:0%; transition: width .25s}
-
-/* Tabs bar */
 nav.tabs{position:fixed; left:0; right:0; bottom:0; border-top:1px solid var(--border); background:rgba(0,0,0,.22); backdrop-filter:blur(10px); z-index:5}
 .tabs-inner{max-width:980px; margin:0 auto; height:72px; display:grid; grid-template-columns:repeat(5,1fr)}
 .tab-btn{appearance:none; background:none; border:none; color:#e2e8f0; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px; flex-direction:column}
@@ -87,86 +72,152 @@ nav.tabs{position:fixed; left:0; right:0; bottom:0; border-top:1px solid var(--b
 .tab-btn.active{color:var(--brand)}
 section.tab{display:none}
 section.tab.active{display:block}
-
-/* Tables */
 .table{width:100%; border-collapse:collapse}
 .table th, .table td{padding:10px; border-bottom:1px solid var(--border); text-align:right}
 .table th{color:#f8fafc; font-weight:800; font-size:12px; opacity:.9}
-
-/* Badges */
 .badge{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:12px}
-
-/* Nice section headers */
 .h3{font-size:16px; font-weight:900; margin:0 0 8px}
 .h2{font-size:18px; font-weight:900; margin:0 0 10px}
-
-/* Icon (inline) */
 .icon{width:18px; height:18px; opacity:.9}
 </style>
 </head>
 <body>
 <div id="app">
-  <!-- Header -->
-  <header>
+<header>
+  <div>
+    <div class="title">PiNet – Daily Mining</div>
+    <div class="sub">24h mining • Local persistence + API fallback</div>
+  </div>
+  <div class="row" style="gap:8px">
+    <button id="resetBtn" class="btn btn-ghost">ریست</button>
+  </div>
+</header>
+
+<main>
+<section class="tab active" id="tab-mining">
+  <div class="card row">
     <div>
-      <div class="title">PiNet – Daily Mining</div>
-      <div class="sub">20s mining • Local persistence + API fallback</div>
+      <div class="kicker">Wallet Balance</div>
+      <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
     </div>
-    <div class="row" style="gap:8px">
-      <button id="resetBtn" class="btn btn-ghost">ریست</button>
+    <div style="text-align:end">
+      <div class="kicker">Mining Status</div>
+      <div id="miningStatus" class="pill">Inactive</div>
     </div>
-  </header>
+  </div>
 
-  <!-- Main -->
-  <main>
-    <!-- Mining -->
-    <section class="tab active" id="tab-mining">
-      <div class="card row">
-        <div>
-          <div class="kicker">Wallet Balance</div>
-          <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
-        </div>
-        <div style="text-align:end">
-          <div class="kicker">Mining Status</div>
-          <div id="miningStatus" class="pill">Inactive</div>
-        </div>
+  <div class="card">
+    <div class="row" style="align-items:flex-end">
+      <div>
+        <div class="kicker">Time remaining</div>
+        <div id="timer" class="big">00:00:00</div>
       </div>
-
-      <div class="card">
-        <div class="row" style="align-items:flex-end">
-          <div>
-            <div class="kicker">Time remaining</div>
-            <div id="timer" class="big">00:00:00</div>
-          </div>
-          <div style="text-align:end">
-            <div class="kicker">Session earnings</div>
-            <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
-          </div>
-        </div>
-        <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
-        <div class="row" style="margin-top:12px">
-          <button id="startBtn" class="btn btn-gold">Start 20s</button>
-          <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
-        </div>
-        <div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.</div>
+      <div style="text-align:end">
+        <div class="kicker">Session earnings</div>
+        <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+    <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
+    <div class="row" style="margin-top:12px">
+      <button id="startBtn" class="btn btn-gold">Start 24h</button>
+      <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
+    </div>
+    <div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.</div>
+  </div>
+</section>
+</main>
 
 <script>
-/* ================== Config ================== */
-const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base
+const API_BASE = 'https://pinet-backend-production.up.railway.app';
 const STORAGE_KEY = 'pinet_clicker_state_v5';
-const DURATION_MS = 20*1000;  // 20 ثانیه
-const RATE_PER_SEC = 0.05;    // coins/sec demo
+const DURATION_MS = 24*60*60*1000;
+const RATE_PER_SEC = 0.05;
 
-/* ================== State ================== */
-const state = load() || { coins:0, miningStart:null, tx:[] };
+const state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {coins:0, miningStart:null};
 
-/* ================== Elements ================== */
-const $ = (id)=>document.getElementById(id);
-const balanceEl = $('balance');
-const miningStatusEl = $('miningStatus');
-const timerEl = $('timer');
-const sessionEarningsEl
+const balanceEl = document.getElementById('balance');
+const miningStatusEl = document.getElementById('miningStatus');
+const timerEl = document.getElementById('timer');
+const sessionEarningsEl = document.getElementById('sessionEarnings');
+const progressBarEl = document.getElementById('progressBar');
+const startBtn = document.getElementById('startBtn');
+const claimBtn = document.getElementById('claimBtn');
+
+let tickId=null;
+
+function formatHHMMSS(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  const h = String(Math.floor(s/3600)).padStart(2,'0');
+  const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const ss= String(s%60).padStart(2,'0');
+  return `${h}:${m}:${ss}`;
+}
+
+function miningMetrics(){
+  if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
+  const now = Date.now();
+  const elapsed = Math.max(0, now - state.miningStart);
+  const remaining = Math.max(0, DURATION_MS - elapsed);
+  const clamped = Math.min(elapsed, DURATION_MS);
+  const rewardNow = (clamped/1000) * RATE_PER_SEC;
+  const progress = (clamped / DURATION_MS) * 100;
+  return {elapsed, remaining, progress, rewardNow};
+}
+
+function tick(){
+  if(!state.miningStart){
+    miningStatusEl.textContent='Inactive';
+    miningStatusEl.className='pill';
+    claimBtn.disabled=true;
+    timerEl.textContent='00:00:00';
+    sessionEarningsEl.textContent='0';
+    progressBarEl.style.width='0%';
+    return;
+  }
+
+  const {remaining, progress, rewardNow} = miningMetrics();
+  timerEl.textContent = formatHHMMSS(remaining);
+  sessionEarningsEl.textContent = rewardNow.toFixed(2);
+  progressBarEl.style.width = `${progress}%`;
+
+  if(remaining<=0){
+    clearInterval(tickId); tickId=null;
+    claimBtn.disabled=false;
+    miningStatusEl.textContent='Completed – claim pending';
+    miningStatusEl.className='pill warn';
+  }else{
+    miningStatusEl.textContent='Active';
+    miningStatusEl.className='pill good';
+  }
+}
+
+function runTick(){
+  clearInterval(tickId);
+  tick();
+  tickId = setInterval(tick, 20000); // هر 20 ثانیه
+}
+
+startBtn.addEventListener('click', ()=>{
+  state.miningStart = Date.now();
+  save();
+  runTick();
+});
+
+claimBtn.addEventListener('click', ()=>{
+  const {rewardNow} = miningMetrics();
+  if(rewardNow>0) state.coins += rewardNow;
+  state.miningStart = null;
+  save();
+  tick();
+});
+
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+window.onload = ()=>{
+  if(state.miningStart) runTick();
+  tick();
+  balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+};
+</script>
+</body>
+</html>
