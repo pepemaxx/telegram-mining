@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PiNet – Daily Mining</title>
-<style>
-:root{
-  --bg1:#4c1d95; --bg2:#7b2cbf; --ink:#fff; --muted:#cbd5e1;
-  --brand:#f1c40f; --border:rgba(255,255,255,.18); --card:rgba(255,255,255,.08);
-  --good:#10b981; --warn:#f59e0b; --danger:#ef4444;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; color:var(--ink); font-family:Inter, Vazirmatn, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
-  background: radial-gradient(1200px 1200px at 70% -10%, rgba(255,255,255,.12), transparent 40%),
-              linear-gradient(180deg,var(--bg1),var(--bg2));
-  overflow:hidden;
-}
-body::after{
-  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(400px 400px at 50% 30%, rgba(255,255,255,.12), transparent 60%),
-    url('https://i.imgur.com/8L1Xk6D.png') center 24%/280px no-repeat;
-  opacity:.06;
-  filter: saturate(1.2);
-}
-#app{position:relative; z-index:1; height:100%; display:flex; flex-direction:column}
-header{
-position:sticky; top:0; z-index:5; background:rgba(0,0,0,.18); backdrop-filter:blur(10px);
-border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; justify-content:space-between
-}
-.title{font-weight:900; font-size:18px; letter-spacing:.2px}
-.sub{font-size:12px; color:var(--muted)}
-main{flex:1; overflow-y:auto; padding:16px 16px 100px; max-width:980px; margin:0 auto; width:100%}
+<!DOCTYPE html>  <html lang="fa" dir="rtl">    <head>    
+<meta charset="UTF-8" />    
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
+<title>PiNet – Daily Mining</title>    
+<style>    
+/* ====== Theme ====== */    
+:root{    
+  --bg1:#4c1d95; --bg2:#7b2cbf; --ink:#fff; --muted:#cbd5e1;    
+  --brand:#f1c40f; --border:rgba(255,255,255,.18); --card:rgba(255,255,255,.08);    
+  --good:#10b981; --warn:#f59e0b; --danger:#ef4444;    
+}    
+*{box-sizing:border-box}    
+html,body{height:100%}    
+body{    
+  margin:0; color:var(--ink); font-family:Inter, Vazirmatn, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;    
+  background: radial-gradient(1200px 1200px at 70% -10%, rgba(255,255,255,.12), transparent 40%),    
+              linear-gradient(180deg,var(--bg1),var(--bg2));    
+  overflow:hidden;    
+}    
+/* Global BG Pi coin across all tabs */    
+body::after{    
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;    
+  background:    
+    radial-gradient(400px 400px at 50% 30%, rgba(255,255,255,.12), transparent 60%),    
+    url('https://i.imgur.com/8L1Xk6D.png') center 24%/280px no-repeat;    
+  opacity:.06;    
+  filter: saturate(1.2);    
+}  /* Layout */  
+#app{position:relative; z-index:1; height:100%; display:flex; flex-direction:column}  
+header{  
+position:sticky; top:0; z-index:5; background:rgba(0,0,0,.18); backdrop-filter:blur(10px);  
+border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; justify-content:space-between  
+}  
+.title{font-weight:900; font-size:18px; letter-spacing:.2px}  
+.sub{font-size:12px; color:var(--muted)}  
+main{flex:1; overflow-y:auto; padding:16px 16px 100px; max-width:980px; margin:0 auto; width:100%}  /* Cards */
 .card{
 background:var(--card); border:1px solid var(--border); border-radius:18px; padding:16px;
 box-shadow: 0 8px 30px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.04);
@@ -43,28 +43,37 @@ backdrop-filter: blur(8px);
 .grid-2{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px}
 .grid-3{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px}
 @media (max-width:720px){ .grid-2,.grid-3{grid-template-columns:1fr} }
+
 .big{font-size:28px; font-weight:900}
 .kicker{font-size:12px; letter-spacing:.6px; color:var(--muted); font-weight:800; text-transform:uppercase}
 .muted{color:var(--muted); font-size:12px}
 .accent{color:var(--brand)}
+
+/* Buttons & Inputs */
 .btn{border:none; border-radius:14px; padding:10px 14px; font-weight:800; cursor:pointer; transition:transform .05s ease, filter .2s}
 .btn:active{transform: translateY(1px)}
 .btn-gold{background:linear-gradient(135deg,#fde047,#f59e0b); color:#3b0764}
 .btn-ghost{background:rgba(255,255,255,.10); color:#fff; border:1px solid var(--border)}
 .btn-danger{background:linear-gradient(135deg,#fca5a5,#ef4444); color:#3b0764}
 .btn:disabled{opacity:.6; cursor:not-allowed}
+
 input, select{
 background:rgba(255,255,255,.10); color:#fff; border:1px solid var(--border); border-radius:12px;
 padding:10px 12px; outline:none; width:100%
 }
 input::placeholder{color:#cbd5e1}
 .input-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+
+/* Status & progress */
 .pill{font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.06)}
 .pill.good{background:rgba(16,185,129,.18); border-color:rgba(16,185,129,.4); color:#d1fae5}
 .pill.warn{background:rgba(245,158,11,.16); border-color:rgba(245,158,11,.45)}
 .pill.bad{background:rgba(239,68,68,.16); border-color:rgba(239,68,68,.45)}
+
 .progress{height:10px; border-radius:999px; background:rgba(255,255,255,.18); overflow:hidden}
 .progress>div{height:100%; background:linear-gradient(90deg,#fde047,#f59e0b); width:0%; transition: width .25s}
+
+/* Tabs bar */
 nav.tabs{position:fixed; left:0; right:0; bottom:0; border-top:1px solid var(--border); background:rgba(0,0,0,.22); backdrop-filter:blur(10px); z-index:5}
 .tabs-inner{max-width:980px; margin:0 auto; height:72px; display:grid; grid-template-columns:repeat(5,1fr)}
 .tab-btn{appearance:none; background:none; border:none; color:#e2e8f0; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px; flex-direction:column}
@@ -72,139 +81,616 @@ nav.tabs{position:fixed; left:0; right:0; bottom:0; border-top:1px solid var(--b
 .tab-btn.active{color:var(--brand)}
 section.tab{display:none}
 section.tab.active{display:block}
+
+/* Tables */
 .table{width:100%; border-collapse:collapse}
 .table th, .table td{padding:10px; border-bottom:1px solid var(--border); text-align:right}
 .table th{color:#f8fafc; font-weight:800; font-size:12px; opacity:.9}
+
+/* Badges */
 .badge{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:12px}
+
+/* Nice section headers */
 .h3{font-size:16px; font-weight:900; margin:0 0 8px}
 .h2{font-size:18px; font-weight:900; margin:0 0 10px}
+
+/* Icon (inline) */
 .icon{width:18px; height:18px; opacity:.9}
 </style>
-</head>
-<body>
-<div id="app">
-<header>
-<div>
-<div class="title">PiNet – Daily Mining</div>
-<div class="sub">24h mining • Local persistence + API fallback</div>
-</div>
-<div class="row" style="gap:8px">
-<button id="resetBtn" class="btn btn-ghost">ریست</button>
-</div>
-</header>
-<main>
-<section class="tab active" id="tab-mining">
-<div class="card row">
-<div>
-<div class="kicker">Wallet Balance</div>
-<div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
-</div>
-<div style="text-align:end">
-<div class="kicker">Mining Status</div>
-<div id="miningStatus" class="pill">Inactive</div>
-</div>
-</div>
-<div class="card">
-<div class="row" style="align-items:flex-end">
-<div>
-<div class="kicker">Time remaining</div>
-<div id="timer" class="big">00:00:00</div>
-</div>
-<div style="text-align:end">
-<div class="kicker">Session earnings</div>
-<div class="big accent"><span id="sessionEarnings">0</span> coins</div>
-</div>
-</div>
-<div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
-<div style="margin-top:14px;text-align:center">
-<button id="claimBtn" class="btn btn-gold">Claim</button>
-</div>
-</div>
-</section>
-</main>
-<nav class="tabs">
-<div class="tabs-inner">
-<button class="tab-btn active" data-tab="mining">Mining<div class="mini">🏗</div></button>
-<button class="tab-btn" data-tab="tasks">Tasks<div class="mini">📋</div></button>
-<button class="tab-btn" data-tab="friends">Friends<div class="mini">👥</div></button>
-<button class="tab-btn" data-tab="wallet">Wallet<div class="mini">💰</div></button>
-<button class="tab-btn" data-tab="settings">Settings<div class="mini">⚙️</div></button>
-</div>
-</nav>
-</div>
-<script>
-const API_URL = "https://pinet-backend-production.up.railway.app";
-let balance = 0;
-let sessionEarnings = 0;
-let miningDuration = 24*60*60; // 24h in seconds
-let remaining = miningDuration;
-let timerInterval;
 
-function formatTime(sec){
-  const h=Math.floor(sec/3600).toString().padStart(2,'0');
-  const m=Math.floor((sec%3600)/60).toString().padStart(2,'0');
-  const s=(sec%60).toString().padStart(2,'0');
-  return `${h}:${m}:${s}`;
-}
+</head>    
+<body>    
+<div id="app">    
+  <!-- Header -->    
+  <header>    
+    <div>    
+      <div class="title">PiNet – Daily Mining</div>    
+      <div class="sub">24h mining • Local persistence + API fallback</div>    
+    </div>    
+    <div class="row" style="gap:8px">    
+      <button id="resetBtn" class="btn btn-ghost">ریست</button>    
+    </div>    
+  </header>    <!-- Main -->    <main>    
+    <!-- Mining -->    
+    <section class="tab active" id="tab-mining">    
+      <div class="card row">    
+        <div>    
+          <div class="kicker">Wallet Balance</div>    
+          <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>    
+        </div>    
+        <div style="text-align:end">    
+          <div class="kicker">Mining Status</div>    
+          <div id="miningStatus" class="pill">Inactive</div>    
+        </div>    
+      </div>  <div class="card">    
+    <div class="row" style="align-items:flex-end">    
+      <div>    
+        <div class="kicker">Time remaining</div>    
+        <div id="timer" class="big">00:00:00</div>    
+      </div>    
+      <div style="text-align:end">    
+        <div class="kicker">Session earnings</div>    
+        <div class="big accent"><span id="sessionEarnings">0</span> coins</div>    
+      </div>    
+    </div>    
+    <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>    
+    <div class="row" style="margin-top:12px">    
+      <button id="startBtn" class="btn btn-gold">Start 24h</button>    
+      <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>    
+    </div>    
+    <div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.</div>    
+  </div>      <!-- News -->      <div class="card">    
+    <div class="row" style="justify-content:space-between">    
+      <div class="h2">اخبار</div>    
+      <div class="badge"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z"/><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28"/></svg> Latest</div>    
+    </div>    
+    <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>    
+  </div>    
+</section>    <!-- Wallet -->    <section class="tab" id="tab-wallet">    
+  <div class="grid-3">    
+    <div class="card">    
+      <div class="kicker">Coins</div>    
+      <div class="big"><span id="coinsBalance">0</span></div>    
+    </div>    
+    <div class="card">    
+      <div class="kicker">PiNet</div>    
+      <div class="big"><span id="piBalance">0.00</span></div>    
+    </div>    
+    <div class="card">    
+      <div class="kicker">USDT</div>    
+      <div class="big"><span id="usdtBalance">0.00</span></div>    
+    </div>    
+  </div>      <div class="grid-2" style="margin-top:12px">    
+    <!-- Convert Coins -> Pi -->    
+    <div class="card">    
+      <div class="h3">🔄 تبدیل Coins → PiNet</div>    
+      <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b> coins = 1 Pi</div>    
+      <div class="input-row">    
+        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">    
+        <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>    
+      </div>    
+      <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>    
+    </div>    <!-- Convert Pi -> USDT -->    
+<div class="card">    
+  <div class="h3">💱 تبدیل PiNet → USDT</div>    
+  <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1 Pi = <b id="usdtPerPi">5</b> USDT</div>    
+  <div class="input-row">    
+    <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار Pi">    
+    <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>    
+  </div>    
+  <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>    
+</div>
 
-function updateTimerUI(){
-  document.getElementById("timer").textContent = formatTime(remaining);
-  const progress = ((miningDuration-remaining)/miningDuration)*100;
-  document.getElementById("progressBar").style.width = progress+"%";
-  document.getElementById("miningStatus").textContent = remaining>0?"Mining":"Ready";
-  document.getElementById("sessionEarnings").textContent = sessionEarnings.toFixed(2);
-}
+  </div>      <!-- Withdraw -->      <div class="card" style="margin-top:12px">    
+    <div class="h3">🏦 برداشت</div>    
+    <div class="grid-3">    
+      <div>    
+        <div class="muted">نوع دارایی</div>    
+        <select id="withdrawAsset">    
+          <option value="pi">PiNet</option>    
+          <option value="usdt">USDT</option>    
+        </select>    
+      </div>    
+      <div>    
+        <div class="muted">آدرس کیف پول</div>    
+        <input id="withdrawAddr" placeholder="مثلاً Pi wallet / TRON / ERC-20"/>    
+      </div>    
+      <div>    
+        <div class="muted">مقدار</div>    
+        <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount"/>    
+      </div>    
+    </div>    
+    <div class="row" style="margin-top:10px">    
+      <button id="withdrawBtn" class="btn btn-gold">ثبت درخواست</button>    
+      <div class="muted">برای پردازش واقعی، نیاز به تأیید سمت سرور دارید.</div>    
+    </div>    
+  </div>      <!-- Transactions -->      <div class="card" style="margin-top:12px">    
+    <div class="h3">تراکنش‌ها</div>    
+    <table class="table">    
+      <thead><tr><th>توضیح</th><th>مقدار</th><th>زمان</th></tr></thead>    
+      <tbody id="txList"></tbody>    
+    </table>    
+    <div id="noTx" class="muted" style="margin-top:6px">هنوز تراکنشی وجود ندارد.</div>    
+  </div>    
+</section>    <!-- Friends -->    <section class="tab" id="tab-friends">    
+  <div class="card">    
+    <div class="h3">لینک دعوت شما</div>    
+    <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>    
+    <div class="row" style="margin-top:8px">    
+      <button id="copyRef" class="btn btn-gold">کپی لینک</button>    
+      <button id="mockInvite" class="btn btn-ghost">شبیه‌سازی دعوت +1</button>    
+      <button id="mockActivate" class="btn btn-ghost">شبیه‌سازی فعال +1</button>    
+    </div>    
+  </div>      <div class="grid-3" style="margin-top:12px">    
+    <div class="card">    
+      <div class="kicker">Invited</div>    
+      <div class="big" id="friendsInvited">0</div>    
+    </div>    
+    <div class="card">    
+      <div class="kicker">Active</div>    
+      <div class="big" id="friendsActive">0</div>    
+    </div>    
+    <div class="card">    
+      <div class="kicker">پاداش</div>    
+      <div class="big accent">+30 coins / active</div>    
+    </div>    
+  </div>      <div class="card" style="margin-top:12px">    
+    <div class="h3">رندۀ برتر (Top 10)</div>    
+    <table class="table" id="leaderTable">    
+      <thead><tr><th>#</th><th>کاربر</th><th>Coins</th></tr></thead>    
+      <tbody></tbody>    
+    </table>    
+    <div class="muted" style="margin-top:6px">رتبه شما: <b id="myRank">#—</b></div>    
+  </div>    
+</section>    <!-- Tasks -->    <section class="tab" id="tab-tasks">    
+  <div class="card">    
+    <div class="h3">تسک‌های روزانه و اجتماعی</div>    
+    <div id="tasksWrap"></div>    
+    <div class="muted" style="margin-top:6px">* برای تأیید واقعی لینک‌ها به بک‌اند نیاز دارید.</div>    
+  </div>      <div class="card" style="margin-top:12px">    
+    <div class="h3">⚒️ Manual Mining</div>    
+    <div class="row">    
+      <div class="muted">با هر کلیک +0.5 coin (Cooldown 10s)</div>    
+      <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>    
+    </div>    
+    <div id="manualCooldown" class="muted" style="margin-top:6px"></div>    
+  </div>    
+</section>    <!-- Profile -->    <section class="tab" id="tab-profile">    
+  <div class="card">    
+    <div class="h3">پروفایل</div>    
+    <div class="input-row" style="margin-top:6px">    
+      <input id="firstName" placeholder="نام">    
+      <input id="lastName" placeholder="نام خانوادگی">    
+      <input id="userId" placeholder="شناسه کاربر">    
+      <button id="saveProfile" class="btn btn-gold">ذخیره</button>    
+    </div>    
+    <div class="muted" style="margin-top:6px">اطلاعات روی همین دستگاه ذخیره می‌شود.</div>    
+  </div>    
+</section>    </main>    <!-- Tabs bar -->    <nav class="tabs">    
+    <div class="tabs-inner">    
+      <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>    
+      <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>    
+      <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>    
+      <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>    
+      <button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button>    
+    </div>    
+  </nav>    
+</div>  <script>    
+/* ================== Config ================== */    
+const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base    
+const STORAGE_KEY = 'pinet_clicker_state_v5';    
+const DURATION_MS = 24*60*60*1000;  // 24h    
+const RATE_PER_SEC = 0.05;          // coins/sec demo    
+const COINS_PER_PI = 100;           // 100 coins => 1 Pi    
+const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT    
+const REF_REWARD   = 30;            // coins per active friend    
+const MANUAL_GAIN  = 0.5;    
+const MANUAL_COOLDOWN = 10*1000;    /* ================== State ================== */
+const state = load() || {
+coins: 0, pi: 0, usdt: 0,
+tx: [],                 // {id,type,amount,ts,note}
+miningStart: null,
+friendsInvited: 0, friendsActive: 0,
+profile: { first:'', last:'', id:'' },
+myRank: 112131,
+completedTasks: [],
+lastManual: 0
+};
 
-function startMining(){
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    if(remaining>0){
-      remaining--;
-      sessionEarnings += 0.01;
-      updateTimerUI();
-    } else {
-      clearInterval(timerInterval);
-      updateTimerUI();
-    }
-  },1000);
-}
+/* ================== Elements ================== */
+// Mining
+const $ = (id)=>document.getElementById(id);
+const balanceEl = $('balance');
+const miningStatusEl = $('miningStatus');
+const timerEl = $('timer');
+const sessionEarningsEl = $('sessionEarnings');
+const progressBarEl = $('progressBar');
+const rateText = $('rateText');
+const startBtn = $('startBtn');
+const claimBtn = $('claimBtn');
 
-document.getElementById("claimBtn").addEventListener("click", async ()=>{
-  if(remaining>0) return alert("Mining not finished yet!");
-  try{
-    const res = await fetch(API_URL+"/claim", {method:"POST"});
-    const data = await res.json();
-    if(data.success){
-      balance += sessionEarnings;
-      sessionEarnings = 0;
-      remaining = miningDuration;
-      updateTimerUI();
-      startMining();
-      alert("Claim successful!");
-    } else {
-      alert("Claim failed!");
-    }
-  } catch(e){ alert("Server error") }
+// Wallet
+const coinsBalanceEl = $('coinsBalance');
+const piBalanceEl = $('piBalance');
+const usdtBalanceEl = $('usdtBalance');
+const coinsToPiAmt = $('coinsToPiAmt');
+const coinsToPiBtn = $('coinsToPiBtn');
+const coinsToPiHint = $('coinsToPiHint');
+const piToUsdtAmt = $('piToUsdtAmt');
+const piToUsdtBtn = $('piToUsdtBtn');
+const piToUsdtHint = $('piToUsdtHint');
+const withdrawAsset = $('withdrawAsset');
+const withdrawAddr = $('withdrawAddr');
+const withdrawAmt = $('withdrawAmt');
+const withdrawBtn = $('withdrawBtn');
+const txListEl = $('txList');
+const noTxEl = $('noTx');
+
+// Friends
+const refLinkEl = $('refLink');
+const copyRefBtn = $('copyRef');
+const mockInviteBtn = $('mockInvite');
+const mockActivateBtn = $('mockActivate');
+const friendsInvitedEl = $('friendsInvited');
+const friendsActiveEl = $('friendsActive');
+const leaderTable = $('leaderTable').querySelector('tbody');
+const myRankEl = $('myRank');
+
+// Tasks
+const tasksWrap = $('tasksWrap');
+const manualMineBtn = $('manualMineBtn');
+const manualCooldownEl = $('manualCooldown');
+
+// Profile
+const firstNameInput = $('firstName');
+const lastNameInput  = $('lastName');
+const userIdInput    = $('userId');
+const saveProfileBtn = $('saveProfile');
+
+// Header
+const resetBtn = $('resetBtn');
+
+// News
+const newsListEl = $('newsList');
+
+// Misc
+$('coinsPerPi').textContent = COINS_PER_PI;
+$('usdtPerPi').textContent  = USDT_PER_PI;
+rateText.textContent = RATE_PER_SEC.toString();
+
+/* ================== Tabs ================== */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
+btn.classList.add('active');
+document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+});
 });
 
-document.getElementById("resetBtn").addEventListener("click", ()=>{
-  remaining = miningDuration;
-  sessionEarnings = 0;
-  updateTimerUI();
-  startMining();
+/* ================== Mining Logic ================== */
+let tickId=null;
+
+function formatHHMMSS(ms){
+const s = Math.max(0, Math.floor(ms/1000));
+const h = String(Math.floor(s/3600)).padStart(2,'0');
+const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+const ss= String(s%60).padStart(2,'0');
+return ${h}:${m}:${ss};
+}
+function miningMetrics(){
+if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
+const now = Date.now();
+const elapsed = Math.max(0, now - state.miningStart);
+const remaining = Math.max(0, DURATION_MS - elapsed);
+const clamped = Math.min(elapsed, DURATION_MS);
+const rewardNow = (clamped/1000) * RATE_PER_SEC;
+const progress = (clamped / DURATION_MS) * 100;
+return {elapsed, remaining, progress, rewardNow};
+}
+function runTick(){
+clearInterval(tickId);
+tick();
+tickId = setInterval(tick, 1000);
+}
+
+/* ====== 🔧 فقط این تابع تغییر کرده ====== */
+function tick(){
+// اول بررسی کنیم آیا ماینینگ فعال هست یا نه
+if(!state.miningStart){
+miningStatusEl.textContent='Inactive';
+miningStatusEl.className='pill';
+claimBtn.disabled=true;
+timerEl.textContent='00:00:00';
+sessionEarningsEl.textContent='0';
+progressBarEl.style.width='0%';
+return;
+}
+
+// محاسبات وقتی فعال است
+const {remaining, progress, rewardNow} = miningMetrics();
+timerEl.textContent = formatHHMMSS(remaining);
+sessionEarningsEl.textContent = rewardNow.toFixed(2);
+progressBarEl.style.width = ${progress}%;
+
+if(remaining<=0){
+clearInterval(tickId); tickId=null;
+claimBtn.disabled=false;
+miningStatusEl.textContent='Completed – claim pending';
+miningStatusEl.className='pill warn';
+}else{
+miningStatusEl.textContent='Active';
+miningStatusEl.className='pill good';
+}
+}
+/* ====== پایان تغییر ====== */
+
+startBtn.addEventListener('click', async ()=>{
+// هر بار Start: از اول شروع می‌شود
+state.miningStart = Date.now();
+pushTx({type:'info', amount:0, note:'Started 24h mining'});
+save(); updateMiningUI(); runTick();
+
+// Optional: ping backend (ignore failure)
+try{
+await fetch(${API_BASE}/mining/start,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ts:Date.now()})});
+}catch(e){}
+});
+claimBtn.addEventListener('click', async ()=>{
+const {rewardNow} = miningMetrics();
+if(rewardNow>0){
+state.coins += rewardNow;
+pushTx({type:'earn', amount:rewardNow, note:'Mining session reward'});
+}
+state.miningStart = null;
+save();
+updateMiningUI(); renderWallet();
+
+try{
+await fetch(${API_BASE}/claim,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({amount:rewardNow})});
+}catch(e){}
+});
+function updateMiningUI(){
+balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+if(state.miningStart){
+claimBtn.disabled=true; miningStatusEl.textContent='Active'; miningStatusEl.className='pill good';
+const {remaining, progress, rewardNow} = miningMetrics();
+timerEl.textContent = formatHHMMSS(remaining);
+sessionEarningsEl.textContent = rewardNow.toFixed(2);
+progressBarEl.style.width = ${progress}%;
+}else{
+claimBtn.disabled=true; miningStatusEl.textContent='Inactive'; miningStatusEl.className='pill';
+timerEl.textContent='00:00:00'; sessionEarningsEl.textContent='0'; progressBarEl.style.width='0%';
+}
+}
+
+/* ================== Wallet & Conversions ================== */
+function renderWallet(){
+coinsBalanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+piBalanceEl.textContent = Number(state.pi).toFixed(2);
+usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
+
+// transactions
+txListEl.innerHTML='';
+if(!state.tx.length){ noTxEl.style.display='block'; return; }
+noTxEl.style.display='none';
+state.tx.slice(0,80).forEach(t=>{
+const tr = document.createElement('tr');
+const td1 = document.createElement('td'); td1.innerHTML = <div>${t.note||'—'}</div><div class="muted">${t.type}</div>;
+const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + t.amount.toFixed(2);
+const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts).toLocaleString();
+tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+txListEl.appendChild(tr);
+});
+}
+
+coinsToPiBtn.addEventListener('click', async ()=>{
+const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
+if(!coins) return alert('مقدار معتبر وارد کنید');
+if(coins > state.coins) return alert('موجودی کوین کافی نیست');
+const pi = coins / COINS_PER_PI;
+state.coins -= coins; state.pi += pi;
+pushTx({type:'swap', amount:pi, note:Convert ${coins} coins → ${pi.toFixed(2)} Pi});
+save(); renderWallet(); updateMiningUI();
+coinsToPiAmt.value='';
+coinsToPiHint.textContent = ≈ ${pi.toFixed(2)} Pi;
+try{
+await fetch(${API_BASE}/convert/coins-to-pi,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})});
+}catch(e){}
 });
 
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-    document.querySelectorAll("section.tab").forEach(t=>t.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
-  });
+piToUsdtBtn.addEventListener('click', async ()=>{
+const pi = Math.max(0, Number(piToUsdtAmt.value||0));
+if(!pi) return alert('مقدار معتبر وارد کنید');
+if(pi > state.pi) return alert('موجودی Pi کافی نیست');
+const usdt = pi * USDT_PER_PI;
+state.pi -= pi; state.usdt += usdt;
+pushTx({type:'swap', amount:usdt, note:Convert ${pi} Pi → ${usdt.toFixed(2)} USDT});
+save(); renderWallet();
+piToUsdtAmt.value='';
+piToUsdtHint.textContent = ≈ ${usdt.toFixed(2)} USDT;
+try{
+await fetch(${API_BASE}/convert/pi-to-usdt,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
+}catch(e){}
 });
 
-updateTimerUI();
-startMining();
-</script>
-</body>
+withdrawBtn.addEventListener('click', async ()=>{
+const asset = withdrawAsset.value;
+const addr = withdrawAddr.value.trim();
+const amt = Math.max(0, Number(withdrawAmt.value||0));
+if(!addr || !amt) return alert('همه فیلدها را کامل کنید');
+if(asset==='pi' && amt>state.pi) return alert('موجودی Pi کافی نیست');
+if(asset==='usdt' && amt>state.usdt) return alert('موجودی USDT کافی نیست');
+
+// محلی: فقط ثبت تراکنش نمایشی
+pushTx({type:'withdraw', amount:amt, note:Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...});
+save(); renderWallet();
+
+try{
+const res = await fetch(${API_BASE}/withdraw,{
+method:'POST', headers:{'Content-Type':'application/json'},
+body:JSON.stringify({asset, address:addr, amount:amt})
+});
+// اگر نیاز: پاسخ را بررسی کنید
+}catch(e){}
+alert('درخواست برداشت ثبت شد (دمو). برای برداشت واقعی، تأیید بک‌اند الزامی است.');
+});
+
+/* ================== Friends & Rank ================== */
+const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
+function setupFriends(){
+// referral link
+const base = ${location.origin}${location.pathname}.replace(/index.html$/,'');
+const myRef = ('REF_'+rid().slice(0,6));
+const myLink = ${base}${base.endsWith('/')?'':'/'}index.html?ref=${encodeURIComponent(myRef)};
+refLinkEl.textContent = myLink;
+copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); }catch(e){} });
+
+// simulators
+mockInviteBtn.addEventListener('click',()=>{ state.friendsInvited++; save(); renderFriendsBox(); });
+mockActivateBtn.addEventListener('click',()=>{ state.friendsActive++; state.coins += REF_REWARD; pushTx({type:'earn', amount:REF_REWARD, note:'Active friend reward'}); save(); renderFriendsBox(); renderWallet(); updateMiningUI();});
+
+// leaderboard
+leaderTable.innerHTML = '';
+FAKE_TOP10.forEach((n,i)=>{
+const tr=document.createElement('tr');
+tr.innerHTML = <td>${i+1}</td><td>${n}</td><td>${(200 - i*10)}</td>;
+leaderTable.appendChild(tr);
+});
+myRankEl.textContent = #${state.myRank};
+
+renderFriendsBox();
+
+// if joined via ?ref (client-side info only)
+const url = new URL(location.href); const ref = url.searchParams.get('ref');
+if(ref){ pushTx({type:'info', amount:0, note:Joined via invite ${ref}}); save(); renderWallet(); }
+}
+function renderFriendsBox(){
+friendsInvitedEl.textContent = state.friendsInvited;
+friendsActiveEl.textContent = state.friendsActive;
+}
+
+/* ================== Tasks (Daily + Social + Manual) ================== */
+const TASKS = [
+{ id:'daily',   title:'🎁 پاداش روزانه', kind:'daily', reward:15, url:'' },
+{ id:'yt',      title:'▶️ سابسکرایب یوتیوب', kind:'social', reward:20, url:'https://youtube.com/@YouTube' },
+{ id:'tg',      title:'📢 عضویت در تلگرام', kind:'social', reward:20, url:'https://t.me/telegram' },
+];
+function setupTasks(){
+renderTasks();
+manualMineBtn.addEventListener('click', ()=>{
+const now = Date.now();
+const remaining = state.lastManual ? (MANUAL_COOLDOWN - (now - state.lastManual)) : 0;
+if(remaining>0){
+manualCooldownEl.textContent = Cooldown: ${Math.ceil(remaining/1000)}s;
+return;
+}
+state.coins += MANUAL_GAIN;
+state.lastManual = now;
+manualCooldownEl.textContent = Cooldown: ${MANUAL_COOLDOWN/1000}s;
+pushTx({type:'earn', amount:MANUAL_GAIN, note:'Manual mining click'});
+save(); renderWallet(); updateMiningUI();
+
+const iv = setInterval(()=>{    
+  const r = MANUAL_COOLDOWN - (Date.now() - state.lastManual);    
+  if(r<=0){ manualCooldownEl.textContent=''; clearInterval(iv); }    
+  else manualCooldownEl.textContent = `Cooldown: ${Math.ceil(r/1000)}s`;    
+}, 250);
+
+});
+}
+function renderTasks(){
+tasksWrap.innerHTML='';
+TASKS.forEach(t=>{
+const done = state.completedTasks.includes(t.id);
+const row = document.createElement('div');
+row.className='row'; row.style.margin='8px 0';
+const left = document.createElement('div'); left.innerHTML = <b>${t.title}</b> ${t.url?<a href="${t.url}" target="_blank" style="color:#fff; text-decoration:underline">باز کردن</a>:''}<div class="muted">+${t.reward} coins</div>;
+const right = document.createElement('div');
+const btn = document.createElement('button'); btn.className='btn '+(done?'btn-ghost':'btn-gold'); btn.textContent = done?'Claimed':'Claim'; btn.disabled = done;
+btn.addEventListener('click',()=>{ if(done) return;
+// ساده: فقط پرداخت پاداش
+state.completedTasks.push(t.id);
+state.coins += t.reward;
+pushTx({type:'earn', amount:t.reward, note:Task: ${t.title}});
+save(); renderTasks(); renderWallet(); updateMiningUI();
+});
+right.appendChild(btn);
+row.appendChild(left); row.appendChild(right);
+tasksWrap.appendChild(row);
+});
+}
+
+/* ================== News ================== */
+async function loadNews(){
+newsListEl.innerHTML = '';
+const add = (title, body)=> {
+const li = document.createElement('li');
+li.style.padding='8px 0';
+li.innerHTML = <div><b>${title}</b></div><div class="muted">${body}</div>;
+newsListEl.appendChild(li);
+};
+try{
+const res = await fetch(${API_BASE}/news,{method:'GET'});
+if(res.ok){
+const data = await res.json(); // [{title, content, published_at}]
+if(Array.isArray(data) && data.length){
+data.slice(0,6).forEach(n=> add(n.title, n.content||''));
+return;
+}
+}
+// fallback
+add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
+add('Update v1.2', 'Manual mining + Daily tasks are live.');
+}catch(e){
+add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
+add('Update v1.2', 'Manual mining + Daily tasks are live.');
+}
+}
+
+/* ================== Profile ================== */
+function setupProfile(){
+firstNameInput.value = state.profile.first||'';
+lastNameInput.value  = state.profile.last||'';
+userIdInput.value    = state.profile.id||'';
+saveProfileBtn.addEventListener('click',()=>{
+state.profile.first = firstNameInput.value.trim();
+state.profile.last  = lastNameInput.value.trim();
+state.profile.id    = userIdInput.value.trim();
+save(); alert('ذخیره شد!');
+});
+}
+
+/* ================== Reset ================== */
+resetBtn.addEventListener('click',()=>{
+if(!confirm('همه چیز ریست شود؟')) return;
+const keepRank = state.myRank;
+Object.assign(state,{
+coins:0, pi:0, usdt:0, tx:[], miningStart:null,
+friendsInvited:0, friendsActive:0,
+profile:{first:'',last:'',id:''}, myRank:keepRank, completedTasks:[], lastManual:0
+});
+save(); updateMiningUI(); renderWallet(); renderFriendsBox(); renderTasks(); setupProfile();
+});
+
+/* ================== Persistence ================== */
+function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
+function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
+function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
+
+/* ================== Boot ================== */
+function boot(){
+updateMiningUI();
+renderWallet();
+setupFriends();
+setupTasks();
+setupProfile();
+loadNews();
+
+// اگر در حال ماینینگ بود، تیک را ادامه بده
+if(state.miningStart){ runTick(); }
+}
+boot();
+</script>  </body>
+
 </html>
