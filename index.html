@@ -616,9 +616,9 @@ withdrawBtn.addEventListener('click', async ()=>{
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
   // referral link
-  const base = `${location.origin}${location.pathname}`.replace(/index\.html$/,'');
-  const myRef = ('REF_'+rid().slice(0,6));
-  const myLink = `${base}${base.endsWith('/')?'':'/'}index.html?ref=${encodeURIComponent(myRef)}`;
+ const base = "https://t.me/PiNetMiningBot"; // نام ربات تلگرام
+ const userCode = state.profile.id || rid().slice(0,6); // از شناسه پروفایل یا fallback
+ const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
   copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); }catch(e){} });
 
