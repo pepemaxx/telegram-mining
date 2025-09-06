@@ -634,7 +634,27 @@ if(inviterCode && inviterCode !== userCode){
   copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); }catch(e){} });
 
   // simulators
-  mockInviteBtn.addEventListener('click',()=>{ state.friendsInvited++; save(); renderFriendsBox(); });
+  mockInviteBtn.addEventListener('click', async () => {
+  const friendId = prompt("Enter friend's user ID"); // یا از فرم واقعی بگیر
+  if(!friendId) return;
+
+  try {
+    // ثبت دعوت در بک‌اند
+    await fetch(`${API_BASE}/referral/register`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        inviterCode: state.profile.id, // id واقعی کاربر
+        userId: friendId
+      })
+    });
+    alert('Friend invited successfully!');
+    // بروزرسانی UI
+    renderFriendsBox();
+  } catch(e) {
+    console.error('Mock invite failed', e);
+  }
+});
   mockActivateBtn.addEventListener('click', async ()=>{
   const reward = REF_REWARD;
   state.friendsActive++;
