@@ -615,11 +615,22 @@ withdrawBtn.addEventListener('click', async ()=>{
 /* ================== Friends & Rank ================== */
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
-  // referral link
- const base = "https://t.me/PiNetMiningBot"; // نام ربات تلگرام
- const userCode = state.profile.id || rid().slice(0,6); // از شناسه پروفایل یا fallback
- const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
-  refLinkEl.textContent = myLink;
+  // referral link + backend registration
+const base = "https://t.me/PiNetMiningBot"; 
+const userCode = state.profile.id || rid().slice(0,6); 
+const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
+refLinkEl.textContent = myLink;
+
+// بررسی اگر از طریق لینک دعوت وارد شده باشد
+const urlParams = new URLSearchParams(window.location.search);
+const inviterCode = urlParams.get('start');
+if(inviterCode && inviterCode !== userCode){
+  fetch(`${API_BASE}/referral/register`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ inviterCode, userId: userCode })
+  }).catch(e=>console.error('Referral registration failed', e));
+}
   copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); }catch(e){} });
 
   // simulators
