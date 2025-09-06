@@ -635,7 +635,22 @@ if(inviterCode && inviterCode !== userCode){
 
   // simulators
   mockInviteBtn.addEventListener('click',()=>{ state.friendsInvited++; save(); renderFriendsBox(); });
-  mockActivateBtn.addEventListener('click',()=>{ state.friendsActive++; state.coins += REF_REWARD; pushTx({type:'earn', amount:REF_REWARD, note:'Active friend reward', ts: Date.now()}); save(); renderFriendsBox(); renderWallet(); updateMiningUI();});
+  mockActivateBtn.addEventListener('click', async ()=>{
+  const reward = REF_REWARD;
+  state.friendsActive++;
+  state.coins += reward;
+  pushTx({type:'earn', amount:reward, note:'Active friend reward', ts: Date.now()});
+  save(); renderFriendsBox(); renderWallet(); updateMiningUI();
+
+  // اطلاع دادن به سرور
+  try{
+    await fetch(`${API_BASE}/referral/activate`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ userId: userCode, reward })
+    });
+  }catch(e){ console.error('Referral activation failed', e); }
+});
 
   // leaderboard
   leaderTable.innerHTML = '';
