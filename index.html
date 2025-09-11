@@ -910,18 +910,6 @@ function setupProfile(){
   });
 }
 
-/* ================== Reset ================== */
-resetBtn.addEventListener('click',()=>{
-  if(!confirm('همه چیز ریست شود؟')) return;
-  const keepRank = state.myRank;
-  Object.assign(state,{
-    coins:0, pi:0, usdt:0, tx:[], miningStart:null,
-    friendsInvited:0, friendsActive:0,
-    profile:{first:'',last:'',id:''}, myRank:keepRank, completedTasks:[], lastManual:0
-  });
-  save(); updateMiningUI(); renderWallet(); renderFriendsBox(); renderTasks(); setupProfile();
-});
-
 /* ================== Persistence ================== */
 function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
 function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
