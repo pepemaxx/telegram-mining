@@ -98,6 +98,62 @@ section.tab.active{display:block}
 
 /* Icon (inline) */
 .icon{width:18px; height:18px; opacity:.9}
+
+/* Share Modal */
+.share-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.share-modal-content {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+}
+
+.share-apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.share-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.share-app:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.share-app svg {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+.share-app span {
+  font-size: 12px;
+}
 </style>
 
 </head>
@@ -243,8 +299,7 @@ section.tab.active{display:block}
         <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
         <div class="row" style="margin-top:8px">
           <button id="copyRef" class="btn btn-gold">کپی لینک</button>
-          <button id="mockInvite" class="btn btn-ghost">شبیه‌سازی دعوت +1</button>
-          <button id="mockActivate" class="btn btn-ghost">شبیه‌سازی فعال +1</button>
+          <button id="shareRef" class="btn btn-ghost">اشتراک گذاری</button>
         </div>
       </div>
 
@@ -319,6 +374,50 @@ section.tab.active{display:block}
   </nav>
 </div>
 
+<!-- Share Modal -->
+<div id="shareModal" class="share-modal">
+  <div class="share-modal-content">
+    <div class="h3">اشتراک گذاری لینک دعوت</div>
+    <div class="muted">لینک دعوت خود را از طریق برنامه‌های زیر به اشتراک بگذارید</div>
+    <div class="share-apps">
+      <div class="share-app" data-app="whatsapp">
+        <svg viewBox="0 0 24 24" fill="#25D366">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488"/>
+        </svg>
+        <span>WhatsApp</span>
+      </div>
+      <div class="share-app" data-app="telegram">
+        <svg viewBox="0 0 24 24" fill="#0088cc">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+        </svg>
+        <span>Telegram</span>
+      </div>
+      <div class="share-app" data-app="limoo">
+        <svg viewBox="0 0 24 24" fill="#ff5722">
+          <circle cx="12" cy="12" r="12"/>
+          <text x="12" y="16" text-anchor="middle" fill="white" font-size="10">Limo</text>
+        </svg>
+        <span>Limo</span>
+      </div>
+      <div class="share-app" data-app="copy">
+        <svg viewBox="0 0 24 24" fill="#9e9e9e">
+          <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+        </svg>
+        <span>کپی</span>
+      </div>
+      <div class="share-app" data-app="more">
+        <svg viewBox="0 0 24 24" fill="#9e9e9e">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+        <span>سایر</span>
+      </div>
+    </div>
+    <div class="row" style="margin-top:15px; justify-content:flex-end">
+      <button id="closeShareModal" class="btn btn-ghost">بستن</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ================== Config ================== */
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
@@ -375,8 +474,7 @@ const noTxEl = $('noTx');
 // Friends
 const refLinkEl = $('refLink');
 const copyRefBtn = $('copyRef');
-const mockInviteBtn = $('mockInvite');
-const mockActivateBtn = $('mockActivate');
+const shareRefBtn = $('shareRef');
 const friendsInvitedEl = $('friendsInvited');
 const friendsActiveEl = $('friendsActive');
 const leaderTable = $('leaderTable').querySelector('tbody');
@@ -398,6 +496,11 @@ const resetBtn = $('resetBtn');
 
 // News
 const newsListEl = $('newsList');
+
+// Share Modal
+const shareModal = $('shareModal');
+const closeShareModal = $('closeShareModal');
+const shareApps = document.querySelectorAll('.share-app');
 
 // Misc
 $('coinsPerPi').textContent = COINS_PER_PI;
@@ -440,7 +543,6 @@ function runTick(){
   tickId = setInterval(tick, 1000);
 }
 
-/* ====== آپدیت UI (تغییر اساسی: دکمه Claim براساس remaining کنترل می‌شود) ====== */
 function tick(){
   // اگر ماینینگ فعال نیست، حالت پیش‌فرض را نشان بده
   if(!state.miningStart){
@@ -470,7 +572,6 @@ function tick(){
     miningStatusEl.className='pill good';
   }
 }
-/* ====== پایان تغییر ====== */
 
 startBtn.addEventListener('click', async ()=>{
   // هر بار Start: از اول شروع می‌شود
@@ -616,61 +717,55 @@ withdrawBtn.addEventListener('click', async ()=>{
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
   // referral link + backend registration
-const base = "https://t.me/piprotocolbot"; 
-const userCode = state.profile.id || rid().slice(0,6); 
-const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
-refLinkEl.textContent = myLink;
+  const base = "https://t.me/piprotocolbot"; 
+  const userCode = state.profile.id || rid().slice(0,6); 
+  const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
+  refLinkEl.textContent = myLink;
 
-// بررسی اگر از طریق لینک دعوت وارد شده باشد
-const urlParams = new URLSearchParams(window.location.search);
-const inviterCode = urlParams.get('start');
-if(inviterCode && inviterCode !== userCode){
-  fetch(`${API_BASE}/referral/register`, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ inviterCode, userId: userCode })
-  }).catch(e=>console.error('Referral registration failed', e));
-}
-  copyRefBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(myLink); }catch(e){} });
-
-  // simulators
-  mockInviteBtn.addEventListener('click', async () => {
-  const friendId = prompt("Enter friend's user ID"); // یا از فرم واقعی بگیر
-  if(!friendId) return;
-
-  try {
-    // ثبت دعوت در بک‌اند
-    await fetch(`${API_BASE}/referral/register`, {
+  // بررسی اگر از طریق لینک دعوت وارد شده باشد
+  const urlParams = new URLSearchParams(window.location.search);
+  const inviterCode = urlParams.get('start');
+  if(inviterCode && inviterCode !== userCode){
+    fetch(`${API_BASE}/referral/register`, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        inviterCode: state.profile.id, // id واقعی کاربر
-        userId: friendId
-      })
-    });
-    alert('Friend invited successfully!');
-    // بروزرسانی UI
-    renderFriendsBox();
-  } catch(e) {
-    console.error('Mock invite failed', e);
+      body: JSON.stringify({ inviterCode, userId: userCode })
+    }).catch(e=>console.error('Referral registration failed', e));
   }
-});
-  mockActivateBtn.addEventListener('click', async ()=>{
-  const reward = REF_REWARD;
-  state.friendsActive++;
-  state.coins += reward;
-  pushTx({type:'earn', amount:reward, note:'Active friend reward', ts: Date.now()});
-  save(); renderFriendsBox(); renderWallet(); updateMiningUI();
+  
+  copyRefBtn.addEventListener('click', async ()=>{ 
+    try{ 
+      await navigator.clipboard.writeText(myLink); 
+      alert('لینک دعوت کپی شد!');
+    }catch(e){
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = myLink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('لینک دعوت کپی شد!');
+    } 
+  });
 
-  // اطلاع دادن به سرور
-  try{
-    await fetch(`${API_BASE}/referral/activate`, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ userId: userCode, reward })
+  // Share button
+  shareRefBtn.addEventListener('click', ()=>{
+    shareModal.style.display = 'flex';
+  });
+
+  // Close modal
+  closeShareModal.addEventListener('click', ()=>{
+    shareModal.style.display = 'none';
+  });
+
+  // Share apps functionality
+  shareApps.forEach(app => {
+    app.addEventListener('click', () => {
+      const appType = app.dataset.app;
+      shareLink(myLink, appType);
     });
-  }catch(e){ console.error('Referral activation failed', e); }
-});
+  });
 
   // leaderboard
   leaderTable.innerHTML = '';
@@ -687,6 +782,41 @@ if(inviterCode && inviterCode !== userCode){
   const url = new URL(location.href); const ref = url.searchParams.get('ref');
   if(ref){ pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); save(); renderWallet(); }
 }
+
+function shareLink(link, appType) {
+  let shareUrl = '';
+  
+  switch(appType) {
+    case 'whatsapp':
+      shareUrl = `https://wa.me/?text=${encodeURIComponent(link)}`;
+      break;
+    case 'telegram':
+      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+      break;
+    case 'limoo':
+      // Limoo doesn't have a direct share URL, so we'll use a generic approach
+      alert(`لینک دعوت برای اشتراک در لیمو: ${link}`);
+      return;
+    case 'copy':
+      navigator.clipboard.writeText(link);
+      alert('لینک دعوت کپی شد!');
+      return;
+    case 'more':
+      if (navigator.share) {
+        navigator.share({
+          title: 'PiProtocol دعوت به',
+          text: 'به PiProtocol بپیوندید و شروع به ماینینگ کنید!',
+          url: link
+        }).catch(console.error);
+      } else {
+        alert(`لینک دعوت: ${link}`);
+      }
+      return;
+  }
+  
+  window.open(shareUrl, '_blank');
+}
+
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
   friendsActiveEl.textContent = state.friendsActive;
@@ -779,6 +909,8 @@ function setupProfile(){
     state.profile.last  = lastNameInput.value.trim();
     state.profile.id    = userIdInput.value.trim();
     save(); alert('ذخیره شد!');
+    // Update referral link if user ID changed
+    setupFriends();
   });
 }
 
