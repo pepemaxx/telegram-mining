@@ -219,7 +219,7 @@ section.tab.active{display:block}
           <div class="big"><span id="coinsBalance">0</span></div>
         </div>
         <div class="card">
-          <div class="kicker">PiNet</div>
+          <div class="kicker">PiP</div>
           <div class="big"><span id="piBalance">0.00</span></div>
         </div>
         <div class="card">
@@ -232,7 +232,7 @@ section.tab.active{display:block}
         <!-- Convert Coins -> Pi -->
         <div class="card">
           <div class="h3">🔄 تبدیل Coins → PiNet</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiNet</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP</div>
           <div class="input-row">
             <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
             <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
@@ -242,8 +242,8 @@ section.tab.active{display:block}
 
         <!-- Convert Pi -> USDT -->
         <div class="card">
-          <div class="h3">💱 تبدیل PiNet → USDT</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1 Pi = <b id="usdtPerPi">5</b> USDT</div>
+          <div class="h3">💱 تبدیل PiP → USDT</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1PiP = <b id="usdtPerPi">5</b> USDT</div>
           <div class="input-row">
             <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار Pi">
             <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>
@@ -259,7 +259,7 @@ section.tab.active{display:block}
           <div>
             <div class="muted">نوع دارایی</div>
             <select id="withdrawAsset">
-              <option value="pi">PiNet</option>
+              <option value="pi">PiP</option>
               <option value="usdt">USDT</option>
             </select>
           </div>
@@ -1124,10 +1124,10 @@ async function loadNews(){
       }
     }
     // fallback
-    add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
+    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
     add('Update v1.2', 'Manual mining + Daily tasks are live.');
   }catch(e){
-    add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
+    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
     add('Update v1.2', 'Manual mining + Daily tasks are live.');
   }
 }
