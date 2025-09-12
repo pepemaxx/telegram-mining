@@ -871,6 +871,53 @@ const TASKS = [
   }
 ];
 
+
+/* ================== توابع بازنشانی روزانه ================== */
+
+// بررسی是否需要 بازنشانی روزانه
+function checkAndResetDailyTasks() {
+  const today = new Date().toDateString();
+  
+  // اگر تاریخ امروز با تاریخ آخرین بازنشانی متفاوت است
+  if (state.lastResetDate !== today) {
+    console.log('بازنشانی تسک‌ها برای روز جدید');
+    resetDailyTasks();
+    state.lastResetDate = today;
+    save();
+  }
+}
+
+// بازنشانی تسک‌های روزانه
+function resetDailyTasks() {
+  console.log('در حال بازنشانی تسک‌های روزانه...');
+  
+  // حذف تسک روزانه از completedTasks
+  const dailyTaskIndex = state.completedTasks.indexOf('daily');
+  if (dailyTaskIndex > -1) {
+    state.completedTasks.splice(dailyTaskIndex, 1);
+  }
+  
+  // بازنشانی وضعیت تسک روزانه
+  state.taskStatuses['daily'] = 'claim';
+  
+  // بازنشانی تسک‌های اجتماعی
+  TASKS.forEach(task => {
+    if (task.kind === 'social' && state.taskStatuses[task.id] === 'completed') {
+      state.taskStatuses[task.id] = 'start';
+      
+      // حذف از completedTasks
+      const index = state.completedTasks.indexOf(task.id);
+      if (index > -1) {
+        state.completedTasks.splice(index, 1);
+      }
+    }
+  });
+  
+  save();
+  renderTasks();
+}
+
+
 function setupTasks(){
   renderTasks();
   manualMineBtn.addEventListener('click', ()=>{
