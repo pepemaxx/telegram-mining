@@ -219,7 +219,7 @@ section.tab.active{display:block}
           <div class="big"><span id="coinsBalance">0</span></div>
         </div>
         <div class="card">
-          <div class="kicker">PiP</div>
+          <div class="kicker">PiNet</div>
           <div class="big"><span id="piBalance">0.00</span></div>
         </div>
         <div class="card">
@@ -231,8 +231,8 @@ section.tab.active{display:block}
       <div class="grid-2" style="margin-top:12px">
         <!-- Convert Coins -> Pi -->
         <div class="card">
-          <div class="h3">🔄 تبدیل Coins → PiP</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP</div>
+          <div class="h3">🔄 تبدیل Coins → PiNet</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiNet</div>
           <div class="input-row">
             <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
             <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
@@ -240,15 +240,15 @@ section.tab.active{display:block}
           <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
         </div>
 
-        <!-- Convert PiP -> USDT -->
+        <!-- Convert Pi -> USDT -->
         <div class="card">
-          <div class="h3">💱 تبدیل PiP → USDT</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1 PiP = <b id="usdtPerPiP">5</b> USDT</div>
+          <div class="h3">💱 تبدیل PiNet → USDT</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1 Pi = <b id="usdtPerPi">5</b> USDT</div>
           <div class="input-row">
-            <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار PiP">
-            <button id="pipToUsdtBtn" class="btn btn-gold">تبدیل</button>
+            <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار Pi">
+            <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>
           </div>
-          <div id="pipToUsdtHint" class="muted" style="margin-top:6px"></div>
+          <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
         </div>
       </div>
 
@@ -259,7 +259,7 @@ section.tab.active{display:block}
           <div>
             <div class="muted">نوع دارایی</div>
             <select id="withdrawAsset">
-              <option value="pi">PiP</option>
+              <option value="pi">PiNet</option>
               <option value="usdt">USDT</option>
             </select>
           </div>
@@ -665,7 +665,7 @@ coinsToPiBtn.addEventListener('click', async ()=>{
   if(coins > state.coins) return alert('موجودی کوین کافی نیست');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} PiP`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
   coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
@@ -877,7 +877,7 @@ const TASKS = [
 // بررسی是否需要 بازنشانی روزانه
 function checkAndResetDailyTasks() {
   const today = new Date().toDateString();
-  
+
   // اگر تاریخ امروز با تاریخ آخرین بازنشانی متفاوت است
   if (state.lastResetDate !== today) {
     console.log('بازنشانی تسک‌ها برای روز جدید');
@@ -890,21 +890,21 @@ function checkAndResetDailyTasks() {
 // بازنشانی تسک‌های روزانه
 function resetDailyTasks() {
   console.log('در حال بازنشانی تسک‌های روزانه...');
-  
+
   // حذف تسک روزانه از completedTasks
   const dailyTaskIndex = state.completedTasks.indexOf('daily');
   if (dailyTaskIndex > -1) {
     state.completedTasks.splice(dailyTaskIndex, 1);
   }
-  
+
   // بازنشانی وضعیت تسک روزانه
   state.taskStatuses['daily'] = 'claim';
-  
+
   // بازنشانی تسک‌های اجتماعی
   TASKS.forEach(task => {
     if (task.kind === 'social' && state.taskStatuses[task.id] === 'completed') {
       state.taskStatuses[task.id] = 'start';
-      
+
       // حذف از completedTasks
       const index = state.completedTasks.indexOf(task.id);
       if (index > -1) {
@@ -912,7 +912,7 @@ function resetDailyTasks() {
       }
     }
   });
-  
+
   save();
   renderTasks();
 }
@@ -943,24 +943,24 @@ function setupTasks(){
 
 function renderTasks(){
   tasksWrap.innerHTML='';
-  
+
   // افزودن اطلاعات بازنشانی در بالای تسک‌ها
   const resetHeader = document.createElement('div');
   resetHeader.className = 'muted';
   resetHeader.style.marginBottom = '15px';
   resetHeader.style.textAlign = 'center';
   resetHeader.style.fontSize = '12px';
-  
+
   const now = new Date();
   const resetTime = new Date();
   resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
   const timeUntilReset = resetTime - now;
   const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
-  
+
   resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه دیگر`;
   tasksWrap.appendChild(resetHeader);
-  
+
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
@@ -1034,15 +1034,15 @@ function handleTaskAction(taskId) {
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'checking';
-    
+
     // ذخیره وضعیت در state
     if (!state.taskStatuses) state.taskStatuses = {};
     state.taskStatuses[taskId] = 'checking';
     save();
-    
+
     // رندر مجدد تسک‌ها
     renderTasks();
-    
+
     // تنظیم تایمر برای تغییر وضعیت به claim بعد از 1 دقیقه
     setTimeout(() => {
       task.status = 'claim';
@@ -1059,16 +1059,16 @@ function claimTaskReward(taskId, reward, title) {
   // پرداخت پاداش
   state.coins += reward;
   state.completedTasks.push(taskId);
-  
+
   // تغییر وضعیت تسک به completed
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'completed';
   }
-  
+
   if (!state.taskStatuses) state.taskStatuses = {};
   state.taskStatuses[taskId] = 'completed';
-  
+
   pushTx({type:'earn', amount:reward, note:`Task: ${title}`, ts: Date.now()});
   save(); 
   renderTasks(); 
@@ -1163,7 +1163,7 @@ function pushTx(tx){
 function boot(){
   // بررسی و بازنشانی تسک‌های روزانه
   checkAndResetDailyTasks();
-  
+
   updateMiningUI();
   renderWallet();
   setupFriends();
