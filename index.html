@@ -820,10 +820,55 @@ function renderFriendsBox(){
 
 /* ================== Tasks (Daily + Social + Manual) ================== */
 const TASKS = [
-  { id:'daily',   title:'🎁 پاداش روزانه', kind:'daily', reward:15, url:'' },
-  { id:'yt',      title:'▶️ سابسکرایب یوتیوب', kind:'social', reward:20, url:'https://youtube.com/@YouTube' },
-  { id:'tg',      title:'📢 عضویت در تلگرام', kind:'social', reward:20, url:'https://t.me/telegram' },
+  { 
+    id:'daily',   
+    title:'🎁 پاداش روزانه', 
+    kind:'daily', 
+    reward:15, 
+    url:'' 
+  },
+  { 
+    id:'yt_subscribe',      
+    title:'▶️ سابسکرایب کانال یوتیوب', 
+    kind:'social', 
+    reward:20, 
+    url:'https://youtube.com/@YouTubeChannel',
+    status: 'start' // start, checking, claim
+  },
+  { 
+    id:'yt_like',      
+    title:'👍 لایک یک ویدیو یوتیوب', 
+    kind:'social', 
+    reward:20, 
+    url:'https://youtube.com/watch?v=example',
+    status: 'start'
+  },
+  { 
+    id:'yt_comment',      
+    title:'💬 گذاشتن کامنت در کانال یوتیوب', 
+    kind:'social', 
+    reward:20, 
+    url:'https://youtube.com/channel/example',
+    status: 'start'
+  },
+  { 
+    id:'tg_react',      
+    title:'🔥 ری اکشن به یک پست تلگرام', 
+    kind:'social', 
+    reward:20, 
+    url:'https://t.me/channel/123',
+    status: 'start'
+  },
+  { 
+    id:'tg_comment',      
+    title:'💬 گذاشتن کامنت به یک پست تلگرام', 
+    kind:'social', 
+    reward:20, 
+    url:'https://t.me/channel/123',
+    status: 'start'
+  }
 ];
+
 function setupTasks(){
   renderTasks();
   manualMineBtn.addEventListener('click', ()=>{
@@ -846,26 +891,150 @@ function setupTasks(){
     }, 250);
   });
 }
+
 function renderTasks(){
   tasksWrap.innerHTML='';
   TASKS.forEach(t=>{
-    const done = state.completedTasks.includes(t.id);
+    const isDailyTask = t.id === 'daily';
+    const isCompleted = state.completedTasks.includes(t.id);
+    const taskStatus = isDailyTask ? (isCompleted ? 'completed' : 'claim') : t.status;
+    
     const row = document.createElement('div');
-    row.className='row'; row.style.margin='8px 0';
-    const left = document.createElement('div'); left.innerHTML = `<b>${t.title}</b> ${t.url?`<a href="${t.url}" target="_blank" style="color:#fff; text-decoration:underline">باز کردن</a>`:''}<div class="muted">+${t.reward} coins</div>`;
+    row.className='row'; 
+    row.style.margin='12px 0';
+    row.style.padding='8px';
+    row.style.border='1px solid var(--border)';
+    row.style.borderRadius='12px';
+    row.style.backgroundColor='rgba(255,255,255,0.05)';
+    
+    const left = document.createElement('div'); 
+    left.style.flex = '1';
+    left.innerHTML = `
+      <div><b>${t.title}</b></div>
+      <div class="muted">+${t.reward} coins</div>
+    `;
+    
     const right = document.createElement('div');
-    const btn = document.createElement('button'); btn.className='btn '+(done?'btn-ghost':'btn-gold'); btn.textContent = done?'Claimed':'Claim'; btn.disabled = done;
-    btn.addEventListener('click',()=>{ if(done) return;
-      // ساده: فقط پرداخت پاداش
-      state.completedTasks.push(t.id);
-      state.coins += t.reward;
-      pushTx({type:'earn', amount:t.reward, note:`Task: ${t.title}`, ts: Date.now()});
-      save(); renderTasks(); renderWallet(); updateMiningUI();
+    
+    const actionBtn = document.createElement('button'); 
+    actionBtn.className = 'btn';
+    
+    switch(taskStatus) {
+      case 'start':
+        actionBtn.className = 'btn btn-gold';
+        actionBtn.textContent = 'Start';
+        actionBtn.disabled = false;
+        break;
+      case 'checking':
+        actionBtn.className = 'btn btn-secondary';
+        actionBtn.textContent = 'Checking...';
+        actionBtn.disabled = true;
+        break;
+      case 'claim':
+        actionBtn.className = 'btn btn-success';
+        actionBtn.textContent = 'Claim';
+        actionBtn.disabled = false;
+        break;
+      case 'completed':
+        actionBtn.className = 'btn btn-ghost';
+        actionBtn.textContent = 'Completed';
+        actionBtn.disabled = true;
+        break;
+    }
+    
+    actionBtn.addEventListener('click', () => {
+      if (taskStatus === 'start') {
+        // باز کردن لینک در نرم‌افزار مربوطه
+        if (t.url) {
+          window.open(t.url, '_blank');
+        }
+        handleTaskAction(t.id);
+      } else if (taskStatus === 'claim') {
+        claimTaskReward(t.id, t.reward, t.title);
+      }
     });
-    right.appendChild(btn);
-    row.appendChild(left); row.appendChild(right);
+    
+    right.appendChild(actionBtn);
+    row.appendChild(left); 
+    row.appendChild(right);
     tasksWrap.appendChild(row);
   });
+}
+
+function handleTaskAction(taskId) {
+  // تغییر وضعیت تسک به checking
+  const task = TASKS.find(t => t.id === taskId);
+  if (task) {
+    task.status = 'checking';
+    
+    // ذخیره وضعیت در state
+    if (!state.taskStatuses) state.taskStatuses = {};
+    state.taskStatuses[taskId] = 'checking';
+    save();
+    
+    // رندر مجدد تسک‌ها
+    renderTasks();
+    
+    // تنظیم تایمر برای تغییر وضعیت به claim بعد از 1 دقیقه
+    setTimeout(() => {
+      task.status = 'claim';
+      if (state.taskStatuses) {
+        state.taskStatuses[taskId] = 'claim';
+      }
+      save();
+      renderTasks();
+    }, 60000); // 1 دقیقه
+  }
+}
+
+function claimTaskReward(taskId, reward, title) {
+  // پرداخت پاداش
+  state.coins += reward;
+  state.completedTasks.push(taskId);
+  
+  // تغییر وضعیت تسک به completed
+  const task = TASKS.find(t => t.id === taskId);
+  if (task) {
+    task.status = 'completed';
+  }
+  
+  if (!state.taskStatuses) state.taskStatuses = {};
+  state.taskStatuses[taskId] = 'completed';
+  
+  pushTx({type:'earn', amount:reward, note:`Task: ${title}`, ts: Date.now()});
+  save(); 
+  renderTasks(); 
+  renderWallet(); 
+  updateMiningUI();
+}
+
+// در تابع boot، وضعیت تسک‌ها را از state بازیابی کنید
+function boot(){
+  updateMiningUI();
+  renderWallet();
+  setupFriends();
+  setupTasks();
+  setupProfile();
+  loadNews();
+
+  // بازیابی وضعیت تسک‌ها از state
+  if (state.taskStatuses) {
+    TASKS.forEach(task => {
+      if (state.taskStatuses[task.id]) {
+        task.status = state.taskStatuses[task.id];
+      }
+    });
+  }
+
+  // اگر در حال ماینینگ بود، تیک را ادامه بده یا اگر تمام شده اما هنوز claim نشده، UI را آماده کن
+  if(state.miningStart){
+    const {remaining} = miningMetrics();
+    if(remaining>0) runTick();
+    else {
+      // تایمر تمام شده اما کاربر هنوز claim نکرده — فقط آپدیت UI تا دکمه فعال باشد
+      updateMiningUI();
+    }
+  }
 }
 
 /* ================== News ================== */
