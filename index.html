@@ -943,31 +943,50 @@ function setupTasks(){
 
 function renderTasks(){
   tasksWrap.innerHTML='';
+  
+  // افزودن اطلاعات بازنشانی در بالای تسک‌ها
+  const resetHeader = document.createElement('div');
+  resetHeader.className = 'muted';
+  resetHeader.style.marginBottom = '15px';
+  resetHeader.style.textAlign = 'center';
+  resetHeader.style.fontSize = '12px';
+  
+  const now = new Date();
+  const resetTime = new Date();
+  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
+  const timeUntilReset = resetTime - now;
+  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  
+  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه دیگر`;
+  tasksWrap.appendChild(resetHeader);
+  
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
-    const taskStatus = isDailyTask ? (isCompleted ? 'completed' : 'claim') : t.status;
-    
+    const taskStatus = isDailyTask ? (isCompleted ? 'completed' : 'claim') : (state.taskStatuses[t.id] || 'start');
+
     const row = document.createElement('div');
     row.className='row'; 
     row.style.margin='12px 0';
-    row.style.padding='8px';
+    row.style.padding='12px';
     row.style.border='1px solid var(--border)';
     row.style.borderRadius='12px';
     row.style.backgroundColor='rgba(255,255,255,0.05)';
-    
+    row.style.alignItems = 'center';
+
     const left = document.createElement('div'); 
     left.style.flex = '1';
     left.innerHTML = `
       <div><b>${t.title}</b></div>
       <div class="muted">+${t.reward} coins</div>
     `;
-    
+
     const right = document.createElement('div');
-    
+
     const actionBtn = document.createElement('button'); 
     actionBtn.className = 'btn';
-    
+
     switch(taskStatus) {
       case 'start':
         actionBtn.className = 'btn btn-gold';
@@ -990,7 +1009,7 @@ function renderTasks(){
         actionBtn.disabled = true;
         break;
     }
-    
+
     actionBtn.addEventListener('click', () => {
       if (taskStatus === 'start') {
         // باز کردن لینک در نرم‌افزار مربوطه
@@ -1002,7 +1021,7 @@ function renderTasks(){
         claimTaskReward(t.id, t.reward, t.title);
       }
     });
-    
+
     right.appendChild(actionBtn);
     row.appendChild(left); 
     row.appendChild(right);
