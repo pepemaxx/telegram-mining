@@ -231,8 +231,8 @@ section.tab.active{display:block}
       <div class="grid-2" style="margin-top:12px">
         <!-- Convert Coins -> Pi -->
         <div class="card">
-          <div class="h3">🔄 تبدیل Coins → PiNet</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiNet</div>
+          <div class="h3">🔄 تبدیل Coins → PiP</div>
+          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP</div>
           <div class="input-row">
             <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
             <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
@@ -259,7 +259,7 @@ section.tab.active{display:block}
           <div>
             <div class="muted">نوع دارایی</div>
             <select id="withdrawAsset">
-              <option value="pi">PiNet</option>
+              <option value="pi">PiP</option>
               <option value="usdt">USDT</option>
             </select>
           </div>
@@ -665,7 +665,7 @@ coinsToPiBtn.addEventListener('click', async ()=>{
   if(coins > state.coins) return alert('موجودی کوین کافی نیست');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} PiP`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
   coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
