@@ -436,7 +436,9 @@ const state = load() || {
   profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
-  lastManual: 0
+  lastManual: 0,
+  taskStatuses: {},
+  lastResetDate: new Date().toDateString() // افزودن این خط
 };
 
 /* ================== Elements ================== */
