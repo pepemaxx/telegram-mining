@@ -1142,12 +1142,29 @@ function pushTx(tx){
 
 /* ================== Boot ================== */
 function boot(){
+  // بررسی و بازنشانی تسک‌های روزانه
+  checkAndResetDailyTasks();
+  
   updateMiningUI();
   renderWallet();
   setupFriends();
   setupTasks();
   setupProfile();
   loadNews();
+
+  // راه‌اندازی بررسی دوره‌ای بازنشانی (هر 1 دقیقه)
+  setInterval(() => {
+    checkAndResetDailyTasks();
+  }, 60000);
+
+  // بازیابی وضعیت تسک‌ها از state
+  if (state.taskStatuses) {
+    TASKS.forEach(task => {
+      if (state.taskStatuses[task.id]) {
+        task.status = state.taskStatuses[task.id];
+      }
+    });
+  }
 
   // اگر در حال ماینینگ بود، تیک را ادامه بده یا اگر تمام شده اما هنوز claim نشده، UI را آماده کن
   if(state.miningStart){
