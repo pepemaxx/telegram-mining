@@ -389,12 +389,12 @@ section.tab.active{display:block}
         </svg>
         <span>Telegram</span>
       </div>
-      <div class="share-app" data-app="limoo">
+      <div class="share-app" data-app="imo">
         <svg viewBox="0 0 24 24" fill="#ff5722">
           <circle cx="12" cy="12" r="12"/>
-          <text x="12" y="16" text-anchor="middle" fill="white" font-size="10">Limo</text>
+          <text x="12" y="16" text-anchor="middle" fill="white" font-size="10">imo</text>
         </svg>
-        <span>Limo</span>
+        <span>imo</span>
       </div>
       <div class="share-app" data-app="copy">
         <svg viewBox="0 0 24 24" fill="#9e9e9e">
@@ -791,9 +791,9 @@ function shareLink(link, appType) {
     case 'telegram':
       shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}`;
       break;
-    case 'limoo':
-      // Limoo doesn't have a direct share URL, so we'll use a generic approach
-      alert(`لینک دعوت برای اشتراک در لیمو: ${link}`);
+    case 'imo':
+      // imo doesn't have a direct share URL, so we'll use a generic approach
+      alert(`لینک دعوت برای اشتراک در ایمو: ${link}`);
       return;
     case 'copy':
       navigator.clipboard.writeText(link);
@@ -1124,7 +1124,7 @@ async function loadNews(){
       }
     }
     // fallback
-    add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
+    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
     add('Update v1.2', 'Manual mining + Daily tasks are live.');
   }catch(e){
     add('Welcome to PiNet!', 'Start mining today and earn your first coins.');
