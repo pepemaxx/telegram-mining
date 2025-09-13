@@ -792,10 +792,10 @@ function shareLink(link, appType) {
     case 'telegram':
       shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}`;
       break;
-    case 'limoo':
-      // Limoo doesn't have a direct share URL, so we'll use a generic approach
-      alert(`لینک دعوت برای اشتراک در لیمو: ${link}`);
-      return;
+    case 'imo':
+      // Imo share URL
+      shareUrl = `imo://share?text=${encodeURIComponent(link)}`;
+      break;
     case 'copy':
       navigator.clipboard.writeText(link);
       alert('لینک دعوت کپی شد!');
