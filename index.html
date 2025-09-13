@@ -202,14 +202,30 @@ section.tab.active{display:block}
       </div>
 
       <!-- News -->
-      <div class="card">
-        <div class="row" style="justify-content:space-between">
-          <div class="h2">اخبار</div>
-          <div class="badge"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z"/><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28"/></svg> Latest</div>
-        </div>
-        <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>
-      </div>
-    </section>
+<div class="card">
+  <div class="row" style="justify-content:space-between">
+    <div class="h2">اخبار</div>
+    <div class="badge"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z"/><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28"/></svg> Latest</div>
+  </div>
+  <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none">
+    <li style="padding:12px 0; border-bottom:1px solid var(--border)">
+      <div><b>معرفی اپلیکیشن PiProtocol</b></div>
+      <div class="muted">اپلیکیشن PiProtocol یک پلتفرم ماینینگ پیشرفته است که به کاربران امکان استخراج ارز دیجیتال را می‌دهد. این اپلیکیشن با رابط کاربری آسان و امکانات گسترده، تجربه ماینینگ را برای همه قابل دسترس کرده است. شما می‌توانید به راحتی و بدون نیاز به سخت‌افزارهای تخصصی، فرآیند استخراج را آغاز کنید.</div>
+    </li>
+    <li style="padding:12px 0; border-bottom:1px solid var(--border)">
+      <div><b>رودمپ پروژه PiProtocol</b></div>
+      <div class="muted">رودمپ پروژه PiProtocol شامل سه فاز اصلی است: فاز اول راه‌اندازی پلتفرم ماینینگ، فاز دوم معرفی کیف پول و سیستم تبادل، و فاز سوم راه‌اندازی شبکه اصلی. در حال حاضر در فاز اول قرار داریم و به زودی ویژگی‌های جدیدی از جمله استیکینگ و سیستم حاکمیت غیرمتمرکز اضافه خواهد شد.</div>
+    </li>
+    <li style="padding:12px 0; border-bottom:1px solid var(--border)">
+      <div><b>توضیع توکن PIP</b></div>
+      <div class="muted">توکن PIP با مکانیزم توزیع عادلانه عرضه خواهد شد. ۵۰٪ از توکن‌ها از طریق ماینینگ، ۲۰٪ برای توسعه پروژه، ۱۵٪ برای تیم، ۱۰٪ برای سرمایه‌گذاران اولیه و ۵٪ برای برنامه‌های جامعه در نظر گرفته شده است. پیش‌فروش توکن از سه ماهه دوم سال آینده آغاز خواهد شد.</div>
+    </li>
+    <li style="padding:12px 0;">
+      <div><b>همکاری‌های استراتژیک جدید</b></div>
+      <div class="muted">PiProtocol با چندین پروژه بزرگ بلاکچینی همکاری استراتژیک برقرار کرده است. این همکاری‌ها شامل ادغام با کیف پول‌های معروف، لیست شدن در صرافی‌های بزرگ و همکاری با پروتکل‌های DeFi می‌باشد. خبرهای دقیق‌تر به زودی اعلام خواهد شد.</div>
+    </li>
+  </ul>
+</div>
 
     <!-- Wallet -->
     <section class="tab" id="tab-wallet">
@@ -1115,28 +1131,32 @@ function boot(){
 
 /* ================== News ================== */
 async function loadNews(){
-  newsListEl.innerHTML = '';
-  const add = (title, body)=> {
-    const li = document.createElement('li');
-    li.style.padding='8px 0';
-    li.innerHTML = `<div><b>${title}</b></div><div class="muted">${body}</div>`;
-    newsListEl.appendChild(li);
-  };
+  // اگر اخبار از قبل در صفحه وجود دارد، نیازی به لود مجدد نیست
+  const newsListEl = document.getElementById('newsList');
+  if (newsListEl && newsListEl.children.length > 0) {
+    return;
+  }
+  
   try{
     const res = await fetch(`${API_BASE}/news`,{method:'GET'});
     if(res.ok){
       const data = await res.json(); // [{title, content, published_at}]
       if(Array.isArray(data) && data.length){
-        data.slice(0,6).forEach(n=> add(n.title, n.content||''));
+        newsListEl.innerHTML = '';
+        data.slice(0,4).forEach(n=> {
+          const li = document.createElement('li');
+          li.style.padding='12px 0';
+          li.style.borderBottom='1px solid var(--border)';
+          li.innerHTML = `<div><b>${n.title}</b></div><div class="muted">${n.content||''}</div>`;
+          newsListEl.appendChild(li);
+        });
         return;
       }
     }
-    // fallback
-    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
-    add('Update v1.2', 'Manual mining + Daily tasks are live.');
+    // اگر سرور پاسخ نداد، از اخبار پیش‌فرض استفاده نمی‌کنیم
+    // چون اخبار از قبل در HTML موجود است
   }catch(e){
-    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
-    add('Update v1.2', 'Manual mining + Daily tasks are live.');
+    // در صورت خطا، اخبار از قبل نمایش داده شده‌اند
   }
 }
 
