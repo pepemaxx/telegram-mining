@@ -840,7 +840,7 @@ const TASKS = [
   { 
     id:'yt_like',      
     title:'👍 لایک یک ویدیو یوتیوب', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
     status: 'start'
@@ -848,7 +848,7 @@ const TASKS = [
   { 
     id:'yt_comment',      
     title:'💬 گذاشتن کامنت در کانال یوتیوب', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
     status: 'start'
@@ -856,7 +856,7 @@ const TASKS = [
   { 
     id:'tg_react',      
     title:'🔥 ری اکشن به یک پست تلگرام', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
     status: 'start'
@@ -864,7 +864,7 @@ const TASKS = [
   { 
     id:'tg_comment',      
     title:'💬 گذاشتن کامنت به یک پست تلگرام', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
     status: 'start'
@@ -891,18 +891,10 @@ function checkAndResetDailyTasks() {
 function resetDailyTasks() {
   console.log('در حال بازنشانی تسک‌های روزانه...');
 
-  // حذف تسک روزانه از completedTasks
-  const dailyTaskIndex = state.completedTasks.indexOf('daily');
-  if (dailyTaskIndex > -1) {
-    state.completedTasks.splice(dailyTaskIndex, 1);
-  }
-
-  // بازنشانی وضعیت تسک روزانه
-  state.taskStatuses['daily'] = 'claim';
-
-  // بازنشانی تسک‌های اجتماعی
+  // حذف تمام تسک‌ها از completedTasks به جز تسک روزانه
   TASKS.forEach(task => {
-    if (task.kind === 'social' && state.taskStatuses[task.id] === 'completed') {
+    if (task.id !== 'daily') {
+      // بازنشانی وضعیت به start برای همه تسک‌ها به جز daily
       state.taskStatuses[task.id] = 'start';
 
       // حذف از completedTasks
@@ -910,6 +902,9 @@ function resetDailyTasks() {
       if (index > -1) {
         state.completedTasks.splice(index, 1);
       }
+    } else {
+      // فقط تسک روزانه را به حالت claim می‌گذاریم
+      state.taskStatuses['daily'] = 'claim';
     }
   });
 
@@ -950,17 +945,29 @@ function renderTasks(){
   resetHeader.style.marginBottom = '15px';
   resetHeader.style.textAlign = 'center';
   resetHeader.style.fontSize = '12px';
+  resetHeader.id = 'resetTimer';
 
-  const now = new Date();
-  const resetTime = new Date();
-  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
-  const timeUntilReset = resetTime - now;
+  // استفاده از زمان ذخیره شده یا محاسبه جدید
+  let timeUntilReset = state.timeUntilReset;
+  if (!timeUntilReset) {
+    const now = new Date();
+    const resetTime = new Date();
+    resetTime.setHours(24, 0, 0, 0);
+    timeUntilReset = resetTime - now;
+    if (timeUntilReset < 0) {
+      resetTime.setDate(resetTime.getDate() + 1);
+      timeUntilReset = resetTime - now;
+    }
+  }
+
   const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه دیگر`;
+  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
   tasksWrap.appendChild(resetHeader);
 
+  // بقیه کد بدون تغییر...
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
@@ -1159,6 +1166,39 @@ function pushTx(tx){
   if(state.tx.length>200) state.tx.length=200;
 }
 
+// تابع جدید برای به روزرسانی تایمر بازنشانی (سراسری)
+function updateResetTimer() {
+  const now = new Date();
+  const resetTime = new Date();
+  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
+
+  // اگر زمان بازنشانی گذشته باشد، روز بعد را تنظیم کن
+  if (resetTime < now) {
+    resetTime.setDate(resetTime.getDate() + 1);
+  }
+
+  const timeUntilReset = resetTime - now;
+
+  if (timeUntilReset <= 0) {
+    // اگر زمان بازنشانی رسیده، تسک‌ها را بازنشانی کن
+    checkAndResetDailyTasks();
+    return;
+  }
+
+  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
+
+  // به روزرسانی تایمر فقط اگر در تب Tasks هستیم
+  const resetTimerEl = document.getElementById('resetTimer');
+  if (resetTimerEl) {
+    resetTimerEl.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
+  }
+
+  // ذخیره زمان باقیمانده برای استفاده در تب‌های دیگر
+  state.timeUntilReset = timeUntilReset;
+}
+
 /* ================== Boot ================== */
 function boot(){
   // بررسی و بازنشانی تسک‌های روزانه
@@ -1171,10 +1211,10 @@ function boot(){
   setupProfile();
   loadNews();
 
-  // راه‌اندازی بررسی دوره‌ای بازنشانی (هر 1 دقیقه)
+  // راه‌اندازی تایمر سراسری برای بازنشانی (هر 1 ثانیه)
   setInterval(() => {
-    checkAndResetDailyTasks();
-  }, 60000);
+    updateResetTimer();
+  }, 1000);
 
   // بازیابی وضعیت تسک‌ها از state
   if (state.taskStatuses) {
