@@ -840,7 +840,7 @@ const TASKS = [
   { 
     id:'yt_like',      
     title:'👍 لایک یک ویدیو یوتیوب', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
     status: 'start'
@@ -848,7 +848,7 @@ const TASKS = [
   { 
     id:'yt_comment',      
     title:'💬 گذاشتن کامنت در کانال یوتیوب', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
     status: 'start'
@@ -856,7 +856,7 @@ const TASKS = [
   { 
     id:'tg_react',      
     title:'🔥 ری اکشن به یک پست تلگرام', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
     status: 'start'
@@ -864,7 +864,7 @@ const TASKS = [
   { 
     id:'tg_comment',      
     title:'💬 گذاشتن کامنت به یک پست تلگرام', 
-    kind:'daily', 
+    kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
     status: 'start'
@@ -897,10 +897,12 @@ function resetDailyTasks() {
     state.completedTasks.splice(dailyTaskIndex, 1);
   }
 
-  // بازنشانی وضعیت تمام تسک‌ها به جز تسک روزانه
+  // بازنشانی وضعیت تسک روزانه
+  state.taskStatuses['daily'] = 'claim';
+
+  // بازنشانی تسک‌های اجتماعی
   TASKS.forEach(task => {
-    if (task.id !== 'daily') {
-      // بازنشانی وضعیت به start برای همه تسک‌ها به جز daily
+    if (task.kind === 'social' && state.taskStatuses[task.id] === 'completed') {
       state.taskStatuses[task.id] = 'start';
 
       // حذف از completedTasks
@@ -908,9 +910,6 @@ function resetDailyTasks() {
       if (index > -1) {
         state.completedTasks.splice(index, 1);
       }
-    } else {
-      // فقط تسک روزانه را به حالت claim می‌گذاریم
-      state.taskStatuses['daily'] = 'claim';
     }
   });
 
