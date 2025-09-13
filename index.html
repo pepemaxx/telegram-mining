@@ -950,17 +950,29 @@ function renderTasks(){
   resetHeader.style.marginBottom = '15px';
   resetHeader.style.textAlign = 'center';
   resetHeader.style.fontSize = '12px';
+  resetHeader.id = 'resetTimer';
 
-  const now = new Date();
-  const resetTime = new Date();
-  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
-  const timeUntilReset = resetTime - now;
+  // استفاده از زمان ذخیره شده یا محاسبه جدید
+  let timeUntilReset = state.timeUntilReset;
+  if (!timeUntilReset) {
+    const now = new Date();
+    const resetTime = new Date();
+    resetTime.setHours(24, 0, 0, 0);
+    timeUntilReset = resetTime - now;
+    if (timeUntilReset < 0) {
+      resetTime.setDate(resetTime.getDate() + 1);
+      timeUntilReset = resetTime - now;
+    }
+  }
+  
   const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه دیگر`;
+  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
   tasksWrap.appendChild(resetHeader);
 
+  // بقیه کد بدون تغییر...
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
