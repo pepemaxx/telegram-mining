@@ -891,18 +891,10 @@ function checkAndResetDailyTasks() {
 function resetDailyTasks() {
   console.log('در حال بازنشانی تسک‌های روزانه...');
 
-  // حذف تسک روزانه از completedTasks
-  const dailyTaskIndex = state.completedTasks.indexOf('daily');
-  if (dailyTaskIndex > -1) {
-    state.completedTasks.splice(dailyTaskIndex, 1);
-  }
-
-  // بازنشانی وضعیت تسک روزانه
-  state.taskStatuses['daily'] = 'claim';
-
-  // بازنشانی تسک‌های اجتماعی
+  // حذف تمام تسک‌ها از completedTasks به جز تسک روزانه
   TASKS.forEach(task => {
-    if (task.kind === 'social' && state.taskStatuses[task.id] === 'completed') {
+    if (task.id !== 'daily') {
+      // بازنشانی وضعیت به start برای همه تسک‌ها به جز daily
       state.taskStatuses[task.id] = 'start';
 
       // حذف از completedTasks
@@ -910,6 +902,9 @@ function resetDailyTasks() {
       if (index > -1) {
         state.completedTasks.splice(index, 1);
       }
+    } else {
+      // فقط تسک روزانه را به حالت claim می‌گذاریم
+      state.taskStatuses['daily'] = 'claim';
     }
   });
 
