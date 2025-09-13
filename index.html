@@ -1159,6 +1159,39 @@ function pushTx(tx){
   if(state.tx.length>200) state.tx.length=200;
 }
 
+// تابع جدید برای به روزرسانی تایمر بازنشانی (سراسری)
+function updateResetTimer() {
+  const now = new Date();
+  const resetTime = new Date();
+  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
+  
+  // اگر زمان بازنشانی گذشته باشد، روز بعد را تنظیم کن
+  if (resetTime < now) {
+    resetTime.setDate(resetTime.getDate() + 1);
+  }
+  
+  const timeUntilReset = resetTime - now;
+  
+  if (timeUntilReset <= 0) {
+    // اگر زمان بازنشانی رسیده، تسک‌ها را بازنشانی کن
+    checkAndResetDailyTasks();
+    return;
+  }
+  
+  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
+  
+  // به روزرسانی تایمر فقط اگر در تب Tasks هستیم
+  const resetTimerEl = document.getElementById('resetTimer');
+  if (resetTimerEl) {
+    resetTimerEl.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
+  }
+  
+  // ذخیره زمان باقیمانده برای استفاده در تب‌های دیگر
+  state.timeUntilReset = timeUntilReset;
+}
+
 /* ================== Boot ================== */
 function boot(){
   // بررسی و بازنشانی تسک‌های روزانه
