@@ -1216,10 +1216,10 @@ function boot(){
   setupProfile();
   loadNews();
 
-  // راه‌اندازی بررسی دوره‌ای بازنشانی (هر 1 دقیقه)
+  // راه‌اندازی تایمر سراسری برای بازنشانی (هر 1 ثانیه)
   setInterval(() => {
-    checkAndResetDailyTasks();
-  }, 60000);
+    updateResetTimer();
+  }, 1000);
 
   // بازیابی وضعیت تسک‌ها از state
   if (state.taskStatuses) {
