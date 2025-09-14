@@ -864,9 +864,10 @@ function setupFriends(){
 
   renderFriendsBox();
 
-  // if joined via ?ref (client-side info only)
-  const url = new URL(location.href); const ref = url.searchParams.get('ref');
-  if(ref){ pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); save(); renderWallet(); }
+  function renderFriendsBox(){
+  friendsInvitedEl.textContent = state.friendsInvited;
+  friendsActiveEl.textContent = state.friendsActive;
+  renderFriendsList(); // نمایش لیست دوستان
 }
 
 function shareLink(link, appType) {
