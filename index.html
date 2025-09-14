@@ -642,6 +642,14 @@ startBtn.addEventListener('click', async ()=>{
   pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
   save(); updateMiningUI(); runTick();
 
+  // 👇 این کد را اضافه کنید - وقتی کاربر ماینینگ شروع میکنه
+  const urlParams = new URLSearchParams(window.location.search);
+  const refCode = urlParams.get('ref');
+  if (refCode) {
+    // کاربر با لینک دعوت وارد شده و حالا فعالیت میکنه
+    addToActiveList('user_' + Date.now(), 'کاربر فعال');
+  }
+
   // Optional: ping backend (ignore failure)
   try{
     await fetch(`${API_BASE}/mining/start`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ts:state.miningStart})});
