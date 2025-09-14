@@ -816,6 +816,11 @@ function shareLink(link, appType) {
   window.open(shareUrl, '_blank');
 }
 
+function renderFriends() {
+  document.getElementById("friendsInvited").textContent = state.friendsInvited || 0;
+  document.getElementById("friendsActive").textContent = state.friendsActive || 0;
+}
+
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
   friendsActiveEl.textContent = state.friendsActive;
