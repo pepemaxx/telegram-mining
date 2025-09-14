@@ -1301,12 +1301,15 @@ function updateResetTimer() {
 
 /* ================== Boot ================== */
 function boot(){
+  // ========== اضافه کردن این خط ==========
+  registerInvitation(); // ثبت دعوت اگر کاربر با لینک دعوت وارد شده
+  
   // بررسی و بازنشانی تسک‌های روزانه
   checkAndResetDailyTasks();
 
   updateMiningUI();
   renderWallet();
-  setupFriends();
+  setupFriends(); // این باید بعد از registerInvitation فراخوانی شود
   setupTasks();
   setupProfile();
   loadNews();
