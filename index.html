@@ -315,11 +315,6 @@ section.tab.active{display:block}
         </div>
       </div>
 
-<div class="card" style="margin-top:12px">
-  <div class="h3">دوستان دعوت شده</div>
-  <div id="friendsList"></div>
-</div>
-
       <div class="card" style="margin-top:12px">
         <div class="h3">رندۀ برتر (Top 10)</div>
         <table class="table" id="leaderTable">
@@ -436,112 +431,16 @@ const MANUAL_COOLDOWN = 10*1000;
 /* ================== State ================== */
 const state = load() || {
   coins: 0, pi: 0, usdt: 0,
-  tx: [],
+  tx: [],                 // {id,type,amount,ts,note}
   miningStart: null,
-  friendsInvited: 0, 
-  friendsActive: 0,
-  invitedFriends: [], // لیست جدید برای ردیابی دوستان دعوت شده
+  friendsInvited: 0, friendsActive: 0,
   profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
   taskStatuses: {},
-  lastResetDate: new Date().toDateString()
+  lastResetDate: new Date().toDateString() // افزودن این خط
 };
-
-// ================== تابع جدید برای ثبت دعوت ==================
-function registerInvitation() {
-  // بررسی پارامتر ref در URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const refCode = urlParams.get('ref');
-  
-  if (refCode) {
-    // بررسی اینکه آیا قبلاً این دعوت ثبت شده یا نه
-    const alreadyInvited = state.invitedFriends.some(friend => friend.inviterCode === refCode);
-    
-    if (!alreadyInvited) {
-      // ثبت دعوت جدید
-      state.invitedFriends.push({
-        inviterCode: refCode,
-        timestamp: Date.now(),
-        activated: false
-      });
-      
-      state.friendsInvited = state.invitedFriends.length;
-      save();
-      
-      // حذف پارامتر از URL بدون ریلود صفحه
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
-      
-      // نمایش پیام خوش‌آمدگویی
-      alert('با تشکر از قبول دعوت! شما با کد دعوت ' + refCode + ' ثبت شدید.');
-    }
-  }
-}
-
-// ================== تابع جدید برای فعال‌سازی دوستان ==================
-function activateFriend(inviterCode) {
-  const friendIndex = state.invitedFriends.findIndex(friend => 
-    friend.inviterCode === inviterCode && !friend.activated);
-  
-  if (friendIndex !== -1) {
-    state.invitedFriends[friendIndex].activated = true;
-    state.friendsActive = state.invitedFriends.filter(friend => friend.activated).length;
-    save();
-    
-    // اعطای پاداش به کاربر
-    state.coins += REF_REWARD;
-    pushTx({
-      type: 'earn', 
-      amount: REF_REWARD, 
-      note: `پاداش دعوت دوست: ${inviterCode}`, 
-      ts: Date.now()
-    });
-    save();
-    
-    renderWallet();
-    updateMiningUI();
-    renderFriendsBox();
-  }
-}
-
-// ================== تابع جدید برای نمایش دوستان دعوت شده ==================
-function renderFriendsList() {
-  const friendsListContainer = document.getElementById('friendsList');
-  if (!friendsListContainer) return;
-  
-  if (state.invitedFriends.length === 0) {
-    friendsListContainer.innerHTML = '<div class="muted">هنوز دوستی دعوت نکرده‌اید</div>';
-    return;
-  }
-  
-  let html = '';
-  state.invitedFriends.forEach((friend, index) => {
-    html += `
-      <div class="row" style="margin:8px 0; padding:8px; border-bottom:1px solid var(--border); align-items: center;">
-        <div>دعوت شده با کد: ${friend.inviterCode}</div>
-        <div>
-          <span class="pill ${friend.activated ? 'good' : 'warn'}">
-            ${friend.activated ? 'فعال' : 'در انتظار فعال‌سازی'}
-          </span>
-          ${!friend.activated ? 
-            `<button class="btn btn-gold" onclick="activateFriend('${friend.inviterCode}')" style="margin-right:8px">
-              فعال کردن
-            </button>` : 
-            ''}
-        </div>
-      </div>
-    `;
-  });
-  
-  friendsListContainer.innerHTML = html;
-}
-
-// ================== تابع جدید برای تولید شناسه کاربری ==================
-function generateUserId() {
-  return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
 
 /* ================== Elements ================== */
 // Mining
@@ -816,20 +715,29 @@ withdrawBtn.addEventListener('click', async ()=>{
 /* ================== Friends & Rank ================== */
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
-  // ثبت دعوت اگر کاربر با لینک دعوت وارد شده
-  registerInvitation();
-  
-  // ایجاد لینک دعوت
+  // referral link + backend registration
   const base = "https://t.me/piprotocolbot"; 
-  const userCode = state.profile.id || generateUserId();
-  const myLink = `${base}?ref=${encodeURIComponent(userCode)}`;
+  const userCode = state.profile.id || rid().slice(0,6); 
+  const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
+
+  // بررسی اگر از طریق لینک دعوت وارد شده باشد
+  const urlParams = new URLSearchParams(window.location.search);
+  const inviterCode = urlParams.get('start');
+  if(inviterCode && inviterCode !== userCode){
+    fetch(`${API_BASE}/referral/register`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ inviterCode, userId: userCode })
+    }).catch(e=>console.error('Referral registration failed', e));
+  }
 
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
       alert('لینک دعوت کپی شد!');
     }catch(e){
+      // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = myLink;
       document.body.appendChild(textArea);
@@ -840,14 +748,17 @@ function setupFriends(){
     } 
   });
 
+  // Share button
   shareRefBtn.addEventListener('click', ()=>{
     shareModal.style.display = 'flex';
   });
 
+  // Close modal
   closeShareModal.addEventListener('click', ()=>{
     shareModal.style.display = 'none';
   });
 
+  // Share apps functionality
   shareApps.forEach(app => {
     app.addEventListener('click', () => {
       const appType = app.dataset.app;
@@ -864,14 +775,11 @@ function setupFriends(){
   });
   myRankEl.textContent = `#${state.myRank}`;
 
-  // ========== این خط را اضافه کنید ==========
-  renderFriendsBox(); // نمایش اطلاعات دوستان
-}
+  renderFriendsBox();
 
-  function renderFriendsBox(){
-  friendsInvitedEl.textContent = state.friendsInvited;
-  friendsActiveEl.textContent = state.friendsActive;
-  renderFriendsList(); // نمایش لیست دوستان
+  // if joined via ?ref (client-side info only)
+  const url = new URL(location.href); const ref = url.searchParams.get('ref');
+  if(ref){ pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); save(); renderWallet(); }
 }
 
 function shareLink(link, appType) {
@@ -906,6 +814,11 @@ function shareLink(link, appType) {
   }
 
   window.open(shareUrl, '_blank');
+}
+
+function renderFriendsBox(){
+  friendsInvitedEl.textContent = state.friendsInvited;
+  friendsActiveEl.textContent = state.friendsActive;
 }
 
 /* ================== Tasks (Daily + Social + Manual) ================== */
@@ -1173,15 +1086,9 @@ function claimTaskReward(taskId, reward, title) {
 
 // در تابع boot، وضعیت تسک‌ها را از state بازیابی کنید
 function boot(){
-  // ========== اضافه کردن این خط ==========
-  registerInvitation(); // ثبت دعوت اگر کاربر با لینک دعوت وارد شده
-  
-  // بررسی و بازنشانی تسک‌های روزانه
-  checkAndResetDailyTasks();
-
   updateMiningUI();
   renderWallet();
-  setupFriends(); // این باید بعد از registerInvitation فراخوانی شود
+  setupFriends();
   setupTasks();
   setupProfile();
   loadNews();
@@ -1295,15 +1202,12 @@ function updateResetTimer() {
 
 /* ================== Boot ================== */
 function boot(){
-  // ========== اضافه کردن این خط ==========
-  registerInvitation(); // ثبت دعوت اگر کاربر با لینک دعوت وارد شده
-  
   // بررسی و بازنشانی تسک‌های روزانه
   checkAndResetDailyTasks();
 
   updateMiningUI();
   renderWallet();
-  setupFriends(); // این باید بعد از registerInvitation فراخوانی شود
+  setupFriends();
   setupTasks();
   setupProfile();
   loadNews();
@@ -1331,9 +1235,6 @@ function boot(){
       updateMiningUI();
     }
   }
-  
-  // ========== این خط را اضافه کنید ==========
-  renderFriendsBox(); // نمایش اطلاعات دوستان
 }
 boot();
 
