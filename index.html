@@ -864,10 +864,9 @@ function setupFriends(){
   });
   myRankEl.textContent = `#${state.myRank}`;
 
-  renderFriendsBox();
+  // ========== این خط را اضافه کنید ==========
+  renderFriendsBox(); // نمایش اطلاعات دوستان
 }
-
-  renderFriendsBox();
 
   function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
@@ -907,11 +906,6 @@ function shareLink(link, appType) {
   }
 
   window.open(shareUrl, '_blank');
-}
-
-function renderFriendsBox(){
-  friendsInvitedEl.textContent = state.friendsInvited;
-  friendsActiveEl.textContent = state.friendsActive;
 }
 
 /* ================== Tasks (Daily + Social + Manual) ================== */
