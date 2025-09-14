@@ -315,11 +315,6 @@ section.tab.active{display:block}
         </div>
       </div>
 
-<div class="card" style="margin-top:12px">
-  <div class="h3">لیست دوستان</div>
-  <div id="friendsList"></div>
-</div>
-
       <div class="card" style="margin-top:12px">
         <div class="h3">رندۀ برتر (Top 10)</div>
         <table class="table" id="leaderTable">
@@ -436,75 +431,16 @@ const MANUAL_COOLDOWN = 10*1000;
 /* ================== State ================== */
 const state = load() || {
   coins: 0, pi: 0, usdt: 0,
-  tx: [],
+  tx: [],                 // {id,type,amount,ts,note}
   miningStart: null,
-  friendsInvited: 0, // همه کسانی که لینک دعوت دریافت کردند
-  friendsActive: 0,  // فقط کسانی که واقعاً فعالیت کردند
-  invitedUsers: [],  // لیست کاربران دعوت شده
-  activeUsers: [],   // لیست کاربران فعال
+  friendsInvited: 0, friendsActive: 0,
   profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
   taskStatuses: {},
-  lastResetDate: new Date().toDateString()
+  lastResetDate: new Date().toDateString() // افزودن این خط
 };
-
-// ================== افزودن کاربر به لیست دعوت‌شدگان ==================
-function addToInvitedList(userId, userName) {
-  const alreadyInvited = state.invitedUsers.some(user => user.id === userId);
-  
-  if (!alreadyInvited) {
-    state.invitedUsers.push({
-      id: userId,
-      name: userName,
-      invitedAt: Date.now(),
-      isActive: false
-    });
-    
-    state.friendsInvited = state.invitedUsers.length;
-    save();
-    renderFriendsBox();
-  }
-}
-
-// ================== افزودن کاربر به لیست فعال‌ها ==================
-function addToActiveList(userId, userName) {
-  const alreadyActive = state.activeUsers.some(user => user.id === userId);
-  
-  if (!alreadyActive) {
-    // اگر کاربر قبلاً دعوت شده، وضعیتش رو به فعال تغییر بده
-    const invitedUserIndex = state.invitedUsers.findIndex(user => user.id === userId);
-    if (invitedUserIndex !== -1) {
-      state.invitedUsers[invitedUserIndex].isActive = true;
-    }
-    
-    // افزودن به لیست فعال‌ها
-    state.activeUsers.push({
-      id: userId,
-      name: userName,
-      activatedAt: Date.now(),
-      lastActivity: Date.now()
-    });
-    
-    state.friendsActive = state.activeUsers.length;
-    save();
-    
-    // اعطای پاداش به دعوت‌کننده
-    state.coins += REF_REWARD;
-    pushTx({
-      type: 'earn', 
-      amount: REF_REWARD, 
-      note: `پاداش دعوت دوست فعال: ${userName}`, 
-      ts: Date.now()
-    });
-    save();
-    
-    renderWallet();
-    updateMiningUI();
-    renderFriendsBox();
-  }
-}
 
 /* ================== Elements ================== */
 // Mining
@@ -641,14 +577,6 @@ startBtn.addEventListener('click', async ()=>{
   state.miningStart = Date.now();
   pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
   save(); updateMiningUI(); runTick();
-
-  // 👇 این کد را اضافه کنید - وقتی کاربر ماینینگ شروع میکنه
-  const urlParams = new URLSearchParams(window.location.search);
-  const refCode = urlParams.get('ref');
-  if (refCode) {
-    // کاربر با لینک دعوت وارد شده و حالا فعالیت میکنه
-    addToActiveList('user_' + Date.now(), 'کاربر فعال');
-  }
 
   // Optional: ping backend (ignore failure)
   try{
@@ -787,39 +715,38 @@ withdrawBtn.addEventListener('click', async ()=>{
 /* ================== Friends & Rank ================== */
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
-  // ایجاد لینک دعوت
+  // referral link + backend registration
   const base = "https://t.me/piprotocolbot"; 
-  const userCode = state.profile.id || generateUserId();
-  const myLink = `${base}?ref=${encodeURIComponent(userCode)}`;
+  const userCode = state.profile.id || rid().slice(0,6); 
+  const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
 
-  // دکمه کپی لینک
+  // بررسی اگر از طریق لینک دعوت وارد شده باشد
+  const urlParams = new URLSearchParams(window.location.search);
+  const inviterCode = urlParams.get('start');
+  if(inviterCode && inviterCode !== userCode){
+    fetch(`${API_BASE}/referral/register`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ inviterCode, userId: userCode })
+    }).catch(e=>console.error('Referral registration failed', e));
+  }
+
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
-      
-      // 👇 وقتی کاربر لینک رو کپی میکنه، به لیست دعوت‌شدگان اضافه میشه
-      const tempUserId = 'temp_' + Date.now();
-      addToInvitedList(tempUserId, 'کاربر جدید');
-      
       alert('لینک دعوت کپی شد!');
     }catch(e){
+      // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = myLink;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      
-      const tempUserId = 'temp_' + Date.now();
-      addToInvitedList(tempUserId, 'کاربر جدید');
-      
       alert('لینک دعوت کپی شد!');
     } 
   });
-
-  // بقیه کدهای مربوط به اشتراک‌گذاری...
-}
 
   // Share button
   shareRefBtn.addEventListener('click', ()=>{
@@ -889,47 +816,9 @@ function shareLink(link, appType) {
   window.open(shareUrl, '_blank');
 }
 
-function renderFriends() {
-  document.getElementById("friendsInvited").textContent = state.friendsInvited || 0;
-  document.getElementById("friendsActive").textContent = state.friendsActive || 0;
-}
-
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
   friendsActiveEl.textContent = state.friendsActive;
-  
-  // نمایش لیست دعوت‌شدگان و فعال‌ها
-  const friendsListContainer = document.getElementById('friendsList');
-  if (friendsListContainer) {
-    let html = `
-      <div style="margin-bottom: 15px;">
-        <div class="h3">دعوت‌شدگان: ${state.invitedUsers.length} نفر</div>
-        ${state.invitedUsers.length === 0 ? 
-          '<div class="muted">هنوز کسی رو دعوت نکرده‌اید</div>' : 
-          state.invitedUsers.map(user => `
-            <div class="row" style="margin:8px 0; padding:8px; border-bottom:1px solid var(--border);">
-              <div>${user.name}</div>
-              <span class="pill ${user.isActive ? 'good' : 'warn'}">
-                ${user.isActive ? 'فعال' : 'در انتظار'}
-              </span>
-            </div>
-          `).join('')}
-      </div>
-      <div>
-        <div class="h3">فعال‌ها: ${state.activeUsers.length} نفر</div>
-        ${state.activeUsers.length === 0 ? 
-          '<div class="muted">هنوز هیچ دوست فعالی ندارید</div>' : 
-          state.activeUsers.map(user => `
-            <div class="row" style="margin:8px 0; padding:8px; border-bottom:1px solid var(--border);">
-              <div>${user.name}</div>
-              <span class="pill good">فعال</span>
-            </div>
-          `).join('')}
-      </div>
-    `;
-    
-    friendsListContainer.innerHTML = html;
-  }
 }
 
 /* ================== Tasks (Daily + Social + Manual) ================== */
@@ -1348,12 +1237,6 @@ function boot(){
   }
 }
 boot();
-window.onload = () => {
-  load();                // اطلاعات قبلی رو از حافظه میاره
-  renderWallet();        // کیف پول رو نشون میده
-  renderTransactions();  // تراکنش‌ها رو نشون میده
-  renderFriends();       // 👈 دوستان رو نشون میده
-};
 
 </script>
 </body>
