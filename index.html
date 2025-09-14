@@ -444,6 +444,100 @@ const state = load() || {
   lastResetDate: new Date().toDateString()
 };
 
+// ================== تابع جدید برای ثبت دعوت ==================
+function registerInvitation() {
+  // بررسی پارامتر ref در URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const refCode = urlParams.get('ref');
+  
+  if (refCode) {
+    // بررسی اینکه آیا قبلاً این دعوت ثبت شده یا نه
+    const alreadyInvited = state.invitedFriends.some(friend => friend.inviterCode === refCode);
+    
+    if (!alreadyInvited) {
+      // ثبت دعوت جدید
+      state.invitedFriends.push({
+        inviterCode: refCode,
+        timestamp: Date.now(),
+        activated: false
+      });
+      
+      state.friendsInvited = state.invitedFriends.length;
+      save();
+      
+      // حذف پارامتر از URL بدون ریلود صفحه
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+      
+      // نمایش پیام خوش‌آمدگویی
+      alert('با تشکر از قبول دعوت! شما با کد دعوت ' + refCode + ' ثبت شدید.');
+    }
+  }
+}
+
+// ================== تابع جدید برای فعال‌سازی دوستان ==================
+function activateFriend(inviterCode) {
+  const friendIndex = state.invitedFriends.findIndex(friend => 
+    friend.inviterCode === inviterCode && !friend.activated);
+  
+  if (friendIndex !== -1) {
+    state.invitedFriends[friendIndex].activated = true;
+    state.friendsActive = state.invitedFriends.filter(friend => friend.activated).length;
+    save();
+    
+    // اعطای پاداش به کاربر
+    state.coins += REF_REWARD;
+    pushTx({
+      type: 'earn', 
+      amount: REF_REWARD, 
+      note: `پاداش دعوت دوست: ${inviterCode}`, 
+      ts: Date.now()
+    });
+    save();
+    
+    renderWallet();
+    updateMiningUI();
+    renderFriendsBox();
+  }
+}
+
+// ================== تابع جدید برای نمایش دوستان دعوت شده ==================
+function renderFriendsList() {
+  const friendsListContainer = document.getElementById('friendsList');
+  if (!friendsListContainer) return;
+  
+  if (state.invitedFriends.length === 0) {
+    friendsListContainer.innerHTML = '<div class="muted">هنوز دوستی دعوت نکرده‌اید</div>';
+    return;
+  }
+  
+  let html = '';
+  state.invitedFriends.forEach((friend, index) => {
+    html += `
+      <div class="row" style="margin:8px 0; padding:8px; border-bottom:1px solid var(--border); align-items: center;">
+        <div>دعوت شده با کد: ${friend.inviterCode}</div>
+        <div>
+          <span class="pill ${friend.activated ? 'good' : 'warn'}">
+            ${friend.activated ? 'فعال' : 'در انتظار فعال‌سازی'}
+          </span>
+          ${!friend.activated ? 
+            `<button class="btn btn-gold" onclick="activateFriend('${friend.inviterCode}')" style="margin-right:8px">
+              فعال کردن
+            </button>` : 
+            ''}
+        </div>
+      </div>
+    `;
+  });
+  
+  friendsListContainer.innerHTML = html;
+}
+
+// ================== تابع جدید برای تولید شناسه کاربری ==================
+function generateUserId() {
+  return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
 /* ================== Elements ================== */
 // Mining
 const $ = (id)=>document.getElementById(id);
