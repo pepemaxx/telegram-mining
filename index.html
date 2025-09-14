@@ -811,29 +811,20 @@ withdrawBtn.addEventListener('click', async ()=>{
 /* ================== Friends & Rank ================== */
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
 function setupFriends(){
-  // referral link + backend registration
+  // ثبت دعوت اگر کاربر با لینک دعوت وارد شده
+  registerInvitation();
+  
+  // ایجاد لینک دعوت
   const base = "https://t.me/piprotocolbot"; 
-  const userCode = state.profile.id || rid().slice(0,6); 
-  const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
+  const userCode = state.profile.id || generateUserId();
+  const myLink = `${base}?ref=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
-
-  // بررسی اگر از طریق لینک دعوت وارد شده باشد
-  const urlParams = new URLSearchParams(window.location.search);
-  const inviterCode = urlParams.get('start');
-  if(inviterCode && inviterCode !== userCode){
-    fetch(`${API_BASE}/referral/register`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ inviterCode, userId: userCode })
-    }).catch(e=>console.error('Referral registration failed', e));
-  }
 
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
       alert('لینک دعوت کپی شد!');
     }catch(e){
-      // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = myLink;
       document.body.appendChild(textArea);
@@ -844,17 +835,14 @@ function setupFriends(){
     } 
   });
 
-  // Share button
   shareRefBtn.addEventListener('click', ()=>{
     shareModal.style.display = 'flex';
   });
 
-  // Close modal
   closeShareModal.addEventListener('click', ()=>{
     shareModal.style.display = 'none';
   });
 
-  // Share apps functionality
   shareApps.forEach(app => {
     app.addEventListener('click', () => {
       const appType = app.dataset.app;
@@ -870,6 +858,9 @@ function setupFriends(){
     leaderTable.appendChild(tr);
   });
   myRankEl.textContent = `#${state.myRank}`;
+
+  renderFriendsBox();
+}
 
   renderFriendsBox();
 
