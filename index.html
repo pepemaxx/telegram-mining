@@ -431,15 +431,17 @@ const MANUAL_COOLDOWN = 10*1000;
 /* ================== State ================== */
 const state = load() || {
   coins: 0, pi: 0, usdt: 0,
-  tx: [],                 // {id,type,amount,ts,note}
+  tx: [],
   miningStart: null,
-  friendsInvited: 0, friendsActive: 0,
+  friendsInvited: 0, 
+  friendsActive: 0,
+  invitedFriends: [], // لیست جدید برای ردیابی دوستان دعوت شده
   profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
   taskStatuses: {},
-  lastResetDate: new Date().toDateString() // افزودن این خط
+  lastResetDate: new Date().toDateString()
 };
 
 /* ================== Elements ================== */
