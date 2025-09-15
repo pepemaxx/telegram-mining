@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en" dir="ltr">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PiProtocol \u2013 Daily Mining</title>
+  <title>PiProtocol – Daily Mining</title>
   <style>
 /* ====== Theme ====== */
 :root{
@@ -15,7 +14,7 @@
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0; color:var(--ink); font-family:Inter, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
+  margin:0; color:var(--ink); font-family:Inter, Vazirmatn, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
   background: radial-gradient(1200px 1200px at 70% -10%, rgba(255,255,255,.12), transparent 40%),
               linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow:hidden;
@@ -163,8 +162,8 @@ section.tab.active{display:block}
    <!-- Header -->
    <header>
     <div>
-     <div class="title">PiProtocol \u2013 Daily Mining</div>
-     <div class="sub">24h mining \u2022 Local persistence + API fallback</div>
+     <div class="title">PiProtocol – Daily Mining</div>
+     <div class="sub">24h mining • Local persistence + API fallback</div>
     </div>
    </header>
    <!-- Main -->
@@ -204,7 +203,7 @@ section.tab.active{display:block}
        <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec \u2022 Each time you press <b>Start</b>, the timer begins from the beginning.
+       Rate: <b id="rateText">0.002</b> coin/sec • Press <b>Start</b> to begin the timer from the beginning.
       </div>
      </div>
      <!-- News -->
@@ -246,9 +245,9 @@ section.tab.active{display:block}
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
       <div class="card">
-       <div class="h3">\ud83d\udd04 Convert Coins \u2192 PiP</div>
+       <div class="h3">🔄 Convert Coins → PiP</div>
        <div class="muted" style="margin-bottom:6px">
-        Display rate: <b id="coinsPerPi">100</b> coins = 1 PiP
+        Display rate: <b id="coinsPerPi">100</b>coins = 1 PiP
        </div>
        <div class="input-row">
         <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coin amount">
@@ -258,9 +257,9 @@ section.tab.active{display:block}
       </div>
       <!-- Convert Pi -> USDT -->
       <div class="card">
-       <div class="h3">\ud83d\udcb1 Convert PiP \u2192 USDT</div>
+       <div class="h3">💰 Convert PiP → USDT</div>
        <div class="muted" style="margin-bottom:6px">
-        Display rate: 1 PiP = <b id="usdtPerPi">5</b> USDT
+        Display rate: 1PiP = <b id="usdtPerPi">5</b> USDT
        </div>
        <div class="input-row">
         <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="PiP amount">
@@ -271,7 +270,7 @@ section.tab.active{display:block}
      </div>
      <!-- Withdraw -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\ud83c\udfe6 Withdraw</div>
+      <div class="h3">🏦 Withdraw</div>
       <div class="grid-3">
        <div>
         <div class="muted">Asset Type</div>
@@ -288,7 +287,7 @@ section.tab.active{display:block}
       </div>
       <div class="row" style="margin-top:10px">
        <button id="withdrawBtn" class="btn btn-gold">Submit Request</button>
-       <div class="muted">For actual processing, server-side verification is required.</div>
+       <div class="muted">For actual processing, server-side confirmation is required.</div>
       </div>
      </div>
      <!-- Transactions -->
@@ -310,7 +309,7 @@ section.tab.active{display:block}
     <!-- Friends -->
     <section class="tab" id="tab-friends">
      <div class="card">
-      <div class="h3">Your Invitation Link</div>
+      <div class="h3">Your Referral Link</div>
       <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
       <div class="row" style="margin-top:8px">
        <button id="copyRef" class="btn btn-gold">Copy Link</button>
@@ -345,7 +344,7 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Invitation reward: <b>100</b> coins (one-time per friend)
+       Invitation reward: <b>100</b> coins (one time per friend)
       </div>
      </div>
      <!-- Active Friends List -->
@@ -362,12 +361,12 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Mining speed boost: <b>+0.001</b> for each active friend
+       Mining speed increase: <b>+0.001</b> per active friend
       </div>
      </div>
      <!-- Leaderboard -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">Top Ranks (Top 10)</div>
+      <div class="h3">Leaderboard (Top 10)</div>
       <table class="table" id="leaderTable">
        <thead>
         <tr>
@@ -379,7 +378,7 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Your rank: <b id="myRank">#\u2014</b>
+       Your rank: <b id="myRank">#—</b>
       </div>
      </div>
     </section>
@@ -388,12 +387,12 @@ section.tab.active{display:block}
      <div class="card">
       <div class="h3">Daily & Social Tasks</div>
       <div id="tasksWrap"></div>
-      <div class="muted" style="margin-top:6px">* For actual link verification, backend is required.</div>
+      <div class="muted" style="margin-top:6px">* To verify task completion, server-side confirmation is required.</div>
      </div>
      <div class="card" style="margin-top:12px">
-      <div class="h3">\u2692\ufe0f Manual Mining</div>
+      <div class="h3">⚒ Manual Mining</div>
       <div class="row">
-       <div class="muted">+0.5 coin per click (Cooldown 10s)</div>
+       <div class="muted">+0.5 coin per click (10s Cooldown)</div>
        <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
       </div>
       <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
@@ -407,7 +406,7 @@ section.tab.active{display:block}
        <input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name"> <input id="userId" placeholder="User ID">
        <button id="saveProfile" class="btn btn-gold">Save</button>
       </div>
-      <div class="muted" style="margin-top:6px">Information is saved on this device only.</div>
+      <div class="muted" style="margin-top:6px">Information is saved locally on this device.</div>
      </div>
     </section>
    </main>
@@ -425,8 +424,8 @@ section.tab.active{display:block}
   <!-- Share Modal -->
   <div id="shareModal" class="share-modal">
    <div class="share-modal-content">
-    <div class="h3">Share Invitation Link</div>
-    <div class="muted">Share your invitation link through these apps</div>
+    <div class="h3">Share Referral Link</div>
+    <div class="muted">Share your referral link using the apps below</div>
     <div class="share-apps">
      <div class="share-app" data-app="whatsapp">
       <svg viewBox="0 0 24 24" fill="#25D366">
@@ -456,7 +455,7 @@ section.tab.active{display:block}
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
       </svg>
-      <span>More</span>
+      <span>Other</span>
      </div>
     </div>
     <div class="row" style="margin-top:15px; justify-content:flex-end">
@@ -616,12 +615,12 @@ function tick(){
   sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
   progressBarEl.style.width = `${progress}%`;
 
-  // When timer finishes: enable Claim button and change status to Completed
+  // When timer finishes: Enable Claim button and change status to Completed
   if(remaining<=0){
     clearInterval(tickId); tickId=null;
     claimBtn.disabled=false;
     startBtn.disabled = false; // Enable start button when timer completes
-    miningStatusEl.textContent='Completed \u2013 claim pending';
+    miningStatusEl.textContent='Completed – claim pending';
     miningStatusEl.className='pill warn';
   }else{
     claimBtn.disabled=true;
@@ -632,7 +631,7 @@ function tick(){
 }
 
 startBtn.addEventListener('click', async ()=>{
-  // Each time Start is pressed: timer starts from the beginning
+  // Each Start: begins from the start
   state.miningStart = Date.now();
   pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
   save(); updateMiningUI(); runTick();
@@ -650,8 +649,8 @@ claimBtn.addEventListener('click', async ()=>{
   if(!state.miningStart) return;
   const {remaining, rewardNow} = miningMetrics();
 
-  // If not yet complete, don't allow (emergency)
-  if(remaining>0) return alert('Timer has not finished yet.');
+  // If not complete yet, don't allow (safety)
+  if(remaining>0) return alert('Timer not finished yet.');
 
   const reward = Number(rewardNow.toFixed(3)); // Use 3 decimal places
   if(reward>0){
@@ -659,7 +658,7 @@ claimBtn.addEventListener('click', async ()=>{
     pushTx({type:'earn', amount:reward, note:'Mining session reward', ts: Date.now()});
   }
 
-  // Clear mining session (waiting for user to start again)
+  // Clear the mining session (waiting for user to start again)
   state.miningStart = null;
   save();
   updateMiningUI();
@@ -672,9 +671,9 @@ claimBtn.addEventListener('click', async ()=>{
 });
 
 function updateMiningUI(){
-  // Simply perform the render with the same tick logic (to always be in sync)
+  // Simply render related items with the same tick logic (so it's always consistent)
   if(state.miningStart){
-    // If mining is active, display status based on metrics
+    // If mining, show based on metrics
     const {remaining, progress, rewardNow, effectiveRate} = miningMetrics();
     timerEl.textContent = formatHHMMSS(remaining);
     sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
@@ -688,7 +687,7 @@ function updateMiningUI(){
     if(remaining <= 0){
       claimBtn.disabled = false;
       startBtn.disabled = false; // Enable start button when timer completes
-      miningStatusEl.textContent = 'Completed \u2013 claim pending';
+      miningStatusEl.textContent = 'Completed – claim pending';
       miningStatusEl.className = 'pill warn';
     }else{
       claimBtn.disabled = true;
@@ -697,7 +696,7 @@ function updateMiningUI(){
       miningStatusEl.className = 'pill good';
     }
   }else{
-    // When miningStart is null, disable Claim button
+    // When miningStart is null, Claim button is inactive
     claimBtn.disabled = true;
     startBtn.disabled = false; // Enable start button when not mining
     miningStatusEl.textContent = 'Inactive';
@@ -731,7 +730,7 @@ function renderWallet(){
   noTxEl.style.display='none';
   state.tx.slice(0,80).forEach(t=>{
     const tr = document.createElement('tr');
-    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'\u2014'}</div><div class="muted">${t.type}</div>`;
+    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'—'}</div><div class="muted">${t.type}</div>`;
     const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(3); // Show 3 decimal places
     const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts||Date.now()).toLocaleString();
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
@@ -742,13 +741,13 @@ function renderWallet(){
 coinsToPiBtn.addEventListener('click', async ()=>{
   const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
   if(!coins) return alert('Enter a valid amount');
-  if(coins > state.coins) return alert('Insufficient coin balance');
+  if(coins > state.coins) return alert('Not enough coins');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins \u2192 ${pi.toFixed(2)} Pi`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
-  coinsToPiHint.textContent = `\u2248 ${pi.toFixed(2)} Pi`;
+  coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
   try{
     await fetch(`${API_BASE}/convert/coins-to-pi`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})});
   }catch(e){}
@@ -757,13 +756,13 @@ coinsToPiBtn.addEventListener('click', async ()=>{
 piToUsdtBtn.addEventListener('click', async ()=>{
   const pi = Math.max(0, Number(piToUsdtAmt.value||0));
   if(!pi) return alert('Enter a valid amount');
-  if(pi > state.pi) return alert('Insufficient Pi balance');
+  if(pi > state.pi) return alert('Not enough Pi');
   const usdt = pi * USDT_PER_PI;
   state.pi -= pi; state.usdt += usdt;
-  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi \u2192 ${usdt.toFixed(2)} USDT`, ts: Date.now()});
+  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
-  piToUsdtHint.textContent = `\u2248 ${usdt.toFixed(2)} USDT`;
+  piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
   try{
     await fetch(`${API_BASE}/convert/pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
   }catch(e){}
@@ -773,12 +772,12 @@ withdrawBtn.addEventListener('click', async ()=>{
   const asset = withdrawAsset.value;
   const addr = withdrawAddr.value.trim();
   const amt = Math.max(0, Number(withdrawAmt.value||0));
-  if(!addr || !amt) return alert('Please complete all fields');
-  if(asset==='pi' && amt>state.pi) return alert('Insufficient Pi balance');
-  if(asset==='usdt' && amt>state.usdt) return alert('Insufficient USDT balance');
+  if(!addr || !amt) return alert('Complete all fields');
+  if(asset==='pi' && amt>state.pi) return alert('Not enough Pi');
+  if(asset==='usdt' && amt>state.usdt) return alert('Not enough USDT');
 
-  // Local: just record display transaction
-  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} \u2192 ${addr.slice(0,12)}...`, ts: Date.now()});
+  // Local: Just register a display transaction
+  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...`, ts: Date.now()});
   save(); renderWallet();
 
   try{
@@ -788,7 +787,7 @@ withdrawBtn.addEventListener('click', async ()=>{
     });
     // If needed: check response
   }catch(e){}
-  alert('Withdrawal request submitted (demo). For actual withdrawal, backend verification is required.');
+  alert('Withdrawal request registered (demo). For actual withdrawal, server confirmation is mandatory.');
 });
 
 /* ================== Friends & Rank ================== */
@@ -864,7 +863,7 @@ async function fetchFriendsData() {
 
 // Generate fake friends data for demo purposes
 function generateFakeFriendsData() {
-  const fakeNames = ['Alex', 'Michael', 'Sarah', 'Maria', 'Robert', 'Henry', 'Fatima', 'Zoe', 'Amir', 'Nina'];
+  const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
   
   // Generate invited friends
   if (!state.invitedFriends || state.invitedFriends.length === 0) {
@@ -922,7 +921,7 @@ function setupFriends(){
   // Fetch friends data from API
   fetchFriendsData();
 
-  // Check if entered through invitation link
+  // Check if entered via referral link
   const urlParams = new URLSearchParams(window.location.search);
   const inviterCode = urlParams.get('start');
   if(inviterCode && inviterCode !== userCode){
@@ -957,7 +956,7 @@ function setupFriends(){
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
-      alert('Invitation link copied!');
+      alert('Invite link copied!');
     }catch(e){
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
@@ -966,7 +965,7 @@ function setupFriends(){
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      alert('Invitation link copied!');
+      alert('Invite link copied!');
     } 
   });
 
@@ -1029,7 +1028,7 @@ function trackShareEvent(platform) {
     state.friendsInvited++;
     
     // Add the shared friend to invitedFriends list
-    const fakeNames = ['Alex', 'Michael', 'Sarah', 'Maria', 'Robert', 'Henry', 'Fatima', 'Zoe', 'Amir', 'Nina'];
+    const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
     const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
     
     const newFriend = {
@@ -1097,7 +1096,7 @@ function shareLink(link, appType) {
       break;
     case 'copy':
       navigator.clipboard.writeText(link);
-      alert('Invitation link copied!');
+      alert('Invite link copied!');
       return;
     case 'more':
       if (navigator.share) {
@@ -1107,7 +1106,7 @@ function shareLink(link, appType) {
           url: link
         }).catch(console.error);
       } else {
-        alert(`Invitation link: ${link}`);
+        alert(`Invite link: ${link}`);
       }
       return;
   }
@@ -1139,7 +1138,7 @@ function renderFriendsTables() {
       
       const tdDate = document.createElement('td');
       const inviteDate = new Date(friend.inviteDate);
-      tdDate.textContent = inviteDate.toLocaleDateString();
+      tdDate.textContent = inviteDate.toLocaleDateString('en-US');
       
       const tdStatus = document.createElement('td');
       if (friend.isActive) {
@@ -1174,7 +1173,7 @@ function renderFriendsTables() {
       
       const tdDate = document.createElement('td');
       const activeDate = new Date(friend.activeDate);
-      tdDate.textContent = activeDate.toLocaleDateString();
+      tdDate.textContent = activeDate.toLocaleDateString('en-US');
       
       const tdBonus = document.createElement('td');
       tdBonus.textContent = '+0.001';
@@ -1201,14 +1200,14 @@ function renderFriendsTables() {
 const TASKS = [
   { 
     id:'daily',   
-    title:'\ud83c\udf81 Daily Reward', 
+    title:'🎁 Daily Reward', 
     kind:'daily', 
     reward:15, 
     url:'' 
   },
   { 
     id:'yt_subscribe',      
-    title:'\u25b6\ufe0f Subscribe to YouTube Channel', 
+    title:'▶️ Subscribe to YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/@YouTubeChannel',
@@ -1216,7 +1215,7 @@ const TASKS = [
   },
   { 
     id:'yt_like',      
-    title:'\ud83d\udc4d Like a YouTube Video', 
+    title:'👍 Like a YouTube Video', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
@@ -1224,7 +1223,7 @@ const TASKS = [
   },
   { 
     id:'yt_comment',      
-    title:'\ud83d\udcac Comment on YouTube Channel', 
+    title:'💬 Comment on YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
@@ -1232,7 +1231,7 @@ const TASKS = [
   },
   { 
     id:'tg_react',      
-    title:'\ud83d\udd25 React to a Telegram Post', 
+    title:'🔥 React to a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1240,7 +1239,7 @@ const TASKS = [
   },
   { 
     id:'tg_comment',      
-    title:'\ud83d\udcac Comment on a Telegram Post', 
+    title:'💬 Comment on a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1251,7 +1250,7 @@ const TASKS = [
 
 /* ================== Daily Reset Functions ================== */
 
-// Check if daily tasks need to be reset
+// Check if daily reset is needed
 function checkAndResetDailyTasks() {
   const today = new Date().toDateString();
 
@@ -1327,7 +1326,7 @@ function setupTasks(){
 function renderTasks(){
   tasksWrap.innerHTML='';
 
-  // Add reset information at the top of tasks
+  // Add reset info above tasks
   const resetHeader = document.createElement('div');
   resetHeader.className = 'muted';
   resetHeader.style.marginBottom = '15px';
@@ -1335,7 +1334,7 @@ function renderTasks(){
   resetHeader.style.fontSize = '12px';
   resetHeader.id = 'resetTimer';
 
-  // Use stored time or calculate new
+  // Use stored time or calculate new one
   let timeUntilReset = state.timeUntilReset;
   if (!timeUntilReset) {
     const now = new Date();
@@ -1352,7 +1351,7 @@ function renderTasks(){
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  resetHeader.textContent = `Next reset: ${hours} hours, ${minutes} minutes, and ${seconds} seconds`;
+  resetHeader.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
   tasksWrap.appendChild(resetHeader);
 
   // Rest of the code unchanged...
@@ -1407,7 +1406,7 @@ function renderTasks(){
 
     actionBtn.addEventListener('click', () => {
       if (taskStatus === 'start') {
-        // Open link in relevant software
+        // Open the related app link
         if (t.url) {
           window.open(t.url, '_blank');
         }
@@ -1491,27 +1490,27 @@ async function loadNews(){
     }
     
     // Custom news items about the project, roadmap, and partners
-    add('\ud83d\ude80 PiProtocol Platform 2.0 Launch', 'We are proud to announce that PiProtocol Platform 2.0 with new features and improved mining performance will be launched on October 6, 2025.');
+    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are pleased to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This collaboration will allow us to provide better services to users.');
+    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, PiP token on major blockchain networks, and a staking system with 12% annual yield have been outlined.');
+    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('\ud83c\udfc6 Active Users Reach 100,000', 'We are proud to announce that the number of active users on the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('\ud83d\udcb0 PiP Token Listing on Major Exchanges', 'The PiP token will soon be listed on several reputable cryptocurrency exchanges. This will increase liquidity and user access to the PiP token.');
+    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
   }catch(e){
     // Fallback news items
-    add('\ud83d\ude80 PiProtocol Platform 2.0 Launch', 'We are proud to announce that PiProtocol Platform 2.0 with new features and improved mining performance will be launched on October 6, 2025.');
+    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are pleased to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This collaboration will allow us to provide better services to users.');
+    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, PiP token on major blockchain networks, and a staking system with 12% annual yield have been outlined.');
+    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('\ud83c\udfc6 Active Users Reach 100,000', 'We are proud to announce that the number of active users on the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('\ud83d\udcb0 PiP Token Listing on Major Exchanges', 'The PiP token will soon be listed on several reputable cryptocurrency exchanges. This will increase liquidity and user access to the PiP token.');
+    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
   }
 }
 
@@ -1542,13 +1541,13 @@ function pushTx(tx){
   if(state.tx.length>200) state.tx.length=200;
 }
 
-// New function to update reset timer (global)
+// New function for updating reset timer (real-time)
 function updateResetTimer() {
   const now = new Date();
   const resetTime = new Date();
   resetTime.setHours(24, 0, 0, 0); // 24:00 (midnight)
 
-  // If reset time has passed, set to next day
+  // If reset time has passed, set for next day
   if (resetTime < now) {
     resetTime.setDate(resetTime.getDate() + 1);
   }
@@ -1556,7 +1555,7 @@ function updateResetTimer() {
   const timeUntilReset = resetTime - now;
 
   if (timeUntilReset <= 0) {
-    // If reset time has arrived, reset tasks
+    // If reset time reached, reset tasks
     checkAndResetDailyTasks();
     return;
   }
@@ -1565,13 +1564,13 @@ function updateResetTimer() {
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  // Update timer only if we're in the Tasks tab
+  // Update timer only if in Tasks tab
   const resetTimerEl = document.getElementById('resetTimer');
   if (resetTimerEl) {
-    resetTimerEl.textContent = `Next reset: ${hours} hours, ${minutes} minutes, and ${seconds} seconds`;
+    resetTimerEl.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
   }
 
-  // Save remaining time for use in other tabs
+  // Store remaining time for use in other tabs
   state.timeUntilReset = timeUntilReset;
 }
 
@@ -1587,7 +1586,7 @@ function boot(){
   setupProfile();
   loadNews();
 
-  // Start global timer for reset (every 1 second)
+  // Start real-time timer for reset (every 1 second)
   setInterval(() => {
     updateResetTimer();
   }, 1000);
@@ -1597,7 +1596,7 @@ function boot(){
     fetchFriendsData();
   }, 5 * 60 * 1000);
 
-  // Recover task statuses from state
+  // Restore task statuses from state
   if (state.taskStatuses) {
     TASKS.forEach(task => {
       if (state.taskStatuses[task.id]) {
@@ -1606,7 +1605,7 @@ function boot(){
     });
   }
 
-  // If mining, continue tick or if finished but not claimed, prepare UI
+  // If mining is active, continue the tick or if finished but not claimed yet, just update UI
   if(state.miningStart){
     const {remaining} = miningMetrics();
     if(remaining>0) {
@@ -1614,7 +1613,7 @@ function boot(){
       startBtn.disabled = true; // Disable start button while mining is active
     }
     else {
-      // Timer finished but user hasn't claimed yet \u2014 just update UI so button is active
+      // Timer finished but user hasn't claimed yet — just update UI so button is active
       updateMiningUI();
       startBtn.disabled = false; // Enable start button when timer completes
     }
