@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0; color:var(--ink); font-family:Inter, Vazirmatn, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
+  margin:0; color:var(--ink); font-family:Inter, Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
   background: radial-gradient(1200px 1200px at 70% -10%, rgba(255,255,255,.12), transparent 40%),
               linear-gradient(180deg,var(--bg1),var(--bg2));
   overflow:hidden;
@@ -87,7 +87,7 @@ section.tab.active{display:block}
 
 /* Tables */
 .table{width:100%; border-collapse:collapse}
-.table th, .table td{padding:10px; border-bottom:1px solid var(--border); text-align:right}
+.table th, .table td{padding:10px; border-bottom:1px solid var(--border); text-align:left}
 .table th{color:#f8fafc; font-weight:800; font-size:12px; opacity:.9}
 
 /* Badges */
@@ -201,16 +201,16 @@ section.tab.active{display:block}
       </div>
       <div class="row" style="margin-top:12px">
        <button id="startBtn" class="btn btn-gold">Start 24h</button>
-       <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
+       <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec \u2022 \u0647\u0631 \u0628\u0627\u0631 <b>Start</b> \u0631\u0627 \u0628\u0632\u0646\u06cc\u062f \u062a\u0627\u06cc\u0645\u0631 \u0627\u0632 \u0627\u0648\u0644 \u0634\u0631\u0648\u0639 \u0645\u06cc\u200c\u0634\u0648\u062f.
+       Rate: <b id="rateText">0.002</b> coin/sec \u2022 Each time you press <b>Start</b>, the timer begins from the beginning.
       </div>
      </div>
      <!-- News -->
      <div class="card">
       <div class="row" style="justify-content:space-between">
-       <div class="h2">\u0627\u062e\u0628\u0627\u0631</div>
+       <div class="h2">News</div>
        <div class="badge">
         <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
          <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
@@ -246,75 +246,75 @@ section.tab.active{display:block}
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
       <div class="card">
-       <div class="h3">\ud83d\udd04 \u062a\u0628\u062f\u06cc\u0644 Coins \u2192 PiP</div>
+       <div class="h3">\ud83d\udd04 Convert Coins \u2192 PiP</div>
        <div class="muted" style="margin-bottom:6px">
-        \u0646\u0631\u062e \u0646\u0645\u0627\u06cc\u0634\u06cc: <b id="coinsPerPi">100</b>coins = 1 PiP
+        Display rate: <b id="coinsPerPi">100</b> coins = 1 PiP
        </div>
        <div class="input-row">
-        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="\u0645\u0642\u062f\u0627\u0631 \u06a9\u0648\u06cc\u0646">
-        <button id="coinsToPiBtn" class="btn btn-gold">\u062a\u0628\u062f\u06cc\u0644</button>
+        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coin amount">
+        <button id="coinsToPiBtn" class="btn btn-gold">Convert</button>
        </div>
        <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
       </div>
       <!-- Convert Pi -> USDT -->
       <div class="card">
-       <div class="h3">\ud83d\udcb1 \u062a\u0628\u062f\u06cc\u0644 PiP \u2192 USDT</div>
+       <div class="h3">\ud83d\udcb1 Convert PiP \u2192 USDT</div>
        <div class="muted" style="margin-bottom:6px">
-        \u0646\u0631\u062e \u0646\u0645\u0627\u06cc\u0634\u06cc: 1PiP = <b id="usdtPerPi">5</b> USDT
+        Display rate: 1 PiP = <b id="usdtPerPi">5</b> USDT
        </div>
        <div class="input-row">
-        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="\u0645\u0642\u062f\u0627\u0631 PiP">
-        <button id="piToUsdtBtn" class="btn btn-gold">\u062a\u0628\u062f\u06cc\u0644</button>
+        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="PiP amount">
+        <button id="piToUsdtBtn" class="btn btn-gold">Convert</button>
        </div>
        <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
       </div>
      </div>
      <!-- Withdraw -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\ud83c\udfe6 \u0628\u0631\u062f\u0627\u0634\u062a</div>
+      <div class="h3">\ud83c\udfe6 Withdraw</div>
       <div class="grid-3">
        <div>
-        <div class="muted">\u0646\u0648\u0639 \u062f\u0627\u0631\u0627\u06cc\u06cc</div>
+        <div class="muted">Asset Type</div>
         <select id="withdrawAsset"> <option value="pi">PiP</option> <option value="usdt">USDT</option> </select>
        </div>
        <div>
-        <div class="muted">\u0622\u062f\u0631\u0633 \u06a9\u06cc\u0641 \u067e\u0648\u0644</div>
-        <input id="withdrawAddr" placeholder="\u0645\u062b\u0644\u0627\u064b Pi wallet / TRON / ERC-20">
+        <div class="muted">Wallet Address</div>
+        <input id="withdrawAddr" placeholder="e.g., Pi wallet / TRON / ERC-20">
        </div>
        <div>
-        <div class="muted">\u0645\u0642\u062f\u0627\u0631</div>
+        <div class="muted">Amount</div>
         <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount">
        </div>
       </div>
       <div class="row" style="margin-top:10px">
-       <button id="withdrawBtn" class="btn btn-gold">\u062b\u0628\u062a \u062f\u0631\u062e\u0648\u0627\u0633\u062a</button>
-       <div class="muted">\u0628\u0631\u0627\u06cc \u067e\u0631\u062f\u0627\u0632\u0634 \u0648\u0627\u0642\u0639\u06cc\u060c \u0646\u06cc\u0627\u0632 \u0628\u0647 \u062a\u0623\u06cc\u06cc\u062f \u0633\u0645\u062a \u0633\u0631\u0648\u0631 \u062f\u0627\u0631\u06cc\u062f.</div>
+       <button id="withdrawBtn" class="btn btn-gold">Submit Request</button>
+       <div class="muted">For actual processing, server-side verification is required.</div>
       </div>
      </div>
      <!-- Transactions -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\u062a\u0631\u0627\u06a9\u0646\u0634\u200c\u0647\u0627</div>
+      <div class="h3">Transactions</div>
       <table class="table">
        <thead>
         <tr>
-         <th>\u062a\u0648\u0636\u06cc\u062d</th>
-         <th>\u0645\u0642\u062f\u0627\u0631</th>
-         <th>\u0632\u0645\u0627\u0646</th>
+         <th>Description</th>
+         <th>Amount</th>
+         <th>Time</th>
         </tr>
        </thead>
        <tbody id="txList"></tbody>
       </table>
-      <div id="noTx" class="muted" style="margin-top:6px">\u0647\u0646\u0648\u0632 \u062a\u0631\u0627\u06a9\u0646\u0634\u06cc \u0648\u062c\u0648\u062f \u0646\u062f\u0627\u0631\u062f.</div>
+      <div id="noTx" class="muted" style="margin-top:6px">No transactions yet.</div>
      </div>
     </section>
     <!-- Friends -->
     <section class="tab" id="tab-friends">
      <div class="card">
-      <div class="h3">\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u0634\u0645\u0627</div>
+      <div class="h3">Your Invitation Link</div>
       <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
       <div class="row" style="margin-top:8px">
-       <button id="copyRef" class="btn btn-gold">\u06a9\u067e\u06cc \u0644\u06cc\u0646\u06a9</button>
-       <button id="shareRef" class="btn btn-ghost">\u0627\u0634\u062a\u0631\u0627\u06a9 \u06af\u0630\u0627\u0631\u06cc</button>
+       <button id="copyRef" class="btn btn-gold">Copy Link</button>
+       <button id="shareRef" class="btn btn-ghost">Share</button>
       </div>
      </div>
      <div class="grid-3" style="margin-top:12px">
@@ -327,73 +327,73 @@ section.tab.active{display:block}
        <div class="big" id="friendsActive">0</div>
       </div>
       <div class="card">
-       <div class="kicker">\u067e\u0627\u062f\u0627\u0634</div>
+       <div class="kicker">Reward</div>
        <div class="big accent">+100 coins / invite</div>
       </div>
      </div>
      <!-- Invited Friends List -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\u062f\u0648\u0633\u062a\u0627\u0646 \u062f\u0639\u0648\u062a \u0634\u062f\u0647</div>
+      <div class="h3">Invited Friends</div>
       <table class="table" id="invitedFriendsTable">
        <thead>
         <tr>
-         <th>\u06a9\u0627\u0631\u0628\u0631</th>
-         <th>\u062a\u0627\u0631\u06cc\u062e \u062f\u0639\u0648\u062a</th>
-         <th>\u0648\u0636\u0639\u06cc\u062a</th>
+         <th>User</th>
+         <th>Invite Date</th>
+         <th>Status</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       \u067e\u0627\u062f\u0627\u0634 \u062f\u0639\u0648\u062a: <b>100</b> \u0633\u06a9\u0647 (\u0641\u0642\u0637 \u06cc\u06a9\u0628\u0627\u0631 \u0628\u0631\u0627\u06cc \u0647\u0631 \u062f\u0648\u0633\u062a)
+       Invitation reward: <b>100</b> coins (one-time per friend)
       </div>
      </div>
      <!-- Active Friends List -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\u062f\u0648\u0633\u062a\u0627\u0646 \u0641\u0639\u0627\u0644</div>
+      <div class="h3">Active Friends</div>
       <table class="table" id="activeFriendsTable">
        <thead>
         <tr>
-         <th>\u06a9\u0627\u0631\u0628\u0631</th>
-         <th>\u062a\u0627\u0631\u06cc\u062e \u0641\u0639\u0627\u0644\u200c\u0633\u0627\u0632\u06cc</th>
-         <th>\u0627\u0641\u0632\u0627\u06cc\u0634 \u0633\u0631\u0639\u062a</th>
+         <th>User</th>
+         <th>Activation Date</th>
+         <th>Speed Boost</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       \u0627\u0641\u0632\u0627\u06cc\u0634 \u0633\u0631\u0639\u062a \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af: <b>+0.001</b> \u0628\u0631\u0627\u06cc \u0647\u0631 \u062f\u0648\u0633\u062a \u0641\u0639\u0627\u0644
+       Mining speed boost: <b>+0.001</b> for each active friend
       </div>
      </div>
      <!-- Leaderboard -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">\u0631\u0646\u062f\u06c0 \u0628\u0631\u062a\u0631 (Top 10)</div>
+      <div class="h3">Top Ranks (Top 10)</div>
       <table class="table" id="leaderTable">
        <thead>
         <tr>
          <th>#</th>
-         <th>\u06a9\u0627\u0631\u0628\u0631</th>
+         <th>User</th>
          <th>Coins</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       \u0631\u062a\u0628\u0647 \u0634\u0645\u0627: <b id="myRank">#\u2014</b>
+       Your rank: <b id="myRank">#\u2014</b>
       </div>
      </div>
     </section>
     <!-- Tasks -->
     <section class="tab" id="tab-tasks">
      <div class="card">
-      <div class="h3">\u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647 \u0648 \u0627\u062c\u062a\u0645\u0627\u0639\u06cc</div>
+      <div class="h3">Daily & Social Tasks</div>
       <div id="tasksWrap"></div>
-      <div class="muted" style="margin-top:6px">* \u0628\u0631\u0627\u06cc \u062a\u0623\u06cc\u06cc\u062f \u0648\u0627\u0642\u0639\u06cc \u0644\u06cc\u0646\u06a9\u200c\u0647\u0627 \u0628\u0647 \u0628\u06a9\u200c\u0627\u0646\u062f \u0646\u06cc\u0627\u0632 \u062f\u0627\u0631\u06cc\u062f.</div>
+      <div class="muted" style="margin-top:6px">* For actual link verification, backend is required.</div>
      </div>
      <div class="card" style="margin-top:12px">
       <div class="h3">\u2692\ufe0f Manual Mining</div>
       <div class="row">
-       <div class="muted">\u0628\u0627 \u0647\u0631 \u06a9\u0644\u06cc\u06a9 +0.5 coin (Cooldown 10s)</div>
+       <div class="muted">+0.5 coin per click (Cooldown 10s)</div>
        <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
       </div>
       <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
@@ -402,12 +402,12 @@ section.tab.active{display:block}
     <!-- Profile -->
     <section class="tab" id="tab-profile">
      <div class="card">
-      <div class="h3">\u067e\u0631\u0648\u0641\u0627\u06cc\u0644</div>
+      <div class="h3">Profile</div>
       <div class="input-row" style="margin-top:6px">
-       <input id="firstName" placeholder="\u0646\u0627\u0645"> <input id="lastName" placeholder="\u0646\u0627\u0645 \u062e\u0627\u0646\u0648\u0627\u062f\u06af\u06cc"> <input id="userId" placeholder="\u0634\u0646\u0627\u0633\u0647 \u06a9\u0627\u0631\u0628\u0631">
-       <button id="saveProfile" class="btn btn-gold">\u0630\u062e\u06cc\u0631\u0647</button>
+       <input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name"> <input id="userId" placeholder="User ID">
+       <button id="saveProfile" class="btn btn-gold">Save</button>
       </div>
-      <div class="muted" style="margin-top:6px">\u0627\u0637\u0644\u0627\u0639\u0627\u062a \u0631\u0648\u06cc \u0647\u0645\u06cc\u0646 \u062f\u0633\u062a\u06af\u0627\u0647 \u0630\u062e\u06cc\u0631\u0647 \u0645\u06cc\u200c\u0634\u0648\u062f.</div>
+      <div class="muted" style="margin-top:6px">Information is saved on this device only.</div>
      </div>
     </section>
    </main>
@@ -425,8 +425,8 @@ section.tab.active{display:block}
   <!-- Share Modal -->
   <div id="shareModal" class="share-modal">
    <div class="share-modal-content">
-    <div class="h3">\u0627\u0634\u062a\u0631\u0627\u06a9 \u06af\u0630\u0627\u0631\u06cc \u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a</div>
-    <div class="muted">\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u062e\u0648\u062f \u0631\u0627 \u0627\u0632 \u0637\u0631\u06cc\u0642 \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0632\u06cc\u0631 \u0628\u0647 \u0627\u0634\u062a\u0631\u0627\u06a9 \u0628\u06af\u0630\u0627\u0631\u06cc\u062f</div>
+    <div class="h3">Share Invitation Link</div>
+    <div class="muted">Share your invitation link through these apps</div>
     <div class="share-apps">
      <div class="share-app" data-app="whatsapp">
       <svg viewBox="0 0 24 24" fill="#25D366">
@@ -450,17 +450,17 @@ section.tab.active{display:block}
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
       </svg>
-      <span>\u06a9\u067e\u06cc</span>
+      <span>Copy</span>
      </div>
      <div class="share-app" data-app="more">
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
       </svg>
-      <span>\u0633\u0627\u06cc\u0631</span>
+      <span>More</span>
      </div>
     </div>
     <div class="row" style="margin-top:15px; justify-content:flex-end">
-     <button id="closeShareModal" class="btn btn-ghost">\u0628\u0633\u062a\u0646</button>
+     <button id="closeShareModal" class="btn btn-ghost">Close</button>
     </div>
    </div>
   </div>
@@ -599,7 +599,7 @@ function runTick(){
 }
 
 function tick(){
-  // \u0627\u06af\u0631 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0641\u0639\u0627\u0644 \u0646\u06cc\u0633\u062a\u060c \u062d\u0627\u0644\u062a \u067e\u06cc\u0634\u200c\u0641\u0631\u0636 \u0631\u0627 \u0646\u0634\u0627\u0646 \u0628\u062f\u0647
+  // If mining is not active, show default state
   if(!state.miningStart){
     miningStatusEl.textContent='Inactive';
     miningStatusEl.className='pill';
@@ -616,7 +616,7 @@ function tick(){
   sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
   progressBarEl.style.width = `${progress}%`;
 
-  // \u0648\u0642\u062a\u06cc \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f: \u062f\u06a9\u0645\u0647 Claim \u0641\u0639\u0627\u0644 \u0634\u0648\u062f \u0648 \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 Completed \u062a\u063a\u06cc\u06cc\u0631 \u06a9\u0646\u062f
+  // When timer finishes: enable Claim button and change status to Completed
   if(remaining<=0){
     clearInterval(tickId); tickId=null;
     claimBtn.disabled=false;
@@ -632,7 +632,7 @@ function tick(){
 }
 
 startBtn.addEventListener('click', async ()=>{
-  // \u0647\u0631 \u0628\u0627\u0631 Start: \u0627\u0632 \u0627\u0648\u0644 \u0634\u0631\u0648\u0639 \u0645\u06cc\u200c\u0634\u0648\u062f
+  // Each time Start is pressed: timer starts from the beginning
   state.miningStart = Date.now();
   pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
   save(); updateMiningUI(); runTick();
@@ -646,12 +646,12 @@ startBtn.addEventListener('click', async ()=>{
   }catch(e){}
 });
 claimBtn.addEventListener('click', async ()=>{
-  // \u0627\u06af\u0631 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0634\u0631\u0648\u0639 \u0646\u0634\u062f\u0647\u060c \u06cc\u0627 \u0647\u0646\u0648\u0632 \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0646\u0634\u062f\u0647\u060c \u0627\u062c\u0627\u0632\u0647 \u0646\u062f\u0647
+  // If mining hasn't started, or timer hasn't finished, don't allow
   if(!state.miningStart) return;
   const {remaining, rewardNow} = miningMetrics();
 
-  // \u0627\u06af\u0631 \u0647\u0646\u0648\u0632 \u06a9\u0627\u0645\u0644 \u0646\u0634\u062f\u0647\u060c \u0627\u062c\u0627\u0632\u0647 \u0646\u062f\u0647 (\u0627\u0636\u0637\u0631\u0627\u0631\u06cc)
-  if(remaining>0) return alert('\u062a\u0627\u06cc\u0645\u0631 \u0647\u0646\u0648\u0632 \u062a\u0645\u0627\u0645 \u0646\u0634\u062f\u0647.');
+  // If not yet complete, don't allow (emergency)
+  if(remaining>0) return alert('Timer has not finished yet.');
 
   const reward = Number(rewardNow.toFixed(3)); // Use 3 decimal places
   if(reward>0){
@@ -659,22 +659,22 @@ claimBtn.addEventListener('click', async ()=>{
     pushTx({type:'earn', amount:reward, note:'Mining session reward', ts: Date.now()});
   }
 
-  // \u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u0644\u0633\u0647 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af (\u0645\u0646\u062a\u0638\u0631 \u06a9\u0627\u0631\u0628\u0631 \u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u0645\u062c\u062f\u062f)
+  // Clear mining session (waiting for user to start again)
   state.miningStart = null;
   save();
   updateMiningUI();
   renderWallet();
 
-  // \u0627\u0631\u0633\u0627\u0644 \u0628\u0647 \u0633\u0631\u0648\u0631 (\u0627\u062e\u062a\u06cc\u0627\u0631\u06cc\u060c \u062e\u0637\u0627\u0647\u0627 \u0631\u0627 \u0646\u0627\u062f\u06cc\u062f\u0647 \u0628\u06af\u06cc\u0631)
+  // Send to server (optional, ignore errors)
   try{
     await fetch(`${API_BASE}/claim`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({amount:reward, ts: Date.now()})});
   }catch(e){}
 });
 
 function updateMiningUI(){
-  // \u0628\u0647 \u0633\u0627\u062f\u06af\u06cc render \u0645\u0631\u0628\u0648\u0637\u0647 \u0631\u0627 \u0628\u0627 \u0647\u0645\u0627\u0646 \u0645\u0646\u0637\u0642 tick \u0627\u0646\u062c\u0627\u0645 \u0628\u062f\u0647 (\u062a\u0627 \u0647\u0645\u06cc\u0634\u0647 \u0647\u0645\u06af\u0627\u0645 \u0628\u0627\u0634\u062f)
+  // Simply perform the render with the same tick logic (to always be in sync)
   if(state.miningStart){
-    // \u0627\u06af\u0631 \u062f\u0631 \u062d\u0627\u0644 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0627\u0633\u062a\u060c \u0648\u0636\u0639\u06cc\u062a \u0631\u0627 \u0628\u0631 \u0627\u0633\u0627\u0633 \u0645\u062a\u0631\u06cc\u06a9\u200c\u0647\u0627 \u0646\u0645\u0627\u06cc\u0634 \u0628\u062f\u0647
+    // If mining is active, display status based on metrics
     const {remaining, progress, rewardNow, effectiveRate} = miningMetrics();
     timerEl.textContent = formatHHMMSS(remaining);
     sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
@@ -697,7 +697,7 @@ function updateMiningUI(){
       miningStatusEl.className = 'pill good';
     }
   }else{
-    // \u0648\u0642\u062a\u06cc miningStart null \u0627\u0633\u062a\u060c \u062f\u06a9\u0645\u0647 Claim \u063a\u06cc\u0631\u0641\u0639\u0627\u0644 \u0628\u0627\u0634\u062f
+    // When miningStart is null, disable Claim button
     claimBtn.disabled = true;
     startBtn.disabled = false; // Enable start button when not mining
     miningStatusEl.textContent = 'Inactive';
@@ -741,8 +741,8 @@ function renderWallet(){
 
 coinsToPiBtn.addEventListener('click', async ()=>{
   const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
-  if(!coins) return alert('\u0645\u0642\u062f\u0627\u0631 \u0645\u0639\u062a\u0628\u0631 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f');
-  if(coins > state.coins) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc \u06a9\u0648\u06cc\u0646 \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
+  if(!coins) return alert('Enter a valid amount');
+  if(coins > state.coins) return alert('Insufficient coin balance');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
   pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins \u2192 ${pi.toFixed(2)} Pi`, ts: Date.now()});
@@ -756,8 +756,8 @@ coinsToPiBtn.addEventListener('click', async ()=>{
 
 piToUsdtBtn.addEventListener('click', async ()=>{
   const pi = Math.max(0, Number(piToUsdtAmt.value||0));
-  if(!pi) return alert('\u0645\u0642\u062f\u0627\u0631 \u0645\u0639\u062a\u0628\u0631 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f');
-  if(pi > state.pi) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc Pi \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
+  if(!pi) return alert('Enter a valid amount');
+  if(pi > state.pi) return alert('Insufficient Pi balance');
   const usdt = pi * USDT_PER_PI;
   state.pi -= pi; state.usdt += usdt;
   pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi \u2192 ${usdt.toFixed(2)} USDT`, ts: Date.now()});
@@ -773,11 +773,11 @@ withdrawBtn.addEventListener('click', async ()=>{
   const asset = withdrawAsset.value;
   const addr = withdrawAddr.value.trim();
   const amt = Math.max(0, Number(withdrawAmt.value||0));
-  if(!addr || !amt) return alert('\u0647\u0645\u0647 \u0641\u06cc\u0644\u062f\u0647\u0627 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u06a9\u0646\u06cc\u062f');
-  if(asset==='pi' && amt>state.pi) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc Pi \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
-  if(asset==='usdt' && amt>state.usdt) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc USDT \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
+  if(!addr || !amt) return alert('Please complete all fields');
+  if(asset==='pi' && amt>state.pi) return alert('Insufficient Pi balance');
+  if(asset==='usdt' && amt>state.usdt) return alert('Insufficient USDT balance');
 
-  // \u0645\u062d\u0644\u06cc: \u0641\u0642\u0637 \u062b\u0628\u062a \u062a\u0631\u0627\u06a9\u0646\u0634 \u0646\u0645\u0627\u06cc\u0634\u06cc
+  // Local: just record display transaction
   pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} \u2192 ${addr.slice(0,12)}...`, ts: Date.now()});
   save(); renderWallet();
 
@@ -786,9 +786,9 @@ withdrawBtn.addEventListener('click', async ()=>{
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({asset, address:addr, amount:amt})
     });
-    // \u0627\u06af\u0631 \u0646\u06cc\u0627\u0632: \u067e\u0627\u0633\u062e \u0631\u0627 \u0628\u0631\u0631\u0633\u06cc \u06a9\u0646\u06cc\u062f
+    // If needed: check response
   }catch(e){}
-  alert('\u062f\u0631\u062e\u0648\u0627\u0633\u062a \u0628\u0631\u062f\u0627\u0634\u062a \u062b\u0628\u062a \u0634\u062f (\u062f\u0645\u0648). \u0628\u0631\u0627\u06cc \u0628\u0631\u062f\u0627\u0634\u062a \u0648\u0627\u0642\u0639\u06cc\u060c \u062a\u0623\u06cc\u06cc\u062f \u0628\u06a9\u200c\u0627\u0646\u062f \u0627\u0644\u0632\u0627\u0645\u06cc \u0627\u0633\u062a.');
+  alert('Withdrawal request submitted (demo). For actual withdrawal, backend verification is required.');
 });
 
 /* ================== Friends & Rank ================== */
@@ -864,7 +864,7 @@ async function fetchFriendsData() {
 
 // Generate fake friends data for demo purposes
 function generateFakeFriendsData() {
-  const fakeNames = ['\u0639\u0644\u06cc', '\u0645\u062d\u0645\u062f', '\u0633\u0627\u0631\u0627', '\u0645\u0631\u06cc\u0645', '\u0631\u0636\u0627', '\u062d\u0633\u06cc\u0646', '\u0641\u0627\u0637\u0645\u0647', '\u0632\u0647\u0631\u0627', '\u0627\u0645\u06cc\u0631', '\u0646\u06cc\u0645\u0627'];
+  const fakeNames = ['Alex', 'Michael', 'Sarah', 'Maria', 'Robert', 'Henry', 'Fatima', 'Zoe', 'Amir', 'Nina'];
   
   // Generate invited friends
   if (!state.invitedFriends || state.invitedFriends.length === 0) {
@@ -922,7 +922,7 @@ function setupFriends(){
   // Fetch friends data from API
   fetchFriendsData();
 
-  // \u0628\u0631\u0631\u0633\u06cc \u0627\u06af\u0631 \u0627\u0632 \u0637\u0631\u06cc\u0642 \u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u0648\u0627\u0631\u062f \u0634\u062f\u0647 \u0628\u0627\u0634\u062f
+  // Check if entered through invitation link
   const urlParams = new URLSearchParams(window.location.search);
   const inviterCode = urlParams.get('start');
   if(inviterCode && inviterCode !== userCode){
@@ -957,7 +957,7 @@ function setupFriends(){
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
-      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
+      alert('Invitation link copied!');
     }catch(e){
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
@@ -966,7 +966,7 @@ function setupFriends(){
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
+      alert('Invitation link copied!');
     } 
   });
 
@@ -1029,7 +1029,7 @@ function trackShareEvent(platform) {
     state.friendsInvited++;
     
     // Add the shared friend to invitedFriends list
-    const fakeNames = ['\u0639\u0644\u06cc', '\u0645\u062d\u0645\u062f', '\u0633\u0627\u0631\u0627', '\u0645\u0631\u06cc\u0645', '\u0631\u0636\u0627', '\u062d\u0633\u06cc\u0646', '\u0641\u0627\u0637\u0645\u0647', '\u0632\u0647\u0631\u0627', '\u0627\u0645\u06cc\u0631', '\u0646\u06cc\u0645\u0627'];
+    const fakeNames = ['Alex', 'Michael', 'Sarah', 'Maria', 'Robert', 'Henry', 'Fatima', 'Zoe', 'Amir', 'Nina'];
     const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
     
     const newFriend = {
@@ -1097,17 +1097,17 @@ function shareLink(link, appType) {
       break;
     case 'copy':
       navigator.clipboard.writeText(link);
-      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
+      alert('Invitation link copied!');
       return;
     case 'more':
       if (navigator.share) {
         navigator.share({
-          title: 'PiProtocol \u062f\u0639\u0648\u062a \u0628\u0647',
-          text: '\u0628\u0647 PiProtocol \u0628\u067e\u06cc\u0648\u0646\u062f\u06cc\u062f \u0648 \u0634\u0631\u0648\u0639 \u0628\u0647 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u06a9\u0646\u06cc\u062f!',
+          title: 'PiProtocol Invitation',
+          text: 'Join PiProtocol and start mining!',
           url: link
         }).catch(console.error);
       } else {
-        alert(`\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a: ${link}`);
+        alert(`Invitation link: ${link}`);
       }
       return;
   }
@@ -1135,17 +1135,17 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || '\u06a9\u0627\u0631\u0628\u0631';
+      tdName.textContent = friend.username || 'User';
       
       const tdDate = document.createElement('td');
       const inviteDate = new Date(friend.inviteDate);
-      tdDate.textContent = inviteDate.toLocaleDateString('fa-IR');
+      tdDate.textContent = inviteDate.toLocaleDateString();
       
       const tdStatus = document.createElement('td');
       if (friend.isActive) {
-        tdStatus.innerHTML = '<span class="pill good">\u0641\u0639\u0627\u0644</span>';
+        tdStatus.innerHTML = '<span class="pill good">Active</span>';
       } else {
-        tdStatus.innerHTML = '<span class="pill">\u063a\u06cc\u0631\u0641\u0639\u0627\u0644</span>';
+        tdStatus.innerHTML = '<span class="pill">Inactive</span>';
       }
       
       tr.appendChild(tdName);
@@ -1157,7 +1157,7 @@ function renderFriendsTables() {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 3;
-    td.textContent = '\u0647\u0646\u0648\u0632 \u062f\u0648\u0633\u062a\u06cc \u062f\u0639\u0648\u062a \u0646\u0634\u062f\u0647 \u0627\u0633\u062a';
+    td.textContent = 'No friends invited yet';
     td.className = 'muted';
     td.style.textAlign = 'center';
     tr.appendChild(td);
@@ -1170,11 +1170,11 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || '\u06a9\u0627\u0631\u0628\u0631';
+      tdName.textContent = friend.username || 'User';
       
       const tdDate = document.createElement('td');
       const activeDate = new Date(friend.activeDate);
-      tdDate.textContent = activeDate.toLocaleDateString('fa-IR');
+      tdDate.textContent = activeDate.toLocaleDateString();
       
       const tdBonus = document.createElement('td');
       tdBonus.textContent = '+0.001';
@@ -1189,7 +1189,7 @@ function renderFriendsTables() {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 3;
-    td.textContent = '\u0647\u0646\u0648\u0632 \u062f\u0648\u0633\u062a \u0641\u0639\u0627\u0644\u06cc \u0648\u062c\u0648\u062f \u0646\u062f\u0627\u0631\u062f';
+    td.textContent = 'No active friends yet';
     td.className = 'muted';
     td.style.textAlign = 'center';
     tr.appendChild(td);
@@ -1201,14 +1201,14 @@ function renderFriendsTables() {
 const TASKS = [
   { 
     id:'daily',   
-    title:'\ud83c\udf81 \u067e\u0627\u062f\u0627\u0634 \u0631\u0648\u0632\u0627\u0646\u0647', 
+    title:'\ud83c\udf81 Daily Reward', 
     kind:'daily', 
     reward:15, 
     url:'' 
   },
   { 
     id:'yt_subscribe',      
-    title:'\u25b6\ufe0f \u0633\u0627\u0628\u0633\u06a9\u0631\u0627\u06cc\u0628 \u06a9\u0627\u0646\u0627\u0644 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
+    title:'\u25b6\ufe0f Subscribe to YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/@YouTubeChannel',
@@ -1216,7 +1216,7 @@ const TASKS = [
   },
   { 
     id:'yt_like',      
-    title:'\ud83d\udc4d \u0644\u0627\u06cc\u06a9 \u06cc\u06a9 \u0648\u06cc\u062f\u06cc\u0648 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
+    title:'\ud83d\udc4d Like a YouTube Video', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
@@ -1224,7 +1224,7 @@ const TASKS = [
   },
   { 
     id:'yt_comment',      
-    title:'\ud83d\udcac \u06af\u0630\u0627\u0634\u062a\u0646 \u06a9\u0627\u0645\u0646\u062a \u062f\u0631 \u06a9\u0627\u0646\u0627\u0644 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
+    title:'\ud83d\udcac Comment on YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
@@ -1232,7 +1232,7 @@ const TASKS = [
   },
   { 
     id:'tg_react',      
-    title:'\ud83d\udd25 \u0631\u06cc \u0627\u06a9\u0634\u0646 \u0628\u0647 \u06cc\u06a9 \u067e\u0633\u062a \u062a\u0644\u06af\u0631\u0627\u0645', 
+    title:'\ud83d\udd25 React to a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1240,7 +1240,7 @@ const TASKS = [
   },
   { 
     id:'tg_comment',      
-    title:'\ud83d\udcac \u06af\u0630\u0627\u0634\u062a\u0646 \u06a9\u0627\u0645\u0646\u062a \u0628\u0647 \u06cc\u06a9 \u067e\u0633\u062a \u062a\u0644\u06af\u0631\u0627\u0645', 
+    title:'\ud83d\udcac Comment on a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1249,24 +1249,24 @@ const TASKS = [
 ];
 
 
-/* ================== \u062a\u0648\u0627\u0628\u0639 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0648\u0632\u0627\u0646\u0647 ================== */
+/* ================== Daily Reset Functions ================== */
 
-// \u0628\u0631\u0631\u0633\u06cc\u662f\u5426\u9700\u8981 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
+// Check if daily tasks need to be reset
 function checkAndResetDailyTasks() {
   const today = new Date().toDateString();
 
-  // \u0627\u06af\u0631 \u062a\u0627\u0631\u06cc\u062e \u0627\u0645\u0631\u0648\u0632 \u0628\u0627 \u062a\u0627\u0631\u06cc\u062e \u0622\u062e\u0631\u06cc\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a
+  // If today's date is different from the last reset date
   if (state.lastResetDate !== today) {
-    console.log('\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627 \u0628\u0631\u0627\u06cc \u0631\u0648\u0632 \u062c\u062f\u06cc\u062f');
+    console.log('Resetting tasks for new day');
     resetDailyTasks();
     state.lastResetDate = today;
     save();
   }
 }
 
-// \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
+// Reset daily tasks
 function resetDailyTasks() {
-  console.log('\u062f\u0631 \u062d\u0627\u0644 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647...');
+  console.log('Resetting daily tasks...');
 
   // Reset daily task status
   if (!state.taskStatuses) {
@@ -1285,10 +1285,10 @@ function resetDailyTasks() {
   // Reset other tasks if needed
   TASKS.forEach(task => {
     if (task.id !== 'daily') {
-      // \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 start \u0628\u0631\u0627\u06cc \u0647\u0645\u0647 \u062a\u0633\u06a9\u200c\u0647\u0627 \u0628\u0647 \u062c\u0632 daily
+      // Reset status to start for all tasks except daily
       state.taskStatuses[task.id] = 'start';
 
-      // \u062d\u0630\u0641 \u0627\u0632 completedTasks
+      // Remove from completedTasks
       const index = state.completedTasks.indexOf(task.id);
       if (index > -1) {
         state.completedTasks.splice(index, 1);
@@ -1327,7 +1327,7 @@ function setupTasks(){
 function renderTasks(){
   tasksWrap.innerHTML='';
 
-  // \u0627\u0641\u0632\u0648\u062f\u0646 \u0627\u0637\u0644\u0627\u0639\u0627\u062a \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062f\u0631 \u0628\u0627\u0644\u0627\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627
+  // Add reset information at the top of tasks
   const resetHeader = document.createElement('div');
   resetHeader.className = 'muted';
   resetHeader.style.marginBottom = '15px';
@@ -1335,7 +1335,7 @@ function renderTasks(){
   resetHeader.style.fontSize = '12px';
   resetHeader.id = 'resetTimer';
 
-  // \u0627\u0633\u062a\u0641\u0627\u062f\u0647 \u0627\u0632 \u0632\u0645\u0627\u0646 \u0630\u062e\u06cc\u0631\u0647 \u0634\u062f\u0647 \u06cc\u0627 \u0645\u062d\u0627\u0633\u0628\u0647 \u062c\u062f\u06cc\u062f
+  // Use stored time or calculate new
   let timeUntilReset = state.timeUntilReset;
   if (!timeUntilReset) {
     const now = new Date();
@@ -1352,10 +1352,10 @@ function renderTasks(){
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  resetHeader.textContent = `\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0628\u0639\u062f\u06cc: ${hours} \u0633\u0627\u0639\u062a \u0648 ${minutes} \u062f\u0642\u06cc\u0642\u0647 \u0648 ${seconds} \u062b\u0627\u0646\u06cc\u0647 \u062f\u06cc\u06af\u0631`;
+  resetHeader.textContent = `Next reset: ${hours} hours, ${minutes} minutes, and ${seconds} seconds`;
   tasksWrap.appendChild(resetHeader);
 
-  // \u0628\u0642\u06cc\u0647 \u06a9\u062f \u0628\u062f\u0648\u0646 \u062a\u063a\u06cc\u06cc\u0631...
+  // Rest of the code unchanged...
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
@@ -1407,7 +1407,7 @@ function renderTasks(){
 
     actionBtn.addEventListener('click', () => {
       if (taskStatus === 'start') {
-        // \u0628\u0627\u0632 \u06a9\u0631\u062f\u0646 \u0644\u06cc\u0646\u06a9 \u062f\u0631 \u0646\u0631\u0645\u200c\u0627\u0641\u0632\u0627\u0631 \u0645\u0631\u0628\u0648\u0637\u0647
+        // Open link in relevant software
         if (t.url) {
           window.open(t.url, '_blank');
         }
@@ -1425,20 +1425,20 @@ function renderTasks(){
 }
 
 function handleTaskAction(taskId) {
-  // \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9 \u0628\u0647 checking
+  // Change task status to checking
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'checking';
 
-    // \u0630\u062e\u06cc\u0631\u0647 \u0648\u0636\u0639\u06cc\u062a \u062f\u0631 state
+    // Save status in state
     if (!state.taskStatuses) state.taskStatuses = {};
     state.taskStatuses[taskId] = 'checking';
     save();
 
-    // \u0631\u0646\u062f\u0631 \u0645\u062c\u062f\u062f \u062a\u0633\u06a9\u200c\u0647\u0627
+    // Re-render tasks
     renderTasks();
 
-    // \u062a\u0646\u0638\u06cc\u0645 \u062a\u0627\u06cc\u0645\u0631 \u0628\u0631\u0627\u06cc \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 claim \u0628\u0639\u062f \u0627\u0632 1 \u062f\u0642\u06cc\u0642\u0647
+    // Set timer to change status to claim after 1 minute
     setTimeout(() => {
       task.status = 'claim';
       if (state.taskStatuses) {
@@ -1446,16 +1446,16 @@ function handleTaskAction(taskId) {
       }
       save();
       renderTasks();
-    }, 60000); // 1 \u062f\u0642\u06cc\u0642\u0647
+    }, 60000); // 1 minute
   }
 }
 
 function claimTaskReward(taskId, reward, title) {
-  // \u067e\u0631\u062f\u0627\u062e\u062a \u067e\u0627\u062f\u0627\u0634
+  // Pay reward
   state.coins += reward;
   state.completedTasks.push(taskId);
 
-  // \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9 \u0628\u0647 completed
+  // Change task status to completed
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'completed';
@@ -1491,27 +1491,27 @@ async function loadNews(){
     }
     
     // Custom news items about the project, roadmap, and partners
-    add('\ud83d\ude80 \u0631\u0648\u0646\u0645\u0627\u06cc\u06cc \u0627\u0632 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0628\u0627 \u0642\u0627\u0628\u0644\u06cc\u062a\u200c\u0647\u0627\u06cc \u062c\u062f\u06cc\u062f \u0648 \u0628\u0647\u0628\u0648\u062f \u0639\u0645\u0644\u06a9\u0631\u062f \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u062f\u0631 \u062a\u0627\u0631\u06cc\u062e 15 \u0645\u0647\u0631 1404 \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
+    add('\ud83d\ude80 PiProtocol Platform 2.0 Launch', 'We are proud to announce that PiProtocol Platform 2.0 with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('\ud83e\udd1d \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions', '\u062e\u0648\u0634\u062d\u0627\u0644\u06cc\u0645 \u06a9\u0647 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u062e\u0648\u062f \u0631\u0627 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions \u0628\u0631\u0627\u06cc \u062a\u0648\u0633\u0639\u0647 \u0632\u06cc\u0631\u0633\u0627\u062e\u062a\u200c\u0647\u0627\u06cc \u0627\u0645\u0646 \u0648 \u0645\u0642\u06cc\u0627\u0633\u200c\u067e\u0630\u06cc\u0631 \u0627\u0639\u0644\u0627\u0645 \u06a9\u0646\u06cc\u0645. \u0627\u06cc\u0646 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0628\u0647 \u0645\u0627 \u0627\u0645\u06a9\u0627\u0646 \u0645\u06cc\u200c\u062f\u0647\u062f \u062a\u0627 \u062e\u062f\u0645\u0627\u062a \u0628\u0647\u062a\u0631\u06cc \u0628\u0647 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0627\u0631\u0627\u0626\u0647 \u062f\u0647\u06cc\u0645.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are pleased to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This collaboration will allow us to provide better services to users.');
     
-    add('\ud83d\udcca \u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u062f\u0631 \u0633\u0627\u0644 1404', '\u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u0628\u0631\u0627\u06cc \u0633\u0627\u0644 1404 \u0645\u0646\u062a\u0634\u0631 \u0634\u062f. \u062f\u0631 \u0627\u06cc\u0646 \u0646\u0642\u0634\u0647 \u0631\u0627\u0647\u060c \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0645\u0627 \u0628\u0631\u0627\u06cc \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u06a9\u06cc\u0641 \u067e\u0648\u0644 \u0627\u062e\u062a\u0635\u0627\u0635\u06cc\u060c \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0634\u0628\u06a9\u0647\u200c\u0647\u0627\u06cc \u0627\u0635\u0644\u06cc \u0628\u0644\u0627\u06a9\u0686\u06cc\u0646 \u0648 \u0647\u0645\u0686\u0646\u06cc\u0646 \u0633\u06cc\u0633\u062a\u0645 \u0627\u0633\u062a\u06cc\u06a9\u06cc\u0646\u06af \u0628\u0627 \u0633\u0648\u062f \u0633\u0627\u0644\u0627\u0646\u0647 12% \u0645\u0634\u062e\u0635 \u0634\u062f\u0647 \u0627\u0633\u062a.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, PiP token on major blockchain networks, and a staking system with 12% annual yield have been outlined.');
     
-    add('\ud83c\udfc6 \u0631\u0633\u06cc\u062f\u0646 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u0628\u0647 100,000 \u0646\u0641\u0631', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0627\u0632 \u0645\u0631\u0632 100,000 \u0646\u0641\u0631 \u06af\u0630\u0634\u062a. \u0627\u0632 \u062a\u0645\u0627\u0645\u06cc \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0631\u0627\u06cc \u0627\u0639\u062a\u0645\u0627\u062f \u0648 \u0647\u0645\u0631\u0627\u0647\u06cc \u0633\u067e\u0627\u0633\u06af\u0632\u0627\u0631\u06cc\u0645.');
+    add('\ud83c\udfc6 Active Users Reach 100,000', 'We are proud to announce that the number of active users on the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('\ud83d\udcb0 \u0644\u06cc\u0633\u062a \u0634\u062f\u0646 \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0635\u0631\u0627\u0641\u06cc\u200c\u0647\u0627\u06cc \u0645\u0639\u062a\u0628\u0631', '\u062a\u0648\u06a9\u0646 PiP \u0628\u0647 \u0632\u0648\u062f\u06cc \u062f\u0631 \u0686\u0646\u062f\u06cc\u0646 \u0635\u0631\u0627\u0641\u06cc \u0645\u0639\u062a\u0628\u0631 \u0627\u0631\u0632\u0647\u0627\u06cc \u062f\u06cc\u062c\u06cc\u062a\u0627\u0644 \u0644\u06cc\u0633\u062a \u062e\u0648\u0627\u0647\u062f \u0634\u062f. \u0627\u06cc\u0646 \u0627\u0642\u062f\u0627\u0645 \u0628\u0627\u0639\u062b \u0627\u0641\u0632\u0627\u06cc\u0634 \u0646\u0642\u062f\u0634\u0648\u0646\u062f\u06af\u06cc \u0648 \u062f\u0633\u062a\u0631\u0633\u06cc \u0628\u06cc\u0634\u062a\u0631 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0647 \u062a\u0648\u06a9\u0646 PiP \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
+    add('\ud83d\udcb0 PiP Token Listing on Major Exchanges', 'The PiP token will soon be listed on several reputable cryptocurrency exchanges. This will increase liquidity and user access to the PiP token.');
     
   }catch(e){
     // Fallback news items
-    add('\ud83d\ude80 \u0631\u0648\u0646\u0645\u0627\u06cc\u06cc \u0627\u0632 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0628\u0627 \u0642\u0627\u0628\u0644\u06cc\u062a\u200c\u0647\u0627\u06cc \u062c\u062f\u06cc\u062f \u0648 \u0628\u0647\u0628\u0648\u062f \u0639\u0645\u0644\u06a9\u0631\u062f \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u062f\u0631 \u062a\u0627\u0631\u06cc\u062e 15 \u0645\u0647\u0631 1404 \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
+    add('\ud83d\ude80 PiProtocol Platform 2.0 Launch', 'We are proud to announce that PiProtocol Platform 2.0 with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('\ud83e\udd1d \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions', '\u062e\u0648\u0634\u062d\u0627\u0644\u06cc\u0645 \u06a9\u0647 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u062e\u0648\u062f \u0631\u0627 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions \u0628\u0631\u0627\u06cc \u062a\u0648\u0633\u0639\u0647 \u0632\u06cc\u0631\u0633\u0627\u062e\u062a\u200c\u0647\u0627\u06cc \u0627\u0645\u0646 \u0648 \u0645\u0642\u06cc\u0627\u0633\u200c\u067e\u0630\u06cc\u0631 \u0627\u0639\u0644\u0627\u0645 \u06a9\u0646\u06cc\u0645. \u0627\u06cc\u0646 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0628\u0647 \u0645\u0627 \u0627\u0645\u06a9\u0627\u0646 \u0645\u06cc\u200c\u062f\u0647\u062f \u062a\u0627 \u062e\u062f\u0645\u0627\u062a \u0628\u0647\u062a\u0631\u06cc \u0628\u0647 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0627\u0631\u0627\u0626\u0647 \u062f\u0647\u06cc\u0645.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are pleased to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This collaboration will allow us to provide better services to users.');
     
-    add('\ud83d\udcca \u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u062f\u0631 \u0633\u0627\u0644 1404', '\u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u0628\u0631\u0627\u06cc \u0633\u0627\u0644 1404 \u0645\u0646\u062a\u0634\u0631 \u0634\u062f. \u062f\u0631 \u0627\u06cc\u0646 \u0646\u0642\u0634\u0647 \u0631\u0627\u0647\u060c \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0645\u0627 \u0628\u0631\u0627\u06cc \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u06a9\u06cc\u0641 \u067e\u0648\u0644 \u0627\u062e\u062a\u0635\u0627\u0635\u06cc\u060c \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0634\u0628\u06a9\u0647\u200c\u0647\u0627\u06cc \u0627\u0635\u0644\u06cc \u0628\u0644\u0627\u06a9\u0686\u06cc\u0646 \u0648 \u0647\u0645\u0686\u0646\u06cc\u0646 \u0633\u06cc\u0633\u062a\u0645 \u0627\u0633\u062a\u06cc\u06a9\u06cc\u0646\u06af \u0628\u0627 \u0633\u0648\u062f \u0633\u0627\u0644\u0627\u0646\u0647 12% \u0645\u0634\u062e\u0635 \u0634\u062f\u0647 \u0627\u0633\u062a.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, PiP token on major blockchain networks, and a staking system with 12% annual yield have been outlined.');
     
-    add('\ud83c\udfc6 \u0631\u0633\u06cc\u062f\u0646 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u0628\u0647 100,000 \u0646\u0641\u0631', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0627\u0632 \u0645\u0631\u0632 100,000 \u0646\u0641\u0631 \u06af\u0630\u0634\u062a. \u0627\u0632 \u062a\u0645\u0627\u0645\u06cc \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0631\u0627\u06cc \u0627\u0639\u062a\u0645\u0627\u062f \u0648 \u0647\u0645\u0631\u0627\u0647\u06cc \u0633\u067e\u0627\u0633\u06af\u0632\u0627\u0631\u06cc\u0645.');
+    add('\ud83c\udfc6 Active Users Reach 100,000', 'We are proud to announce that the number of active users on the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('\ud83d\udcb0 \u0644\u06cc\u0633\u062a \u0634\u062f\u0646 \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0635\u0631\u0627\u0641\u06cc\u200c\u0647\u0627\u06cc \u0645\u0639\u062a\u0628\u0631', '\u062a\u0648\u06a9\u0646 PiP \u0628\u0647 \u0632\u0648\u062f\u06cc \u062f\u0631 \u0686\u0646\u062f\u06cc\u0646 \u0635\u0631\u0627\u0641\u06cc \u0645\u0639\u062a\u0628\u0631 \u0627\u0631\u0632\u0647\u0627\u06cc \u062f\u06cc\u062c\u06cc\u062a\u0627\u0644 \u0644\u06cc\u0633\u062a \u062e\u0648\u0627\u0647\u062f \u0634\u062f. \u0627\u06cc\u0646 \u0627\u0642\u062f\u0627\u0645 \u0628\u0627\u0639\u062b \u0627\u0641\u0632\u0627\u06cc\u0634 \u0646\u0642\u062f\u0634\u0648\u0646\u062f\u06af\u06cc \u0648 \u062f\u0633\u062a\u0631\u0633\u06cc \u0628\u06cc\u0634\u062a\u0631 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0647 \u062a\u0648\u06a9\u0646 PiP \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
+    add('\ud83d\udcb0 PiP Token Listing on Major Exchanges', 'The PiP token will soon be listed on several reputable cryptocurrency exchanges. This will increase liquidity and user access to the PiP token.');
   }
 }
 
@@ -1524,7 +1524,7 @@ function setupProfile(){
     state.profile.first = firstNameInput.value.trim();
     state.profile.last  = lastNameInput.value.trim();
     state.profile.id    = userIdInput.value.trim();
-    save(); alert('\u0630\u062e\u06cc\u0631\u0647 \u0634\u062f!');
+    save(); alert('Saved!');
     // Update referral link if user ID changed
     setupFriends();
   });
@@ -1542,13 +1542,13 @@ function pushTx(tx){
   if(state.tx.length>200) state.tx.length=200;
 }
 
-// \u062a\u0627\u0628\u0639 \u062c\u062f\u06cc\u062f \u0628\u0631\u0627\u06cc \u0628\u0647 \u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc (\u0633\u0631\u0627\u0633\u0631\u06cc)
+// New function to update reset timer (global)
 function updateResetTimer() {
   const now = new Date();
   const resetTime = new Date();
-  resetTime.setHours(24, 0, 0, 0); // \u0633\u0627\u0639\u062a \u06f2\u06f4:\u06f0\u06f0 (\u0646\u06cc\u0645\u0647 \u0634\u0628)
+  resetTime.setHours(24, 0, 0, 0); // 24:00 (midnight)
 
-  // \u0627\u06af\u0631 \u0632\u0645\u0627\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u06af\u0630\u0634\u062a\u0647 \u0628\u0627\u0634\u062f\u060c \u0631\u0648\u0632 \u0628\u0639\u062f \u0631\u0627 \u062a\u0646\u0638\u06cc\u0645 \u06a9\u0646
+  // If reset time has passed, set to next day
   if (resetTime < now) {
     resetTime.setDate(resetTime.getDate() + 1);
   }
@@ -1556,7 +1556,7 @@ function updateResetTimer() {
   const timeUntilReset = resetTime - now;
 
   if (timeUntilReset <= 0) {
-    // \u0627\u06af\u0631 \u0632\u0645\u0627\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0633\u06cc\u062f\u0647\u060c \u062a\u0633\u06a9\u200c\u0647\u0627 \u0631\u0627 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u06a9\u0646
+    // If reset time has arrived, reset tasks
     checkAndResetDailyTasks();
     return;
   }
@@ -1565,19 +1565,19 @@ function updateResetTimer() {
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  // \u0628\u0647 \u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0641\u0642\u0637 \u0627\u06af\u0631 \u062f\u0631 \u062a\u0628 Tasks \u0647\u0633\u062a\u06cc\u0645
+  // Update timer only if we're in the Tasks tab
   const resetTimerEl = document.getElementById('resetTimer');
   if (resetTimerEl) {
-    resetTimerEl.textContent = `\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0628\u0639\u062f\u06cc: ${hours} \u0633\u0627\u0639\u062a \u0648 ${minutes} \u062f\u0642\u06cc\u0642\u0647 \u0648 ${seconds} \u062b\u0627\u0646\u06cc\u0647 \u062f\u06cc\u06af\u0631`;
+    resetTimerEl.textContent = `Next reset: ${hours} hours, ${minutes} minutes, and ${seconds} seconds`;
   }
 
-  // \u0630\u062e\u06cc\u0631\u0647 \u0632\u0645\u0627\u0646 \u0628\u0627\u0642\u06cc\u0645\u0627\u0646\u062f\u0647 \u0628\u0631\u0627\u06cc \u0627\u0633\u062a\u0641\u0627\u062f\u0647 \u062f\u0631 \u062a\u0628\u200c\u0647\u0627\u06cc \u062f\u06cc\u06af\u0631
+  // Save remaining time for use in other tabs
   state.timeUntilReset = timeUntilReset;
 }
 
 /* ================== Boot ================== */
 function boot(){
-  // \u0628\u0631\u0631\u0633\u06cc \u0648 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
+  // Check and reset daily tasks
   checkAndResetDailyTasks();
 
   updateMiningUI();
@@ -1587,7 +1587,7 @@ function boot(){
   setupProfile();
   loadNews();
 
-  // \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0633\u0631\u0627\u0633\u0631\u06cc \u0628\u0631\u0627\u06cc \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc (\u0647\u0631 1 \u062b\u0627\u0646\u06cc\u0647)
+  // Start global timer for reset (every 1 second)
   setInterval(() => {
     updateResetTimer();
   }, 1000);
@@ -1597,7 +1597,7 @@ function boot(){
     fetchFriendsData();
   }, 5 * 60 * 1000);
 
-  // \u0628\u0627\u0632\u06cc\u0627\u0628\u06cc \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9\u200c\u0647\u0627 \u0627\u0632 state
+  // Recover task statuses from state
   if (state.taskStatuses) {
     TASKS.forEach(task => {
       if (state.taskStatuses[task.id]) {
@@ -1606,7 +1606,7 @@ function boot(){
     });
   }
 
-  // \u0627\u06af\u0631 \u062f\u0631 \u062d\u0627\u0644 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0628\u0648\u062f\u060c \u062a\u06cc\u06a9 \u0631\u0627 \u0627\u062f\u0627\u0645\u0647 \u0628\u062f\u0647 \u06cc\u0627 \u0627\u06af\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f\u0647 \u0627\u0645\u0627 \u0647\u0646\u0648\u0632 claim \u0646\u0634\u062f\u0647\u060c UI \u0631\u0627 \u0622\u0645\u0627\u062f\u0647 \u06a9\u0646
+  // If mining, continue tick or if finished but not claimed, prepare UI
   if(state.miningStart){
     const {remaining} = miningMetrics();
     if(remaining>0) {
@@ -1614,7 +1614,7 @@ function boot(){
       startBtn.disabled = true; // Disable start button while mining is active
     }
     else {
-      // \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f\u0647 \u0627\u0645\u0627 \u06a9\u0627\u0631\u0628\u0631 \u0647\u0646\u0648\u0632 claim \u0646\u06a9\u0631\u062f\u0647 \u2014 \u0641\u0642\u0637 \u0622\u067e\u062f\u06cc\u062a UI \u062a\u0627 \u062f\u06a9\u0645\u0647 \u0641\u0639\u0627\u0644 \u0628\u0627\u0634\u062f
+      // Timer finished but user hasn't claimed yet \u2014 just update UI so button is active
       updateMiningUI();
       startBtn.disabled = false; // Enable start button when timer completes
     }
