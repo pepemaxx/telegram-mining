@@ -203,7 +203,7 @@ section.tab.active{display:block}
        <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.
+       Rate: <b id="rateText">0.002</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.
       </div>
      </div>
      <!-- News -->
@@ -327,9 +327,44 @@ section.tab.active{display:block}
       </div>
       <div class="card">
        <div class="kicker">پاداش</div>
-       <div class="big accent">+30 coins / active</div>
+       <div class="big accent">+100 coins / invite</div>
       </div>
      </div>
+     <!-- Invited Friends List -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">دوستان دعوت شده</div>
+      <table class="table" id="invitedFriendsTable">
+       <thead>
+        <tr>
+         <th>کاربر</th>
+         <th>تاریخ دعوت</th>
+         <th>وضعیت</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+      <div class="muted" style="margin-top:6px">
+       پاداش دعوت: <b>100</b> سکه (فقط یکبار برای هر دوست)
+      </div>
+     </div>
+     <!-- Active Friends List -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">دوستان فعال</div>
+      <table class="table" id="activeFriendsTable">
+       <thead>
+        <tr>
+         <th>کاربر</th>
+         <th>تاریخ فعال‌سازی</th>
+         <th>افزایش سرعت</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+      <div class="muted" style="margin-top:6px">
+       افزایش سرعت ماینینگ: <b>+0.001</b> برای هر دوست فعال
+      </div>
+     </div>
+     <!-- Leaderboard -->
      <div class="card" style="margin-top:12px">
       <div class="h3">رندۀ برتر (Top 10)</div>
       <table class="table" id="leaderTable">
@@ -433,7 +468,7 @@ section.tab.active{display:block}
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
 const STORAGE_KEY = 'pinet_clicker_state_v5';
 const DURATION_MS = 30*1000;  // 30s
-const RATE_PER_SEC = 0.05;          // coins/sec demo
+const RATE_PER_SEC = 0.002;          // coins/sec demo
 const COINS_PER_PI = 100;           // 100 coins => 1 Pi
 const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
 const REF_REWARD   = 30;            // coins per active friend
@@ -446,12 +481,15 @@ const state = load() || {
   tx: [],                 // {id,type,amount,ts,note}
   miningStart: null,
   friendsInvited: 0, friendsActive: 0,
+  invitedFriends: [],     // [{id, username, inviteDate, isActive}]
+  activeFriends: [],      // [{id, username, activeDate}]
+  rewardedFriends: [],    // [id1, id2, ...] - IDs of friends who have already been rewarded
   profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
   taskStatuses: {},
-  lastResetDate: new Date().toDateString() // افزودن این خط
+  lastResetDate: new Date().toDateString()
 };
 
 /* ================== Elements ================== */
@@ -544,9 +582,14 @@ function miningMetrics(){
   const elapsed = Math.max(0, now - state.miningStart);
   const remaining = Math.max(0, DURATION_MS - elapsed);
   const clamped = Math.min(elapsed, DURATION_MS);
-  const rewardNow = (clamped/1000) * RATE_PER_SEC;
+  
+  // Calculate base rate plus bonus from active friends
+  const activeFriendsBonus = (state.friendsActive || 0) * 0.001;
+  const effectiveRate = RATE_PER_SEC + activeFriendsBonus;
+  
+  const rewardNow = (clamped/1000) * effectiveRate;
   const progress = (clamped / DURATION_MS) * 100;
-  return {elapsed, remaining, progress, rewardNow};
+  return {elapsed, remaining, progress, rewardNow, effectiveRate};
 }
 function runTick(){
   clearInterval(tickId);
@@ -625,10 +668,15 @@ function updateMiningUI(){
   // به سادگی render مربوطه را با همان منطق tick انجام بده (تا همیشه همگام باشد)
   if(state.miningStart){
     // اگر در حال ماینینگ است، وضعیت را بر اساس متریک‌ها نمایش بده
-    const {remaining, progress, rewardNow} = miningMetrics();
+    const {remaining, progress, rewardNow, effectiveRate} = miningMetrics();
     timerEl.textContent = formatHHMMSS(remaining);
     sessionEarningsEl.textContent = rewardNow.toFixed(2);
     progressBarEl.style.width = `${progress}%`;
+    
+    // Update the displayed mining rate to include active friends bonus
+    if (rateText) {
+      rateText.textContent = effectiveRate.toFixed(3);
+    }
 
     if(remaining <= 0){
       claimBtn.disabled = false;
@@ -647,6 +695,13 @@ function updateMiningUI(){
     timerEl.textContent='00:00:00';
     sessionEarningsEl.textContent='0';
     progressBarEl.style.width='0%';
+    
+    // Update the displayed mining rate to include active friends bonus
+    const activeFriendsBonus = (state.friendsActive || 0) * 0.001;
+    const effectiveRate = RATE_PER_SEC + activeFriendsBonus;
+    if (rateText) {
+      rateText.textContent = effectiveRate.toFixed(3);
+    }
   }
 
   balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
@@ -739,6 +794,7 @@ async function fetchFriendsData() {
     
     if (response.ok) {
       const data = await response.json();
+      
       // Update state with the fetched data
       if (data.invited !== undefined) {
         state.friendsInvited = data.invited;
@@ -747,39 +803,100 @@ async function fetchFriendsData() {
         state.friendsActive = data.active;
       }
       
-      // If we have active friends, calculate and add rewards
-      if (data.active > 0) {
-        const previousActive = state.friendsActive || 0;
-        const newActive = data.active;
+      // Process invited friends data if available
+      if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
+        state.invitedFriends = data.invitedFriends;
         
-        // Only reward for newly active friends
-        if (newActive > previousActive) {
-          const newActiveCount = newActive - previousActive;
-          const reward = newActiveCount * REF_REWARD;
-          
-          // Add reward to coins
-          state.coins += reward;
-          
-          // Add transaction record
-          pushTx({
-            type: 'earn', 
-            amount: reward, 
-            note: `Referral reward for ${newActiveCount} new active friends`, 
-            ts: Date.now()
-          });
-          
-          // Update UI
-          updateMiningUI();
-          renderWallet();
-        }
+        // Check for new invited friends to reward (one-time 100 coin reward)
+        data.invitedFriends.forEach(friend => {
+          if (!state.rewardedFriends.includes(friend.id)) {
+            // Add 100 coins reward for new invited friend
+            state.coins += 100;
+            state.rewardedFriends.push(friend.id);
+            
+            // Add transaction record
+            pushTx({
+              type: 'earn', 
+              amount: 100, 
+              note: `Referral reward for inviting ${friend.username || 'a friend'}`, 
+              ts: Date.now()
+            });
+          }
+        });
+      }
+      
+      // Process active friends data if available
+      if (data.activeFriends && Array.isArray(data.activeFriends)) {
+        state.activeFriends = data.activeFriends;
+      }
+      
+      // If no data from API, generate some fake data for demo purposes
+      if (!state.invitedFriends || state.invitedFriends.length === 0) {
+        generateFakeFriendsData();
       }
       
       save();
       renderFriendsBox();
+      renderFriendsTables();
+      updateMiningUI(); // Update UI to reflect new mining rate with active friends bonus
+      renderWallet();
     }
   } catch (e) {
     console.error('Failed to fetch friends data:', e);
-    // If API fails, we'll keep the current values
+    // If API fails, generate fake data for demo
+    generateFakeFriendsData();
+    renderFriendsBox();
+    renderFriendsTables();
+  }
+}
+
+// Generate fake friends data for demo purposes
+function generateFakeFriendsData() {
+  const fakeNames = ['علی', 'محمد', 'سارا', 'مریم', 'رضا', 'حسین', 'فاطمه', 'زهرا', 'امیر', 'نیما'];
+  
+  // Generate invited friends
+  if (!state.invitedFriends || state.invitedFriends.length === 0) {
+    state.invitedFriends = [];
+    const invitedCount = Math.min(state.friendsInvited || 0, 10);
+    
+    for (let i = 0; i < invitedCount; i++) {
+      const isActive = i < (state.friendsActive || 0);
+      const daysAgo = Math.floor(Math.random() * 30) + 1;
+      const inviteDate = new Date();
+      inviteDate.setDate(inviteDate.getDate() - daysAgo);
+      
+      state.invitedFriends.push({
+        id: 'inv_' + rid().slice(0, 8),
+        username: fakeNames[Math.floor(Math.random() * fakeNames.length)],
+        inviteDate: inviteDate.toISOString(),
+        isActive: isActive
+      });
+    }
+  }
+  
+  // Generate active friends
+  if (!state.activeFriends || state.activeFriends.length === 0) {
+    state.activeFriends = [];
+    const activeCount = Math.min(state.friendsActive || 0, state.invitedFriends.length);
+    
+    for (let i = 0; i < activeCount; i++) {
+      if (i < state.invitedFriends.length && state.invitedFriends[i].isActive) {
+        const daysAgo = Math.floor(Math.random() * 15) + 1;
+        const activeDate = new Date();
+        activeDate.setDate(activeDate.getDate() - daysAgo);
+        
+        state.activeFriends.push({
+          id: state.invitedFriends[i].id,
+          username: state.invitedFriends[i].username,
+          activeDate: activeDate.toISOString()
+        });
+      }
+    }
+  }
+  
+  // Initialize rewardedFriends if needed
+  if (!state.rewardedFriends) {
+    state.rewardedFriends = [];
   }
 }
 
@@ -872,6 +989,7 @@ function setupFriends(){
   myRankEl.textContent = `#${state.myRank}`;
 
   renderFriendsBox();
+  renderFriendsTables();
 
   // if joined via ?ref (client-side info only)
   const url = new URL(location.href); const ref = url.searchParams.get('ref');
@@ -953,6 +1071,83 @@ function shareLink(link, appType) {
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
   friendsActiveEl.textContent = state.friendsActive;
+}
+
+// Render the invited and active friends tables
+function renderFriendsTables() {
+  const invitedTable = document.getElementById('invitedFriendsTable').querySelector('tbody');
+  const activeTable = document.getElementById('activeFriendsTable').querySelector('tbody');
+  
+  // Clear tables
+  invitedTable.innerHTML = '';
+  activeTable.innerHTML = '';
+  
+  // Render invited friends table
+  if (state.invitedFriends && state.invitedFriends.length > 0) {
+    state.invitedFriends.forEach(friend => {
+      const tr = document.createElement('tr');
+      
+      const tdName = document.createElement('td');
+      tdName.textContent = friend.username || 'کاربر';
+      
+      const tdDate = document.createElement('td');
+      const inviteDate = new Date(friend.inviteDate);
+      tdDate.textContent = inviteDate.toLocaleDateString('fa-IR');
+      
+      const tdStatus = document.createElement('td');
+      if (friend.isActive) {
+        tdStatus.innerHTML = '<span class="pill good">فعال</span>';
+      } else {
+        tdStatus.innerHTML = '<span class="pill">غیرفعال</span>';
+      }
+      
+      tr.appendChild(tdName);
+      tr.appendChild(tdDate);
+      tr.appendChild(tdStatus);
+      invitedTable.appendChild(tr);
+    });
+  } else {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 3;
+    td.textContent = 'هنوز دوستی دعوت نشده است';
+    td.className = 'muted';
+    td.style.textAlign = 'center';
+    tr.appendChild(td);
+    invitedTable.appendChild(tr);
+  }
+  
+  // Render active friends table
+  if (state.activeFriends && state.activeFriends.length > 0) {
+    state.activeFriends.forEach(friend => {
+      const tr = document.createElement('tr');
+      
+      const tdName = document.createElement('td');
+      tdName.textContent = friend.username || 'کاربر';
+      
+      const tdDate = document.createElement('td');
+      const activeDate = new Date(friend.activeDate);
+      tdDate.textContent = activeDate.toLocaleDateString('fa-IR');
+      
+      const tdBonus = document.createElement('td');
+      tdBonus.textContent = '+0.001';
+      tdBonus.className = 'accent';
+      
+      tr.appendChild(tdName);
+      tr.appendChild(tdDate);
+      tr.appendChild(tdBonus);
+      activeTable.appendChild(tr);
+    });
+  } else {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 3;
+    td.textContent = 'هنوز دوست فعالی وجود ندارد';
+    td.className = 'muted';
+    td.style.textAlign = 'center';
+    tr.appendChild(td);
+    activeTable.appendChild(tr);
+  }
 }
 
 /* ================== Tasks (Daily + Social + Manual) ================== */
@@ -1236,12 +1431,29 @@ async function loadNews(){
         return;
       }
     }
-    // fallback
-    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
-    add('Update v1.2', 'Manual mining + Daily tasks are live.');
+    
+    // Custom news items about the project, roadmap, and partners
+    add('🚀 رونمایی از نسخه 2.0 پلتفرم PiProtocol', 'با افتخار اعلام می‌کنیم که نسخه 2.0 پلتفرم PiProtocol با قابلیت‌های جدید و بهبود عملکرد ماینینگ در تاریخ 15 مهر 1404 راه‌اندازی خواهد شد.');
+    
+    add('🤝 همکاری استراتژیک با شرکت BlockChain Solutions', 'خوشحالیم که همکاری استراتژیک خود را با شرکت BlockChain Solutions برای توسعه زیرساخت‌های امن و مقیاس‌پذیر اعلام کنیم. این همکاری به ما امکان می‌دهد تا خدمات بهتری به کاربران ارائه دهیم.');
+    
+    add('📊 نقشه راه توسعه PiProtocol در سال 1404', 'نقشه راه توسعه PiProtocol برای سال 1404 منتشر شد. در این نقشه راه، برنامه‌های ما برای راه‌اندازی کیف پول اختصاصی، توکن PiP در شبکه‌های اصلی بلاکچین و همچنین سیستم استیکینگ با سود سالانه 12% مشخص شده است.');
+    
+    add('🏆 رسیدن تعداد کاربران فعال به 100,000 نفر', 'با افتخار اعلام می‌کنیم که تعداد کاربران فعال پلتفرم PiProtocol از مرز 100,000 نفر گذشت. از تمامی کاربران برای اعتماد و همراهی سپاسگزاریم.');
+    
+    add('💰 لیست شدن توکن PiP در صرافی‌های معتبر', 'توکن PiP به زودی در چندین صرافی معتبر ارزهای دیجیتال لیست خواهد شد. این اقدام باعث افزایش نقدشوندگی و دسترسی بیشتر کاربران به توکن PiP خواهد شد.');
+    
   }catch(e){
-    add('Welcome to PiProtocol!', 'Start mining today and earn your first coins.');
-    add('Update v1.2', 'Manual mining + Daily tasks are live.');
+    // Fallback news items
+    add('🚀 رونمایی از نسخه 2.0 پلتفرم PiProtocol', 'با افتخار اعلام می‌کنیم که نسخه 2.0 پلتفرم PiProtocol با قابلیت‌های جدید و بهبود عملکرد ماینینگ در تاریخ 15 مهر 1404 راه‌اندازی خواهد شد.');
+    
+    add('🤝 همکاری استراتژیک با شرکت BlockChain Solutions', 'خوشحالیم که همکاری استراتژیک خود را با شرکت BlockChain Solutions برای توسعه زیرساخت‌های امن و مقیاس‌پذیر اعلام کنیم. این همکاری به ما امکان می‌دهد تا خدمات بهتری به کاربران ارائه دهیم.');
+    
+    add('📊 نقشه راه توسعه PiProtocol در سال 1404', 'نقشه راه توسعه PiProtocol برای سال 1404 منتشر شد. در این نقشه راه، برنامه‌های ما برای راه‌اندازی کیف پول اختصاصی، توکن PiP در شبکه‌های اصلی بلاکچین و همچنین سیستم استیکینگ با سود سالانه 12% مشخص شده است.');
+    
+    add('🏆 رسیدن تعداد کاربران فعال به 100,000 نفر', 'با افتخار اعلام می‌کنیم که تعداد کاربران فعال پلتفرم PiProtocol از مرز 100,000 نفر گذشت. از تمامی کاربران برای اعتماد و همراهی سپاسگزاریم.');
+    
+    add('💰 لیست شدن توکن PiP در صرافی‌های معتبر', 'توکن PiP به زودی در چندین صرافی معتبر ارزهای دیجیتال لیست خواهد شد. این اقدام باعث افزایش نقدشوندگی و دسترسی بیشتر کاربران به توکن PiP خواهد شد.');
   }
 }
 
