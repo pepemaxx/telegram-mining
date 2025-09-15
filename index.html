@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="fa" dir="rtl">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PiProtocol – Daily Mining</title>
+  <title>PiProtocol \u2013 Daily Mining</title>
   <style>
 /* ====== Theme ====== */
 :root{
@@ -162,8 +163,8 @@ section.tab.active{display:block}
    <!-- Header -->
    <header>
     <div>
-     <div class="title">PiProtocol – Daily Mining</div>
-     <div class="sub">24h mining • Local persistence + API fallback</div>
+     <div class="title">PiProtocol \u2013 Daily Mining</div>
+     <div class="sub">24h mining \u2022 Local persistence + API fallback</div>
     </div>
    </header>
    <!-- Main -->
@@ -199,17 +200,17 @@ section.tab.active{display:block}
        <div id="progressBar"></div>
       </div>
       <div class="row" style="margin-top:12px">
-       <button id="startBtn" class="btn btn-gold">Start 20s</button>
+       <button id="startBtn" class="btn btn-gold">Start 24h</button>
        <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.
+       Rate: <b id="rateText">0.002</b> coin/sec \u2022 \u0647\u0631 \u0628\u0627\u0631 <b>Start</b> \u0631\u0627 \u0628\u0632\u0646\u06cc\u062f \u062a\u0627\u06cc\u0645\u0631 \u0627\u0632 \u0627\u0648\u0644 \u0634\u0631\u0648\u0639 \u0645\u06cc\u200c\u0634\u0648\u062f.
       </div>
      </div>
      <!-- News -->
      <div class="card">
       <div class="row" style="justify-content:space-between">
-       <div class="h2">اخبار</div>
+       <div class="h2">\u0627\u062e\u0628\u0627\u0631</div>
        <div class="badge">
         <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
          <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
@@ -245,75 +246,75 @@ section.tab.active{display:block}
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
       <div class="card">
-       <div class="h3">🔄 تبدیل Coins → PiP</div>
+       <div class="h3">\ud83d\udd04 \u062a\u0628\u062f\u06cc\u0644 Coins \u2192 PiP</div>
        <div class="muted" style="margin-bottom:6px">
-        نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP
+        \u0646\u0631\u062e \u0646\u0645\u0627\u06cc\u0634\u06cc: <b id="coinsPerPi">100</b>coins = 1 PiP
        </div>
        <div class="input-row">
-        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
-        <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
+        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="\u0645\u0642\u062f\u0627\u0631 \u06a9\u0648\u06cc\u0646">
+        <button id="coinsToPiBtn" class="btn btn-gold">\u062a\u0628\u062f\u06cc\u0644</button>
        </div>
        <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
       </div>
       <!-- Convert Pi -> USDT -->
       <div class="card">
-       <div class="h3">💱 تبدیل PiP → USDT</div>
+       <div class="h3">\ud83d\udcb1 \u062a\u0628\u062f\u06cc\u0644 PiP \u2192 USDT</div>
        <div class="muted" style="margin-bottom:6px">
-        نرخ نمایشی: 1PiP = <b id="usdtPerPi">5</b> USDT
+        \u0646\u0631\u062e \u0646\u0645\u0627\u06cc\u0634\u06cc: 1PiP = <b id="usdtPerPi">5</b> USDT
        </div>
        <div class="input-row">
-        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار PiP">
-        <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>
+        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="\u0645\u0642\u062f\u0627\u0631 PiP">
+        <button id="piToUsdtBtn" class="btn btn-gold">\u062a\u0628\u062f\u06cc\u0644</button>
        </div>
        <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
       </div>
      </div>
      <!-- Withdraw -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">🏦 برداشت</div>
+      <div class="h3">\ud83c\udfe6 \u0628\u0631\u062f\u0627\u0634\u062a</div>
       <div class="grid-3">
        <div>
-        <div class="muted">نوع دارایی</div>
+        <div class="muted">\u0646\u0648\u0639 \u062f\u0627\u0631\u0627\u06cc\u06cc</div>
         <select id="withdrawAsset"> <option value="pi">PiP</option> <option value="usdt">USDT</option> </select>
        </div>
        <div>
-        <div class="muted">آدرس کیف پول</div>
-        <input id="withdrawAddr" placeholder="مثلاً Pi wallet / TRON / ERC-20">
+        <div class="muted">\u0622\u062f\u0631\u0633 \u06a9\u06cc\u0641 \u067e\u0648\u0644</div>
+        <input id="withdrawAddr" placeholder="\u0645\u062b\u0644\u0627\u064b Pi wallet / TRON / ERC-20">
        </div>
        <div>
-        <div class="muted">مقدار</div>
+        <div class="muted">\u0645\u0642\u062f\u0627\u0631</div>
         <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount">
        </div>
       </div>
       <div class="row" style="margin-top:10px">
-       <button id="withdrawBtn" class="btn btn-gold">ثبت درخواست</button>
-       <div class="muted">برای پردازش واقعی، نیاز به تأیید سمت سرور دارید.</div>
+       <button id="withdrawBtn" class="btn btn-gold">\u062b\u0628\u062a \u062f\u0631\u062e\u0648\u0627\u0633\u062a</button>
+       <div class="muted">\u0628\u0631\u0627\u06cc \u067e\u0631\u062f\u0627\u0632\u0634 \u0648\u0627\u0642\u0639\u06cc\u060c \u0646\u06cc\u0627\u0632 \u0628\u0647 \u062a\u0623\u06cc\u06cc\u062f \u0633\u0645\u062a \u0633\u0631\u0648\u0631 \u062f\u0627\u0631\u06cc\u062f.</div>
       </div>
      </div>
      <!-- Transactions -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">تراکنش‌ها</div>
+      <div class="h3">\u062a\u0631\u0627\u06a9\u0646\u0634\u200c\u0647\u0627</div>
       <table class="table">
        <thead>
         <tr>
-         <th>توضیح</th>
-         <th>مقدار</th>
-         <th>زمان</th>
+         <th>\u062a\u0648\u0636\u06cc\u062d</th>
+         <th>\u0645\u0642\u062f\u0627\u0631</th>
+         <th>\u0632\u0645\u0627\u0646</th>
         </tr>
        </thead>
        <tbody id="txList"></tbody>
       </table>
-      <div id="noTx" class="muted" style="margin-top:6px">هنوز تراکنشی وجود ندارد.</div>
+      <div id="noTx" class="muted" style="margin-top:6px">\u0647\u0646\u0648\u0632 \u062a\u0631\u0627\u06a9\u0646\u0634\u06cc \u0648\u062c\u0648\u062f \u0646\u062f\u0627\u0631\u062f.</div>
      </div>
     </section>
     <!-- Friends -->
     <section class="tab" id="tab-friends">
      <div class="card">
-      <div class="h3">لینک دعوت شما</div>
+      <div class="h3">\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u0634\u0645\u0627</div>
       <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
       <div class="row" style="margin-top:8px">
-       <button id="copyRef" class="btn btn-gold">کپی لینک</button>
-       <button id="shareRef" class="btn btn-ghost">اشتراک گذاری</button>
+       <button id="copyRef" class="btn btn-gold">\u06a9\u067e\u06cc \u0644\u06cc\u0646\u06a9</button>
+       <button id="shareRef" class="btn btn-ghost">\u0627\u0634\u062a\u0631\u0627\u06a9 \u06af\u0630\u0627\u0631\u06cc</button>
       </div>
      </div>
      <div class="grid-3" style="margin-top:12px">
@@ -326,73 +327,73 @@ section.tab.active{display:block}
        <div class="big" id="friendsActive">0</div>
       </div>
       <div class="card">
-       <div class="kicker">پاداش</div>
+       <div class="kicker">\u067e\u0627\u062f\u0627\u0634</div>
        <div class="big accent">+100 coins / invite</div>
       </div>
      </div>
      <!-- Invited Friends List -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">دوستان دعوت شده</div>
+      <div class="h3">\u062f\u0648\u0633\u062a\u0627\u0646 \u062f\u0639\u0648\u062a \u0634\u062f\u0647</div>
       <table class="table" id="invitedFriendsTable">
        <thead>
         <tr>
-         <th>کاربر</th>
-         <th>تاریخ دعوت</th>
-         <th>وضعیت</th>
+         <th>\u06a9\u0627\u0631\u0628\u0631</th>
+         <th>\u062a\u0627\u0631\u06cc\u062e \u062f\u0639\u0648\u062a</th>
+         <th>\u0648\u0636\u0639\u06cc\u062a</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       پاداش دعوت: <b>100</b> سکه (فقط یکبار برای هر دوست)
+       \u067e\u0627\u062f\u0627\u0634 \u062f\u0639\u0648\u062a: <b>100</b> \u0633\u06a9\u0647 (\u0641\u0642\u0637 \u06cc\u06a9\u0628\u0627\u0631 \u0628\u0631\u0627\u06cc \u0647\u0631 \u062f\u0648\u0633\u062a)
       </div>
      </div>
      <!-- Active Friends List -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">دوستان فعال</div>
+      <div class="h3">\u062f\u0648\u0633\u062a\u0627\u0646 \u0641\u0639\u0627\u0644</div>
       <table class="table" id="activeFriendsTable">
        <thead>
         <tr>
-         <th>کاربر</th>
-         <th>تاریخ فعال‌سازی</th>
-         <th>افزایش سرعت</th>
+         <th>\u06a9\u0627\u0631\u0628\u0631</th>
+         <th>\u062a\u0627\u0631\u06cc\u062e \u0641\u0639\u0627\u0644\u200c\u0633\u0627\u0632\u06cc</th>
+         <th>\u0627\u0641\u0632\u0627\u06cc\u0634 \u0633\u0631\u0639\u062a</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       افزایش سرعت ماینینگ: <b>+0.001</b> برای هر دوست فعال
+       \u0627\u0641\u0632\u0627\u06cc\u0634 \u0633\u0631\u0639\u062a \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af: <b>+0.001</b> \u0628\u0631\u0627\u06cc \u0647\u0631 \u062f\u0648\u0633\u062a \u0641\u0639\u0627\u0644
       </div>
      </div>
      <!-- Leaderboard -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">رندۀ برتر (Top 10)</div>
+      <div class="h3">\u0631\u0646\u062f\u06c0 \u0628\u0631\u062a\u0631 (Top 10)</div>
       <table class="table" id="leaderTable">
        <thead>
         <tr>
          <th>#</th>
-         <th>کاربر</th>
+         <th>\u06a9\u0627\u0631\u0628\u0631</th>
          <th>Coins</th>
         </tr>
        </thead>
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       رتبه شما: <b id="myRank">#—</b>
+       \u0631\u062a\u0628\u0647 \u0634\u0645\u0627: <b id="myRank">#\u2014</b>
       </div>
      </div>
     </section>
     <!-- Tasks -->
     <section class="tab" id="tab-tasks">
      <div class="card">
-      <div class="h3">تسک‌های روزانه و اجتماعی</div>
+      <div class="h3">\u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647 \u0648 \u0627\u062c\u062a\u0645\u0627\u0639\u06cc</div>
       <div id="tasksWrap"></div>
-      <div class="muted" style="margin-top:6px">* برای تأیید واقعی لینک‌ها به بک‌اند نیاز دارید.</div>
+      <div class="muted" style="margin-top:6px">* \u0628\u0631\u0627\u06cc \u062a\u0623\u06cc\u06cc\u062f \u0648\u0627\u0642\u0639\u06cc \u0644\u06cc\u0646\u06a9\u200c\u0647\u0627 \u0628\u0647 \u0628\u06a9\u200c\u0627\u0646\u062f \u0646\u06cc\u0627\u0632 \u062f\u0627\u0631\u06cc\u062f.</div>
      </div>
      <div class="card" style="margin-top:12px">
-      <div class="h3">⚒️ Manual Mining</div>
+      <div class="h3">\u2692\ufe0f Manual Mining</div>
       <div class="row">
-       <div class="muted">با هر کلیک +0.5 coin (Cooldown 10s)</div>
+       <div class="muted">\u0628\u0627 \u0647\u0631 \u06a9\u0644\u06cc\u06a9 +0.5 coin (Cooldown 10s)</div>
        <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
       </div>
       <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
@@ -401,12 +402,12 @@ section.tab.active{display:block}
     <!-- Profile -->
     <section class="tab" id="tab-profile">
      <div class="card">
-      <div class="h3">پروفایل</div>
+      <div class="h3">\u067e\u0631\u0648\u0641\u0627\u06cc\u0644</div>
       <div class="input-row" style="margin-top:6px">
-       <input id="firstName" placeholder="نام"> <input id="lastName" placeholder="نام خانوادگی"> <input id="userId" placeholder="شناسه کاربر">
-       <button id="saveProfile" class="btn btn-gold">ذخیره</button>
+       <input id="firstName" placeholder="\u0646\u0627\u0645"> <input id="lastName" placeholder="\u0646\u0627\u0645 \u062e\u0627\u0646\u0648\u0627\u062f\u06af\u06cc"> <input id="userId" placeholder="\u0634\u0646\u0627\u0633\u0647 \u06a9\u0627\u0631\u0628\u0631">
+       <button id="saveProfile" class="btn btn-gold">\u0630\u062e\u06cc\u0631\u0647</button>
       </div>
-      <div class="muted" style="margin-top:6px">اطلاعات روی همین دستگاه ذخیره می‌شود.</div>
+      <div class="muted" style="margin-top:6px">\u0627\u0637\u0644\u0627\u0639\u0627\u062a \u0631\u0648\u06cc \u0647\u0645\u06cc\u0646 \u062f\u0633\u062a\u06af\u0627\u0647 \u0630\u062e\u06cc\u0631\u0647 \u0645\u06cc\u200c\u0634\u0648\u062f.</div>
      </div>
     </section>
    </main>
@@ -424,8 +425,8 @@ section.tab.active{display:block}
   <!-- Share Modal -->
   <div id="shareModal" class="share-modal">
    <div class="share-modal-content">
-    <div class="h3">اشتراک گذاری لینک دعوت</div>
-    <div class="muted">لینک دعوت خود را از طریق برنامه‌های زیر به اشتراک بگذارید</div>
+    <div class="h3">\u0627\u0634\u062a\u0631\u0627\u06a9 \u06af\u0630\u0627\u0631\u06cc \u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a</div>
+    <div class="muted">\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u062e\u0648\u062f \u0631\u0627 \u0627\u0632 \u0637\u0631\u06cc\u0642 \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0632\u06cc\u0631 \u0628\u0647 \u0627\u0634\u062a\u0631\u0627\u06a9 \u0628\u06af\u0630\u0627\u0631\u06cc\u062f</div>
     <div class="share-apps">
      <div class="share-app" data-app="whatsapp">
       <svg viewBox="0 0 24 24" fill="#25D366">
@@ -449,17 +450,17 @@ section.tab.active{display:block}
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
       </svg>
-      <span>کپی</span>
+      <span>\u06a9\u067e\u06cc</span>
      </div>
      <div class="share-app" data-app="more">
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
       </svg>
-      <span>سایر</span>
+      <span>\u0633\u0627\u06cc\u0631</span>
      </div>
     </div>
     <div class="row" style="margin-top:15px; justify-content:flex-end">
-     <button id="closeShareModal" class="btn btn-ghost">بستن</button>
+     <button id="closeShareModal" class="btn btn-ghost">\u0628\u0633\u062a\u0646</button>
     </div>
    </div>
   </div>
@@ -467,7 +468,7 @@ section.tab.active{display:block}
 /* ================== Config ================== */
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
 const STORAGE_KEY = 'pinet_clicker_state_v5';
-const DURATION_MS = 30*1000;  // 30s
+const DURATION_MS = 24*60*60*1000;  // 24 hours
 const RATE_PER_SEC = 0.002;          // coins/sec demo
 const COINS_PER_PI = 100;           // 100 coins => 1 Pi
 const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
@@ -598,40 +599,46 @@ function runTick(){
 }
 
 function tick(){
-  // اگر ماینینگ فعال نیست، حالت پیش‌فرض را نشان بده
+  // \u0627\u06af\u0631 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0641\u0639\u0627\u0644 \u0646\u06cc\u0633\u062a\u060c \u062d\u0627\u0644\u062a \u067e\u06cc\u0634\u200c\u0641\u0631\u0636 \u0631\u0627 \u0646\u0634\u0627\u0646 \u0628\u062f\u0647
   if(!state.miningStart){
     miningStatusEl.textContent='Inactive';
     miningStatusEl.className='pill';
     claimBtn.disabled=true;
     timerEl.textContent='00:00:00';
-    sessionEarningsEl.textContent='0';
+    sessionEarningsEl.textContent='0.000';
     progressBarEl.style.width='0%';
+    startBtn.disabled = false; // Enable start button when not mining
     return;
   }
 
   const {remaining, progress, rewardNow} = miningMetrics();
   timerEl.textContent = formatHHMMSS(remaining);
-  sessionEarningsEl.textContent = rewardNow.toFixed(2);
+  sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
   progressBarEl.style.width = `${progress}%`;
 
-  // وقتی تایمر تمام شد: دکمه Claim فعال شود و وضعیت به Completed تغییر کند
+  // \u0648\u0642\u062a\u06cc \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f: \u062f\u06a9\u0645\u0647 Claim \u0641\u0639\u0627\u0644 \u0634\u0648\u062f \u0648 \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 Completed \u062a\u063a\u06cc\u06cc\u0631 \u06a9\u0646\u062f
   if(remaining<=0){
     clearInterval(tickId); tickId=null;
     claimBtn.disabled=false;
-    miningStatusEl.textContent='Completed – claim pending';
+    startBtn.disabled = false; // Enable start button when timer completes
+    miningStatusEl.textContent='Completed \u2013 claim pending';
     miningStatusEl.className='pill warn';
   }else{
     claimBtn.disabled=true;
+    startBtn.disabled = true; // Disable start button while mining is active
     miningStatusEl.textContent='Active';
     miningStatusEl.className='pill good';
   }
 }
 
 startBtn.addEventListener('click', async ()=>{
-  // هر بار Start: از اول شروع می‌شود
+  // \u0647\u0631 \u0628\u0627\u0631 Start: \u0627\u0632 \u0627\u0648\u0644 \u0634\u0631\u0648\u0639 \u0645\u06cc\u200c\u0634\u0648\u062f
   state.miningStart = Date.now();
   pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
   save(); updateMiningUI(); runTick();
+  
+  // Disable start button while mining is active
+  startBtn.disabled = true;
 
   // Optional: ping backend (ignore failure)
   try{
@@ -639,38 +646,38 @@ startBtn.addEventListener('click', async ()=>{
   }catch(e){}
 });
 claimBtn.addEventListener('click', async ()=>{
-  // اگر ماینینگ شروع نشده، یا هنوز تایمر تمام نشده، اجازه نده
+  // \u0627\u06af\u0631 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0634\u0631\u0648\u0639 \u0646\u0634\u062f\u0647\u060c \u06cc\u0627 \u0647\u0646\u0648\u0632 \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0646\u0634\u062f\u0647\u060c \u0627\u062c\u0627\u0632\u0647 \u0646\u062f\u0647
   if(!state.miningStart) return;
   const {remaining, rewardNow} = miningMetrics();
 
-  // اگر هنوز کامل نشده، اجازه نده (اضطراری)
-  if(remaining>0) return alert('تایمر هنوز تمام نشده.');
+  // \u0627\u06af\u0631 \u0647\u0646\u0648\u0632 \u06a9\u0627\u0645\u0644 \u0646\u0634\u062f\u0647\u060c \u0627\u062c\u0627\u0632\u0647 \u0646\u062f\u0647 (\u0627\u0636\u0637\u0631\u0627\u0631\u06cc)
+  if(remaining>0) return alert('\u062a\u0627\u06cc\u0645\u0631 \u0647\u0646\u0648\u0632 \u062a\u0645\u0627\u0645 \u0646\u0634\u062f\u0647.');
 
-  const reward = Number(rewardNow.toFixed(2));
+  const reward = Number(rewardNow.toFixed(3)); // Use 3 decimal places
   if(reward>0){
     state.coins += reward;
     pushTx({type:'earn', amount:reward, note:'Mining session reward', ts: Date.now()});
   }
 
-  // پاک کردن جلسه ماینینگ (منتظر کاربر برای شروع مجدد)
+  // \u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u0644\u0633\u0647 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af (\u0645\u0646\u062a\u0638\u0631 \u06a9\u0627\u0631\u0628\u0631 \u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u0645\u062c\u062f\u062f)
   state.miningStart = null;
   save();
   updateMiningUI();
   renderWallet();
 
-  // ارسال به سرور (اختیاری، خطاها را نادیده بگیر)
+  // \u0627\u0631\u0633\u0627\u0644 \u0628\u0647 \u0633\u0631\u0648\u0631 (\u0627\u062e\u062a\u06cc\u0627\u0631\u06cc\u060c \u062e\u0637\u0627\u0647\u0627 \u0631\u0627 \u0646\u0627\u062f\u06cc\u062f\u0647 \u0628\u06af\u06cc\u0631)
   try{
     await fetch(`${API_BASE}/claim`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({amount:reward, ts: Date.now()})});
   }catch(e){}
 });
 
 function updateMiningUI(){
-  // به سادگی render مربوطه را با همان منطق tick انجام بده (تا همیشه همگام باشد)
+  // \u0628\u0647 \u0633\u0627\u062f\u06af\u06cc render \u0645\u0631\u0628\u0648\u0637\u0647 \u0631\u0627 \u0628\u0627 \u0647\u0645\u0627\u0646 \u0645\u0646\u0637\u0642 tick \u0627\u0646\u062c\u0627\u0645 \u0628\u062f\u0647 (\u062a\u0627 \u0647\u0645\u06cc\u0634\u0647 \u0647\u0645\u06af\u0627\u0645 \u0628\u0627\u0634\u062f)
   if(state.miningStart){
-    // اگر در حال ماینینگ است، وضعیت را بر اساس متریک‌ها نمایش بده
+    // \u0627\u06af\u0631 \u062f\u0631 \u062d\u0627\u0644 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0627\u0633\u062a\u060c \u0648\u0636\u0639\u06cc\u062a \u0631\u0627 \u0628\u0631 \u0627\u0633\u0627\u0633 \u0645\u062a\u0631\u06cc\u06a9\u200c\u0647\u0627 \u0646\u0645\u0627\u06cc\u0634 \u0628\u062f\u0647
     const {remaining, progress, rewardNow, effectiveRate} = miningMetrics();
     timerEl.textContent = formatHHMMSS(remaining);
-    sessionEarningsEl.textContent = rewardNow.toFixed(2);
+    sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
     progressBarEl.style.width = `${progress}%`;
     
     // Update the displayed mining rate to include active friends bonus
@@ -680,20 +687,23 @@ function updateMiningUI(){
 
     if(remaining <= 0){
       claimBtn.disabled = false;
-      miningStatusEl.textContent = 'Completed – claim pending';
+      startBtn.disabled = false; // Enable start button when timer completes
+      miningStatusEl.textContent = 'Completed \u2013 claim pending';
       miningStatusEl.className = 'pill warn';
     }else{
       claimBtn.disabled = true;
+      startBtn.disabled = true; // Disable start button while mining is active
       miningStatusEl.textContent = 'Active';
       miningStatusEl.className = 'pill good';
     }
   }else{
-    // وقتی miningStart null است، دکمه Claim غیرفعال باشد
+    // \u0648\u0642\u062a\u06cc miningStart null \u0627\u0633\u062a\u060c \u062f\u06a9\u0645\u0647 Claim \u063a\u06cc\u0631\u0641\u0639\u0627\u0644 \u0628\u0627\u0634\u062f
     claimBtn.disabled = true;
+    startBtn.disabled = false; // Enable start button when not mining
     miningStatusEl.textContent = 'Inactive';
     miningStatusEl.className = 'pill';
     timerEl.textContent='00:00:00';
-    sessionEarningsEl.textContent='0';
+    sessionEarningsEl.textContent='0.000';
     progressBarEl.style.width='0%';
     
     // Update the displayed mining rate to include active friends bonus
@@ -704,12 +714,14 @@ function updateMiningUI(){
     }
   }
 
-  balanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+  // Display coin balance with 3 decimal places
+  balanceEl.textContent = state.coins.toFixed(3);
 }
 
 /* ================== Wallet & Conversions ================== */
 function renderWallet(){
-  coinsBalanceEl.textContent = Math.floor(state.coins).toLocaleString('en-US');
+  // Display coin balance with 3 decimal places
+  coinsBalanceEl.textContent = state.coins.toFixed(3);
   piBalanceEl.textContent = Number(state.pi).toFixed(2);
   usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
 
@@ -719,8 +731,8 @@ function renderWallet(){
   noTxEl.style.display='none';
   state.tx.slice(0,80).forEach(t=>{
     const tr = document.createElement('tr');
-    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'—'}</div><div class="muted">${t.type}</div>`;
-    const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(2);
+    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'\u2014'}</div><div class="muted">${t.type}</div>`;
+    const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(3); // Show 3 decimal places
     const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts||Date.now()).toLocaleString();
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
     txListEl.appendChild(tr);
@@ -729,14 +741,14 @@ function renderWallet(){
 
 coinsToPiBtn.addEventListener('click', async ()=>{
   const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
-  if(!coins) return alert('مقدار معتبر وارد کنید');
-  if(coins > state.coins) return alert('موجودی کوین کافی نیست');
+  if(!coins) return alert('\u0645\u0642\u062f\u0627\u0631 \u0645\u0639\u062a\u0628\u0631 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f');
+  if(coins > state.coins) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc \u06a9\u0648\u06cc\u0646 \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins \u2192 ${pi.toFixed(2)} Pi`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
-  coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
+  coinsToPiHint.textContent = `\u2248 ${pi.toFixed(2)} Pi`;
   try{
     await fetch(`${API_BASE}/convert/coins-to-pi`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})});
   }catch(e){}
@@ -744,14 +756,14 @@ coinsToPiBtn.addEventListener('click', async ()=>{
 
 piToUsdtBtn.addEventListener('click', async ()=>{
   const pi = Math.max(0, Number(piToUsdtAmt.value||0));
-  if(!pi) return alert('مقدار معتبر وارد کنید');
-  if(pi > state.pi) return alert('موجودی Pi کافی نیست');
+  if(!pi) return alert('\u0645\u0642\u062f\u0627\u0631 \u0645\u0639\u062a\u0628\u0631 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f');
+  if(pi > state.pi) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc Pi \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
   const usdt = pi * USDT_PER_PI;
   state.pi -= pi; state.usdt += usdt;
-  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
+  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi \u2192 ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
-  piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
+  piToUsdtHint.textContent = `\u2248 ${usdt.toFixed(2)} USDT`;
   try{
     await fetch(`${API_BASE}/convert/pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
   }catch(e){}
@@ -761,12 +773,12 @@ withdrawBtn.addEventListener('click', async ()=>{
   const asset = withdrawAsset.value;
   const addr = withdrawAddr.value.trim();
   const amt = Math.max(0, Number(withdrawAmt.value||0));
-  if(!addr || !amt) return alert('همه فیلدها را کامل کنید');
-  if(asset==='pi' && amt>state.pi) return alert('موجودی Pi کافی نیست');
-  if(asset==='usdt' && amt>state.usdt) return alert('موجودی USDT کافی نیست');
+  if(!addr || !amt) return alert('\u0647\u0645\u0647 \u0641\u06cc\u0644\u062f\u0647\u0627 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u06a9\u0646\u06cc\u062f');
+  if(asset==='pi' && amt>state.pi) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc Pi \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
+  if(asset==='usdt' && amt>state.usdt) return alert('\u0645\u0648\u062c\u0648\u062f\u06cc USDT \u06a9\u0627\u0641\u06cc \u0646\u06cc\u0633\u062a');
 
-  // محلی: فقط ثبت تراکنش نمایشی
-  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...`, ts: Date.now()});
+  // \u0645\u062d\u0644\u06cc: \u0641\u0642\u0637 \u062b\u0628\u062a \u062a\u0631\u0627\u06a9\u0646\u0634 \u0646\u0645\u0627\u06cc\u0634\u06cc
+  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} \u2192 ${addr.slice(0,12)}...`, ts: Date.now()});
   save(); renderWallet();
 
   try{
@@ -774,9 +786,9 @@ withdrawBtn.addEventListener('click', async ()=>{
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({asset, address:addr, amount:amt})
     });
-    // اگر نیاز: پاسخ را بررسی کنید
+    // \u0627\u06af\u0631 \u0646\u06cc\u0627\u0632: \u067e\u0627\u0633\u062e \u0631\u0627 \u0628\u0631\u0631\u0633\u06cc \u06a9\u0646\u06cc\u062f
   }catch(e){}
-  alert('درخواست برداشت ثبت شد (دمو). برای برداشت واقعی، تأیید بک‌اند الزامی است.');
+  alert('\u062f\u0631\u062e\u0648\u0627\u0633\u062a \u0628\u0631\u062f\u0627\u0634\u062a \u062b\u0628\u062a \u0634\u062f (\u062f\u0645\u0648). \u0628\u0631\u0627\u06cc \u0628\u0631\u062f\u0627\u0634\u062a \u0648\u0627\u0642\u0639\u06cc\u060c \u062a\u0623\u06cc\u06cc\u062f \u0628\u06a9\u200c\u0627\u0646\u062f \u0627\u0644\u0632\u0627\u0645\u06cc \u0627\u0633\u062a.');
 });
 
 /* ================== Friends & Rank ================== */
@@ -852,7 +864,7 @@ async function fetchFriendsData() {
 
 // Generate fake friends data for demo purposes
 function generateFakeFriendsData() {
-  const fakeNames = ['علی', 'محمد', 'سارا', 'مریم', 'رضا', 'حسین', 'فاطمه', 'زهرا', 'امیر', 'نیما'];
+  const fakeNames = ['\u0639\u0644\u06cc', '\u0645\u062d\u0645\u062f', '\u0633\u0627\u0631\u0627', '\u0645\u0631\u06cc\u0645', '\u0631\u0636\u0627', '\u062d\u0633\u06cc\u0646', '\u0641\u0627\u0637\u0645\u0647', '\u0632\u0647\u0631\u0627', '\u0627\u0645\u06cc\u0631', '\u0646\u06cc\u0645\u0627'];
   
   // Generate invited friends
   if (!state.invitedFriends || state.invitedFriends.length === 0) {
@@ -910,7 +922,7 @@ function setupFriends(){
   // Fetch friends data from API
   fetchFriendsData();
 
-  // بررسی اگر از طریق لینک دعوت وارد شده باشد
+  // \u0628\u0631\u0631\u0633\u06cc \u0627\u06af\u0631 \u0627\u0632 \u0637\u0631\u06cc\u0642 \u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u0648\u0627\u0631\u062f \u0634\u062f\u0647 \u0628\u0627\u0634\u062f
   const urlParams = new URLSearchParams(window.location.search);
   const inviterCode = urlParams.get('start');
   if(inviterCode && inviterCode !== userCode){
@@ -945,7 +957,7 @@ function setupFriends(){
   copyRefBtn.addEventListener('click', async ()=>{ 
     try{ 
       await navigator.clipboard.writeText(myLink); 
-      alert('لینک دعوت کپی شد!');
+      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
     }catch(e){
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
@@ -954,7 +966,7 @@ function setupFriends(){
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      alert('لینک دعوت کپی شد!');
+      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
     } 
   });
 
@@ -1015,7 +1027,42 @@ function trackShareEvent(platform) {
     // Optimistically increment invited count for better UX
     // The real count will be updated from the API later
     state.friendsInvited++;
+    
+    // Add the shared friend to invitedFriends list
+    const fakeNames = ['\u0639\u0644\u06cc', '\u0645\u062d\u0645\u062f', '\u0633\u0627\u0631\u0627', '\u0645\u0631\u06cc\u0645', '\u0631\u0636\u0627', '\u062d\u0633\u06cc\u0646', '\u0641\u0627\u0637\u0645\u0647', '\u0632\u0647\u0631\u0627', '\u0627\u0645\u06cc\u0631', '\u0646\u06cc\u0645\u0627'];
+    const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+    
+    const newFriend = {
+      id: 'inv_' + rid().slice(0, 8),
+      username: randomName,
+      inviteDate: new Date().toISOString(),
+      isActive: false
+    };
+    
+    if (!state.invitedFriends) {
+      state.invitedFriends = [];
+    }
+    
+    state.invitedFriends.push(newFriend);
+    
+    // Check if this friend should be rewarded
+    if (!state.rewardedFriends.includes(newFriend.id)) {
+      state.coins += 100;
+      state.rewardedFriends.push(newFriend.id);
+      
+      // Add transaction record
+      pushTx({
+        type: 'earn', 
+        amount: 100, 
+        note: `Referral reward for inviting ${newFriend.username}`, 
+        ts: Date.now()
+      });
+    }
+    
     renderFriendsBox();
+    renderFriendsTables();
+    renderWallet();
+    updateMiningUI();
     save();
   } catch(e) {
     console.error('Failed to track share event:', e);
@@ -1050,17 +1097,17 @@ function shareLink(link, appType) {
       break;
     case 'copy':
       navigator.clipboard.writeText(link);
-      alert('لینک دعوت کپی شد!');
+      alert('\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a \u06a9\u067e\u06cc \u0634\u062f!');
       return;
     case 'more':
       if (navigator.share) {
         navigator.share({
-          title: 'PiProtocol دعوت به',
-          text: 'به PiProtocol بپیوندید و شروع به ماینینگ کنید!',
+          title: 'PiProtocol \u062f\u0639\u0648\u062a \u0628\u0647',
+          text: '\u0628\u0647 PiProtocol \u0628\u067e\u06cc\u0648\u0646\u062f\u06cc\u062f \u0648 \u0634\u0631\u0648\u0639 \u0628\u0647 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u06a9\u0646\u06cc\u062f!',
           url: link
         }).catch(console.error);
       } else {
-        alert(`لینک دعوت: ${link}`);
+        alert(`\u0644\u06cc\u0646\u06a9 \u062f\u0639\u0648\u062a: ${link}`);
       }
       return;
   }
@@ -1088,7 +1135,7 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || 'کاربر';
+      tdName.textContent = friend.username || '\u06a9\u0627\u0631\u0628\u0631';
       
       const tdDate = document.createElement('td');
       const inviteDate = new Date(friend.inviteDate);
@@ -1096,9 +1143,9 @@ function renderFriendsTables() {
       
       const tdStatus = document.createElement('td');
       if (friend.isActive) {
-        tdStatus.innerHTML = '<span class="pill good">فعال</span>';
+        tdStatus.innerHTML = '<span class="pill good">\u0641\u0639\u0627\u0644</span>';
       } else {
-        tdStatus.innerHTML = '<span class="pill">غیرفعال</span>';
+        tdStatus.innerHTML = '<span class="pill">\u063a\u06cc\u0631\u0641\u0639\u0627\u0644</span>';
       }
       
       tr.appendChild(tdName);
@@ -1110,7 +1157,7 @@ function renderFriendsTables() {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 3;
-    td.textContent = 'هنوز دوستی دعوت نشده است';
+    td.textContent = '\u0647\u0646\u0648\u0632 \u062f\u0648\u0633\u062a\u06cc \u062f\u0639\u0648\u062a \u0646\u0634\u062f\u0647 \u0627\u0633\u062a';
     td.className = 'muted';
     td.style.textAlign = 'center';
     tr.appendChild(td);
@@ -1123,7 +1170,7 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || 'کاربر';
+      tdName.textContent = friend.username || '\u06a9\u0627\u0631\u0628\u0631';
       
       const tdDate = document.createElement('td');
       const activeDate = new Date(friend.activeDate);
@@ -1142,7 +1189,7 @@ function renderFriendsTables() {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 3;
-    td.textContent = 'هنوز دوست فعالی وجود ندارد';
+    td.textContent = '\u0647\u0646\u0648\u0632 \u062f\u0648\u0633\u062a \u0641\u0639\u0627\u0644\u06cc \u0648\u062c\u0648\u062f \u0646\u062f\u0627\u0631\u062f';
     td.className = 'muted';
     td.style.textAlign = 'center';
     tr.appendChild(td);
@@ -1154,14 +1201,14 @@ function renderFriendsTables() {
 const TASKS = [
   { 
     id:'daily',   
-    title:'🎁 پاداش روزانه', 
+    title:'\ud83c\udf81 \u067e\u0627\u062f\u0627\u0634 \u0631\u0648\u0632\u0627\u0646\u0647', 
     kind:'daily', 
     reward:15, 
     url:'' 
   },
   { 
     id:'yt_subscribe',      
-    title:'▶️ سابسکرایب کانال یوتیوب', 
+    title:'\u25b6\ufe0f \u0633\u0627\u0628\u0633\u06a9\u0631\u0627\u06cc\u0628 \u06a9\u0627\u0646\u0627\u0644 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/@YouTubeChannel',
@@ -1169,7 +1216,7 @@ const TASKS = [
   },
   { 
     id:'yt_like',      
-    title:'👍 لایک یک ویدیو یوتیوب', 
+    title:'\ud83d\udc4d \u0644\u0627\u06cc\u06a9 \u06cc\u06a9 \u0648\u06cc\u062f\u06cc\u0648 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
@@ -1177,7 +1224,7 @@ const TASKS = [
   },
   { 
     id:'yt_comment',      
-    title:'💬 گذاشتن کامنت در کانال یوتیوب', 
+    title:'\ud83d\udcac \u06af\u0630\u0627\u0634\u062a\u0646 \u06a9\u0627\u0645\u0646\u062a \u062f\u0631 \u06a9\u0627\u0646\u0627\u0644 \u06cc\u0648\u062a\u06cc\u0648\u0628', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
@@ -1185,7 +1232,7 @@ const TASKS = [
   },
   { 
     id:'tg_react',      
-    title:'🔥 ری اکشن به یک پست تلگرام', 
+    title:'\ud83d\udd25 \u0631\u06cc \u0627\u06a9\u0634\u0646 \u0628\u0647 \u06cc\u06a9 \u067e\u0633\u062a \u062a\u0644\u06af\u0631\u0627\u0645', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1193,7 +1240,7 @@ const TASKS = [
   },
   { 
     id:'tg_comment',      
-    title:'💬 گذاشتن کامنت به یک پست تلگرام', 
+    title:'\ud83d\udcac \u06af\u0630\u0627\u0634\u062a\u0646 \u06a9\u0627\u0645\u0646\u062a \u0628\u0647 \u06cc\u06a9 \u067e\u0633\u062a \u062a\u0644\u06af\u0631\u0627\u0645', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1202,39 +1249,50 @@ const TASKS = [
 ];
 
 
-/* ================== توابع بازنشانی روزانه ================== */
+/* ================== \u062a\u0648\u0627\u0628\u0639 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0648\u0632\u0627\u0646\u0647 ================== */
 
-// بررسی是否需要 بازنشانی روزانه
+// \u0628\u0631\u0631\u0633\u06cc\u662f\u5426\u9700\u8981 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
 function checkAndResetDailyTasks() {
   const today = new Date().toDateString();
 
-  // اگر تاریخ امروز با تاریخ آخرین بازنشانی متفاوت است
+  // \u0627\u06af\u0631 \u062a\u0627\u0631\u06cc\u062e \u0627\u0645\u0631\u0648\u0632 \u0628\u0627 \u062a\u0627\u0631\u06cc\u062e \u0622\u062e\u0631\u06cc\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a
   if (state.lastResetDate !== today) {
-    console.log('بازنشانی تسک‌ها برای روز جدید');
+    console.log('\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627 \u0628\u0631\u0627\u06cc \u0631\u0648\u0632 \u062c\u062f\u06cc\u062f');
     resetDailyTasks();
     state.lastResetDate = today;
     save();
   }
 }
 
-// بازنشانی تسک‌های روزانه
+// \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
 function resetDailyTasks() {
-  console.log('در حال بازنشانی تسک‌های روزانه...');
+  console.log('\u062f\u0631 \u062d\u0627\u0644 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647...');
 
-  // حذف تمام تسک‌ها از completedTasks به جز تسک روزانه
+  // Reset daily task status
+  if (!state.taskStatuses) {
+    state.taskStatuses = {};
+  }
+  
+  // Set daily task to claimable state
+  state.taskStatuses['daily'] = 'claim';
+  
+  // Remove daily task from completed tasks list
+  const dailyIndex = state.completedTasks.indexOf('daily');
+  if (dailyIndex > -1) {
+    state.completedTasks.splice(dailyIndex, 1);
+  }
+
+  // Reset other tasks if needed
   TASKS.forEach(task => {
     if (task.id !== 'daily') {
-      // بازنشانی وضعیت به start برای همه تسک‌ها به جز daily
+      // \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 start \u0628\u0631\u0627\u06cc \u0647\u0645\u0647 \u062a\u0633\u06a9\u200c\u0647\u0627 \u0628\u0647 \u062c\u0632 daily
       state.taskStatuses[task.id] = 'start';
 
-      // حذف از completedTasks
+      // \u062d\u0630\u0641 \u0627\u0632 completedTasks
       const index = state.completedTasks.indexOf(task.id);
       if (index > -1) {
         state.completedTasks.splice(index, 1);
       }
-    } else {
-      // فقط تسک روزانه را به حالت claim می‌گذاریم
-      state.taskStatuses['daily'] = 'claim';
     }
   });
 
@@ -1269,7 +1327,7 @@ function setupTasks(){
 function renderTasks(){
   tasksWrap.innerHTML='';
 
-  // افزودن اطلاعات بازنشانی در بالای تسک‌ها
+  // \u0627\u0641\u0632\u0648\u062f\u0646 \u0627\u0637\u0644\u0627\u0639\u0627\u062a \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062f\u0631 \u0628\u0627\u0644\u0627\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627
   const resetHeader = document.createElement('div');
   resetHeader.className = 'muted';
   resetHeader.style.marginBottom = '15px';
@@ -1277,7 +1335,7 @@ function renderTasks(){
   resetHeader.style.fontSize = '12px';
   resetHeader.id = 'resetTimer';
 
-  // استفاده از زمان ذخیره شده یا محاسبه جدید
+  // \u0627\u0633\u062a\u0641\u0627\u062f\u0647 \u0627\u0632 \u0632\u0645\u0627\u0646 \u0630\u062e\u06cc\u0631\u0647 \u0634\u062f\u0647 \u06cc\u0627 \u0645\u062d\u0627\u0633\u0628\u0647 \u062c\u062f\u06cc\u062f
   let timeUntilReset = state.timeUntilReset;
   if (!timeUntilReset) {
     const now = new Date();
@@ -1294,10 +1352,10 @@ function renderTasks(){
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  resetHeader.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
+  resetHeader.textContent = `\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0628\u0639\u062f\u06cc: ${hours} \u0633\u0627\u0639\u062a \u0648 ${minutes} \u062f\u0642\u06cc\u0642\u0647 \u0648 ${seconds} \u062b\u0627\u0646\u06cc\u0647 \u062f\u06cc\u06af\u0631`;
   tasksWrap.appendChild(resetHeader);
 
-  // بقیه کد بدون تغییر...
+  // \u0628\u0642\u06cc\u0647 \u06a9\u062f \u0628\u062f\u0648\u0646 \u062a\u063a\u06cc\u06cc\u0631...
   TASKS.forEach(t=>{
     const isDailyTask = t.id === 'daily';
     const isCompleted = state.completedTasks.includes(t.id);
@@ -1349,7 +1407,7 @@ function renderTasks(){
 
     actionBtn.addEventListener('click', () => {
       if (taskStatus === 'start') {
-        // باز کردن لینک در نرم‌افزار مربوطه
+        // \u0628\u0627\u0632 \u06a9\u0631\u062f\u0646 \u0644\u06cc\u0646\u06a9 \u062f\u0631 \u0646\u0631\u0645\u200c\u0627\u0641\u0632\u0627\u0631 \u0645\u0631\u0628\u0648\u0637\u0647
         if (t.url) {
           window.open(t.url, '_blank');
         }
@@ -1367,20 +1425,20 @@ function renderTasks(){
 }
 
 function handleTaskAction(taskId) {
-  // تغییر وضعیت تسک به checking
+  // \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9 \u0628\u0647 checking
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'checking';
 
-    // ذخیره وضعیت در state
+    // \u0630\u062e\u06cc\u0631\u0647 \u0648\u0636\u0639\u06cc\u062a \u062f\u0631 state
     if (!state.taskStatuses) state.taskStatuses = {};
     state.taskStatuses[taskId] = 'checking';
     save();
 
-    // رندر مجدد تسک‌ها
+    // \u0631\u0646\u062f\u0631 \u0645\u062c\u062f\u062f \u062a\u0633\u06a9\u200c\u0647\u0627
     renderTasks();
 
-    // تنظیم تایمر برای تغییر وضعیت به claim بعد از 1 دقیقه
+    // \u062a\u0646\u0638\u06cc\u0645 \u062a\u0627\u06cc\u0645\u0631 \u0628\u0631\u0627\u06cc \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u0628\u0647 claim \u0628\u0639\u062f \u0627\u0632 1 \u062f\u0642\u06cc\u0642\u0647
     setTimeout(() => {
       task.status = 'claim';
       if (state.taskStatuses) {
@@ -1388,16 +1446,16 @@ function handleTaskAction(taskId) {
       }
       save();
       renderTasks();
-    }, 60000); // 1 دقیقه
+    }, 60000); // 1 \u062f\u0642\u06cc\u0642\u0647
   }
 }
 
 function claimTaskReward(taskId, reward, title) {
-  // پرداخت پاداش
+  // \u067e\u0631\u062f\u0627\u062e\u062a \u067e\u0627\u062f\u0627\u0634
   state.coins += reward;
   state.completedTasks.push(taskId);
 
-  // تغییر وضعیت تسک به completed
+  // \u062a\u063a\u06cc\u06cc\u0631 \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9 \u0628\u0647 completed
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
     task.status = 'completed';
@@ -1433,27 +1491,27 @@ async function loadNews(){
     }
     
     // Custom news items about the project, roadmap, and partners
-    add('🚀 رونمایی از نسخه 2.0 پلتفرم PiProtocol', 'با افتخار اعلام می‌کنیم که نسخه 2.0 پلتفرم PiProtocol با قابلیت‌های جدید و بهبود عملکرد ماینینگ در تاریخ 15 مهر 1404 راه‌اندازی خواهد شد.');
+    add('\ud83d\ude80 \u0631\u0648\u0646\u0645\u0627\u06cc\u06cc \u0627\u0632 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0628\u0627 \u0642\u0627\u0628\u0644\u06cc\u062a\u200c\u0647\u0627\u06cc \u062c\u062f\u06cc\u062f \u0648 \u0628\u0647\u0628\u0648\u062f \u0639\u0645\u0644\u06a9\u0631\u062f \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u062f\u0631 \u062a\u0627\u0631\u06cc\u062e 15 \u0645\u0647\u0631 1404 \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
     
-    add('🤝 همکاری استراتژیک با شرکت BlockChain Solutions', 'خوشحالیم که همکاری استراتژیک خود را با شرکت BlockChain Solutions برای توسعه زیرساخت‌های امن و مقیاس‌پذیر اعلام کنیم. این همکاری به ما امکان می‌دهد تا خدمات بهتری به کاربران ارائه دهیم.');
+    add('\ud83e\udd1d \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions', '\u062e\u0648\u0634\u062d\u0627\u0644\u06cc\u0645 \u06a9\u0647 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u062e\u0648\u062f \u0631\u0627 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions \u0628\u0631\u0627\u06cc \u062a\u0648\u0633\u0639\u0647 \u0632\u06cc\u0631\u0633\u0627\u062e\u062a\u200c\u0647\u0627\u06cc \u0627\u0645\u0646 \u0648 \u0645\u0642\u06cc\u0627\u0633\u200c\u067e\u0630\u06cc\u0631 \u0627\u0639\u0644\u0627\u0645 \u06a9\u0646\u06cc\u0645. \u0627\u06cc\u0646 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0628\u0647 \u0645\u0627 \u0627\u0645\u06a9\u0627\u0646 \u0645\u06cc\u200c\u062f\u0647\u062f \u062a\u0627 \u062e\u062f\u0645\u0627\u062a \u0628\u0647\u062a\u0631\u06cc \u0628\u0647 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0627\u0631\u0627\u0626\u0647 \u062f\u0647\u06cc\u0645.');
     
-    add('📊 نقشه راه توسعه PiProtocol در سال 1404', 'نقشه راه توسعه PiProtocol برای سال 1404 منتشر شد. در این نقشه راه، برنامه‌های ما برای راه‌اندازی کیف پول اختصاصی، توکن PiP در شبکه‌های اصلی بلاکچین و همچنین سیستم استیکینگ با سود سالانه 12% مشخص شده است.');
+    add('\ud83d\udcca \u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u062f\u0631 \u0633\u0627\u0644 1404', '\u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u0628\u0631\u0627\u06cc \u0633\u0627\u0644 1404 \u0645\u0646\u062a\u0634\u0631 \u0634\u062f. \u062f\u0631 \u0627\u06cc\u0646 \u0646\u0642\u0634\u0647 \u0631\u0627\u0647\u060c \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0645\u0627 \u0628\u0631\u0627\u06cc \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u06a9\u06cc\u0641 \u067e\u0648\u0644 \u0627\u062e\u062a\u0635\u0627\u0635\u06cc\u060c \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0634\u0628\u06a9\u0647\u200c\u0647\u0627\u06cc \u0627\u0635\u0644\u06cc \u0628\u0644\u0627\u06a9\u0686\u06cc\u0646 \u0648 \u0647\u0645\u0686\u0646\u06cc\u0646 \u0633\u06cc\u0633\u062a\u0645 \u0627\u0633\u062a\u06cc\u06a9\u06cc\u0646\u06af \u0628\u0627 \u0633\u0648\u062f \u0633\u0627\u0644\u0627\u0646\u0647 12% \u0645\u0634\u062e\u0635 \u0634\u062f\u0647 \u0627\u0633\u062a.');
     
-    add('🏆 رسیدن تعداد کاربران فعال به 100,000 نفر', 'با افتخار اعلام می‌کنیم که تعداد کاربران فعال پلتفرم PiProtocol از مرز 100,000 نفر گذشت. از تمامی کاربران برای اعتماد و همراهی سپاسگزاریم.');
+    add('\ud83c\udfc6 \u0631\u0633\u06cc\u062f\u0646 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u0628\u0647 100,000 \u0646\u0641\u0631', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0627\u0632 \u0645\u0631\u0632 100,000 \u0646\u0641\u0631 \u06af\u0630\u0634\u062a. \u0627\u0632 \u062a\u0645\u0627\u0645\u06cc \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0631\u0627\u06cc \u0627\u0639\u062a\u0645\u0627\u062f \u0648 \u0647\u0645\u0631\u0627\u0647\u06cc \u0633\u067e\u0627\u0633\u06af\u0632\u0627\u0631\u06cc\u0645.');
     
-    add('💰 لیست شدن توکن PiP در صرافی‌های معتبر', 'توکن PiP به زودی در چندین صرافی معتبر ارزهای دیجیتال لیست خواهد شد. این اقدام باعث افزایش نقدشوندگی و دسترسی بیشتر کاربران به توکن PiP خواهد شد.');
+    add('\ud83d\udcb0 \u0644\u06cc\u0633\u062a \u0634\u062f\u0646 \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0635\u0631\u0627\u0641\u06cc\u200c\u0647\u0627\u06cc \u0645\u0639\u062a\u0628\u0631', '\u062a\u0648\u06a9\u0646 PiP \u0628\u0647 \u0632\u0648\u062f\u06cc \u062f\u0631 \u0686\u0646\u062f\u06cc\u0646 \u0635\u0631\u0627\u0641\u06cc \u0645\u0639\u062a\u0628\u0631 \u0627\u0631\u0632\u0647\u0627\u06cc \u062f\u06cc\u062c\u06cc\u062a\u0627\u0644 \u0644\u06cc\u0633\u062a \u062e\u0648\u0627\u0647\u062f \u0634\u062f. \u0627\u06cc\u0646 \u0627\u0642\u062f\u0627\u0645 \u0628\u0627\u0639\u062b \u0627\u0641\u0632\u0627\u06cc\u0634 \u0646\u0642\u062f\u0634\u0648\u0646\u062f\u06af\u06cc \u0648 \u062f\u0633\u062a\u0631\u0633\u06cc \u0628\u06cc\u0634\u062a\u0631 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0647 \u062a\u0648\u06a9\u0646 PiP \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
     
   }catch(e){
     // Fallback news items
-    add('🚀 رونمایی از نسخه 2.0 پلتفرم PiProtocol', 'با افتخار اعلام می‌کنیم که نسخه 2.0 پلتفرم PiProtocol با قابلیت‌های جدید و بهبود عملکرد ماینینگ در تاریخ 15 مهر 1404 راه‌اندازی خواهد شد.');
+    add('\ud83d\ude80 \u0631\u0648\u0646\u0645\u0627\u06cc\u06cc \u0627\u0632 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u0646\u0633\u062e\u0647 2.0 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0628\u0627 \u0642\u0627\u0628\u0644\u06cc\u062a\u200c\u0647\u0627\u06cc \u062c\u062f\u06cc\u062f \u0648 \u0628\u0647\u0628\u0648\u062f \u0639\u0645\u0644\u06a9\u0631\u062f \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u062f\u0631 \u062a\u0627\u0631\u06cc\u062e 15 \u0645\u0647\u0631 1404 \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
     
-    add('🤝 همکاری استراتژیک با شرکت BlockChain Solutions', 'خوشحالیم که همکاری استراتژیک خود را با شرکت BlockChain Solutions برای توسعه زیرساخت‌های امن و مقیاس‌پذیر اعلام کنیم. این همکاری به ما امکان می‌دهد تا خدمات بهتری به کاربران ارائه دهیم.');
+    add('\ud83e\udd1d \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions', '\u062e\u0648\u0634\u062d\u0627\u0644\u06cc\u0645 \u06a9\u0647 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc\u06a9 \u062e\u0648\u062f \u0631\u0627 \u0628\u0627 \u0634\u0631\u06a9\u062a BlockChain Solutions \u0628\u0631\u0627\u06cc \u062a\u0648\u0633\u0639\u0647 \u0632\u06cc\u0631\u0633\u0627\u062e\u062a\u200c\u0647\u0627\u06cc \u0627\u0645\u0646 \u0648 \u0645\u0642\u06cc\u0627\u0633\u200c\u067e\u0630\u06cc\u0631 \u0627\u0639\u0644\u0627\u0645 \u06a9\u0646\u06cc\u0645. \u0627\u06cc\u0646 \u0647\u0645\u06a9\u0627\u0631\u06cc \u0628\u0647 \u0645\u0627 \u0627\u0645\u06a9\u0627\u0646 \u0645\u06cc\u200c\u062f\u0647\u062f \u062a\u0627 \u062e\u062f\u0645\u0627\u062a \u0628\u0647\u062a\u0631\u06cc \u0628\u0647 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0627\u0631\u0627\u0626\u0647 \u062f\u0647\u06cc\u0645.');
     
-    add('📊 نقشه راه توسعه PiProtocol در سال 1404', 'نقشه راه توسعه PiProtocol برای سال 1404 منتشر شد. در این نقشه راه، برنامه‌های ما برای راه‌اندازی کیف پول اختصاصی، توکن PiP در شبکه‌های اصلی بلاکچین و همچنین سیستم استیکینگ با سود سالانه 12% مشخص شده است.');
+    add('\ud83d\udcca \u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u062f\u0631 \u0633\u0627\u0644 1404', '\u0646\u0642\u0634\u0647 \u0631\u0627\u0647 \u062a\u0648\u0633\u0639\u0647 PiProtocol \u0628\u0631\u0627\u06cc \u0633\u0627\u0644 1404 \u0645\u0646\u062a\u0634\u0631 \u0634\u062f. \u062f\u0631 \u0627\u06cc\u0646 \u0646\u0642\u0634\u0647 \u0631\u0627\u0647\u060c \u0628\u0631\u0646\u0627\u0645\u0647\u200c\u0647\u0627\u06cc \u0645\u0627 \u0628\u0631\u0627\u06cc \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u06a9\u06cc\u0641 \u067e\u0648\u0644 \u0627\u062e\u062a\u0635\u0627\u0635\u06cc\u060c \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0634\u0628\u06a9\u0647\u200c\u0647\u0627\u06cc \u0627\u0635\u0644\u06cc \u0628\u0644\u0627\u06a9\u0686\u06cc\u0646 \u0648 \u0647\u0645\u0686\u0646\u06cc\u0646 \u0633\u06cc\u0633\u062a\u0645 \u0627\u0633\u062a\u06cc\u06a9\u06cc\u0646\u06af \u0628\u0627 \u0633\u0648\u062f \u0633\u0627\u0644\u0627\u0646\u0647 12% \u0645\u0634\u062e\u0635 \u0634\u062f\u0647 \u0627\u0633\u062a.');
     
-    add('🏆 رسیدن تعداد کاربران فعال به 100,000 نفر', 'با افتخار اعلام می‌کنیم که تعداد کاربران فعال پلتفرم PiProtocol از مرز 100,000 نفر گذشت. از تمامی کاربران برای اعتماد و همراهی سپاسگزاریم.');
+    add('\ud83c\udfc6 \u0631\u0633\u06cc\u062f\u0646 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u0628\u0647 100,000 \u0646\u0641\u0631', '\u0628\u0627 \u0627\u0641\u062a\u062e\u0627\u0631 \u0627\u0639\u0644\u0627\u0645 \u0645\u06cc\u200c\u06a9\u0646\u06cc\u0645 \u06a9\u0647 \u062a\u0639\u062f\u0627\u062f \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0641\u0639\u0627\u0644 \u067e\u0644\u062a\u0641\u0631\u0645 PiProtocol \u0627\u0632 \u0645\u0631\u0632 100,000 \u0646\u0641\u0631 \u06af\u0630\u0634\u062a. \u0627\u0632 \u062a\u0645\u0627\u0645\u06cc \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0631\u0627\u06cc \u0627\u0639\u062a\u0645\u0627\u062f \u0648 \u0647\u0645\u0631\u0627\u0647\u06cc \u0633\u067e\u0627\u0633\u06af\u0632\u0627\u0631\u06cc\u0645.');
     
-    add('💰 لیست شدن توکن PiP در صرافی‌های معتبر', 'توکن PiP به زودی در چندین صرافی معتبر ارزهای دیجیتال لیست خواهد شد. این اقدام باعث افزایش نقدشوندگی و دسترسی بیشتر کاربران به توکن PiP خواهد شد.');
+    add('\ud83d\udcb0 \u0644\u06cc\u0633\u062a \u0634\u062f\u0646 \u062a\u0648\u06a9\u0646 PiP \u062f\u0631 \u0635\u0631\u0627\u0641\u06cc\u200c\u0647\u0627\u06cc \u0645\u0639\u062a\u0628\u0631', '\u062a\u0648\u06a9\u0646 PiP \u0628\u0647 \u0632\u0648\u062f\u06cc \u062f\u0631 \u0686\u0646\u062f\u06cc\u0646 \u0635\u0631\u0627\u0641\u06cc \u0645\u0639\u062a\u0628\u0631 \u0627\u0631\u0632\u0647\u0627\u06cc \u062f\u06cc\u062c\u06cc\u062a\u0627\u0644 \u0644\u06cc\u0633\u062a \u062e\u0648\u0627\u0647\u062f \u0634\u062f. \u0627\u06cc\u0646 \u0627\u0642\u062f\u0627\u0645 \u0628\u0627\u0639\u062b \u0627\u0641\u0632\u0627\u06cc\u0634 \u0646\u0642\u062f\u0634\u0648\u0646\u062f\u06af\u06cc \u0648 \u062f\u0633\u062a\u0631\u0633\u06cc \u0628\u06cc\u0634\u062a\u0631 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646 \u0628\u0647 \u062a\u0648\u06a9\u0646 PiP \u062e\u0648\u0627\u0647\u062f \u0634\u062f.');
   }
 }
 
@@ -1466,7 +1524,7 @@ function setupProfile(){
     state.profile.first = firstNameInput.value.trim();
     state.profile.last  = lastNameInput.value.trim();
     state.profile.id    = userIdInput.value.trim();
-    save(); alert('ذخیره شد!');
+    save(); alert('\u0630\u062e\u06cc\u0631\u0647 \u0634\u062f!');
     // Update referral link if user ID changed
     setupFriends();
   });
@@ -1484,13 +1542,13 @@ function pushTx(tx){
   if(state.tx.length>200) state.tx.length=200;
 }
 
-// تابع جدید برای به روزرسانی تایمر بازنشانی (سراسری)
+// \u062a\u0627\u0628\u0639 \u062c\u062f\u06cc\u062f \u0628\u0631\u0627\u06cc \u0628\u0647 \u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc (\u0633\u0631\u0627\u0633\u0631\u06cc)
 function updateResetTimer() {
   const now = new Date();
   const resetTime = new Date();
-  resetTime.setHours(24, 0, 0, 0); // ساعت ۲۴:۰۰ (نیمه شب)
+  resetTime.setHours(24, 0, 0, 0); // \u0633\u0627\u0639\u062a \u06f2\u06f4:\u06f0\u06f0 (\u0646\u06cc\u0645\u0647 \u0634\u0628)
 
-  // اگر زمان بازنشانی گذشته باشد، روز بعد را تنظیم کن
+  // \u0627\u06af\u0631 \u0632\u0645\u0627\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u06af\u0630\u0634\u062a\u0647 \u0628\u0627\u0634\u062f\u060c \u0631\u0648\u0632 \u0628\u0639\u062f \u0631\u0627 \u062a\u0646\u0638\u06cc\u0645 \u06a9\u0646
   if (resetTime < now) {
     resetTime.setDate(resetTime.getDate() + 1);
   }
@@ -1498,7 +1556,7 @@ function updateResetTimer() {
   const timeUntilReset = resetTime - now;
 
   if (timeUntilReset <= 0) {
-    // اگر زمان بازنشانی رسیده، تسک‌ها را بازنشانی کن
+    // \u0627\u06af\u0631 \u0632\u0645\u0627\u0646 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0631\u0633\u06cc\u062f\u0647\u060c \u062a\u0633\u06a9\u200c\u0647\u0627 \u0631\u0627 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u06a9\u0646
     checkAndResetDailyTasks();
     return;
   }
@@ -1507,19 +1565,19 @@ function updateResetTimer() {
   const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
 
-  // به روزرسانی تایمر فقط اگر در تب Tasks هستیم
+  // \u0628\u0647 \u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0641\u0642\u0637 \u0627\u06af\u0631 \u062f\u0631 \u062a\u0628 Tasks \u0647\u0633\u062a\u06cc\u0645
   const resetTimerEl = document.getElementById('resetTimer');
   if (resetTimerEl) {
-    resetTimerEl.textContent = `بازنشانی بعدی: ${hours} ساعت و ${minutes} دقیقه و ${seconds} ثانیه دیگر`;
+    resetTimerEl.textContent = `\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u0628\u0639\u062f\u06cc: ${hours} \u0633\u0627\u0639\u062a \u0648 ${minutes} \u062f\u0642\u06cc\u0642\u0647 \u0648 ${seconds} \u062b\u0627\u0646\u06cc\u0647 \u062f\u06cc\u06af\u0631`;
   }
 
-  // ذخیره زمان باقیمانده برای استفاده در تب‌های دیگر
+  // \u0630\u062e\u06cc\u0631\u0647 \u0632\u0645\u0627\u0646 \u0628\u0627\u0642\u06cc\u0645\u0627\u0646\u062f\u0647 \u0628\u0631\u0627\u06cc \u0627\u0633\u062a\u0641\u0627\u062f\u0647 \u062f\u0631 \u062a\u0628\u200c\u0647\u0627\u06cc \u062f\u06cc\u06af\u0631
   state.timeUntilReset = timeUntilReset;
 }
 
 /* ================== Boot ================== */
 function boot(){
-  // بررسی و بازنشانی تسک‌های روزانه
+  // \u0628\u0631\u0631\u0633\u06cc \u0648 \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc \u062a\u0633\u06a9\u200c\u0647\u0627\u06cc \u0631\u0648\u0632\u0627\u0646\u0647
   checkAndResetDailyTasks();
 
   updateMiningUI();
@@ -1529,7 +1587,7 @@ function boot(){
   setupProfile();
   loadNews();
 
-  // راه‌اندازی تایمر سراسری برای بازنشانی (هر 1 ثانیه)
+  // \u0631\u0627\u0647\u200c\u0627\u0646\u062f\u0627\u0632\u06cc \u062a\u0627\u06cc\u0645\u0631 \u0633\u0631\u0627\u0633\u0631\u06cc \u0628\u0631\u0627\u06cc \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06cc (\u0647\u0631 1 \u062b\u0627\u0646\u06cc\u0647)
   setInterval(() => {
     updateResetTimer();
   }, 1000);
@@ -1539,7 +1597,7 @@ function boot(){
     fetchFriendsData();
   }, 5 * 60 * 1000);
 
-  // بازیابی وضعیت تسک‌ها از state
+  // \u0628\u0627\u0632\u06cc\u0627\u0628\u06cc \u0648\u0636\u0639\u06cc\u062a \u062a\u0633\u06a9\u200c\u0647\u0627 \u0627\u0632 state
   if (state.taskStatuses) {
     TASKS.forEach(task => {
       if (state.taskStatuses[task.id]) {
@@ -1548,14 +1606,20 @@ function boot(){
     });
   }
 
-  // اگر در حال ماینینگ بود، تیک را ادامه بده یا اگر تمام شده اما هنوز claim نشده، UI را آماده کن
+  // \u0627\u06af\u0631 \u062f\u0631 \u062d\u0627\u0644 \u0645\u0627\u06cc\u0646\u06cc\u0646\u06af \u0628\u0648\u062f\u060c \u062a\u06cc\u06a9 \u0631\u0627 \u0627\u062f\u0627\u0645\u0647 \u0628\u062f\u0647 \u06cc\u0627 \u0627\u06af\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f\u0647 \u0627\u0645\u0627 \u0647\u0646\u0648\u0632 claim \u0646\u0634\u062f\u0647\u060c UI \u0631\u0627 \u0622\u0645\u0627\u062f\u0647 \u06a9\u0646
   if(state.miningStart){
     const {remaining} = miningMetrics();
-    if(remaining>0) runTick();
-    else {
-      // تایمر تمام شده اما کاربر هنوز claim نکرده — فقط آپدیت UI تا دکمه فعال باشد
-      updateMiningUI();
+    if(remaining>0) {
+      runTick();
+      startBtn.disabled = true; // Disable start button while mining is active
     }
+    else {
+      // \u062a\u0627\u06cc\u0645\u0631 \u062a\u0645\u0627\u0645 \u0634\u062f\u0647 \u0627\u0645\u0627 \u06a9\u0627\u0631\u0628\u0631 \u0647\u0646\u0648\u0632 claim \u0646\u06a9\u0631\u062f\u0647 \u2014 \u0641\u0642\u0637 \u0622\u067e\u062f\u06cc\u062a UI \u062a\u0627 \u062f\u06a9\u0645\u0647 \u0641\u0639\u0627\u0644 \u0628\u0627\u0634\u062f
+      updateMiningUI();
+      startBtn.disabled = false; // Enable start button when timer completes
+    }
+  } else {
+    startBtn.disabled = false; // Enable start button when not mining
   }
 }
 boot();
