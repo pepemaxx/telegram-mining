@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PiProtocol – Daily Mining</title>
-<style>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PiProtocol – Daily Mining</title>
+  <style>
 /* ====== Theme ====== */
 :root{
   --bg1:#4c1d95; --bg2:#7b2cbf; --ink:#fff; --muted:#cbd5e1;
@@ -155,268 +155,280 @@ section.tab.active{display:block}
   font-size: 12px;
 }
 </style>
-
-</head>
-<body>
-<div id="app">
-  <!-- Header -->
-  <header>
+  <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+ </head>
+ <body>
+  <div id="app">
+   <!-- Header -->
+   <header>
     <div>
-      <div class="title">PiProtocol – Daily Mining</div>
-      <div class="sub">24h mining • Local persistence + API fallback</div>
+     <div class="title">PiProtocol – Daily Mining</div>
+     <div class="sub">24h mining • Local persistence + API fallback</div>
     </div>
-  </header>
-
-  <!-- Main -->
-  <main>
+   </header>
+   <!-- Main -->
+   <main>
     <!-- Mining -->
     <section class="tab active" id="tab-mining">
-      <div class="card row">
-        <div>
-          <div class="kicker">Wallet Balance</div>
-          <div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div>
-        </div>
-        <div style="text-align:end">
-          <div class="kicker">Mining Status</div>
-          <div id="miningStatus" class="pill">Inactive</div>
-        </div>
+     <div class="card row">
+      <div>
+       <div class="kicker">Wallet Balance</div>
+       <div class="big">
+        <span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span>
+       </div>
       </div>
-
-      <div class="card">
-        <div class="row" style="align-items:flex-end">
-          <div>
-            <div class="kicker">Time remaining</div>
-            <div id="timer" class="big">00:00:00</div>
-          </div>
-          <div style="text-align:end">
-            <div class="kicker">Session earnings</div>
-            <div class="big accent"><span id="sessionEarnings">0</span> coins</div>
-          </div>
-        </div>
-        <div class="progress" style="margin-top:10px"><div id="progressBar"></div></div>
-        <div class="row" style="margin-top:12px">
-          <button id="startBtn" class="btn btn-gold">Start 20s</button>
-          <button id="claimBtn" class="btn btn-ghost" disabled>Finish & Claim</button>
-        </div>
-        <div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.</div>
+      <div style="text-align:end">
+       <div class="kicker">Mining Status</div>
+       <div id="miningStatus" class="pill">Inactive</div>
       </div>
-
-      <!-- News -->
-      <div class="card">
-        <div class="row" style="justify-content:space-between">
-          <div class="h2">اخبار</div>
-          <div class="badge"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z"/><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28"/></svg> Latest</div>
+     </div>
+     <div class="card">
+      <div class="row" style="align-items:flex-end">
+       <div>
+        <div class="kicker">Time remaining</div>
+        <div id="timer" class="big">00:00:00</div>
+       </div>
+       <div style="text-align:end">
+        <div class="kicker">Session earnings</div>
+        <div class="big accent">
+         <span id="sessionEarnings">0</span> coins
         </div>
-        <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>
+       </div>
       </div>
+      <div class="progress" style="margin-top:10px">
+       <div id="progressBar"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+       <button id="startBtn" class="btn btn-gold">Start 20s</button>
+       <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
+      </div>
+      <div class="muted" style="margin-top:8px">
+       Rate: <b id="rateText">0.05</b> coin/sec • هر بار <b>Start</b> را بزنید تایمر از اول شروع می‌شود.
+      </div>
+     </div>
+     <!-- News -->
+     <div class="card">
+      <div class="row" style="justify-content:space-between">
+       <div class="h2">اخبار</div>
+       <div class="badge">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+         <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
+        </svg>
+        Latest
+       </div>
+      </div>
+      <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>
+     </div>
     </section>
-
     <!-- Wallet -->
     <section class="tab" id="tab-wallet">
+     <div class="grid-3">
+      <div class="card">
+       <div class="kicker">Coins</div>
+       <div class="big">
+        <span id="coinsBalance">0</span>
+       </div>
+      </div>
+      <div class="card">
+       <div class="kicker">PiP</div>
+       <div class="big">
+        <span id="piBalance">0.00</span>
+       </div>
+      </div>
+      <div class="card">
+       <div class="kicker">USDT</div>
+       <div class="big">
+        <span id="usdtBalance">0.00</span>
+       </div>
+      </div>
+     </div>
+     <div class="grid-2" style="margin-top:12px">
+      <!-- Convert Coins -> Pi -->
+      <div class="card">
+       <div class="h3">🔄 تبدیل Coins → PiP</div>
+       <div class="muted" style="margin-bottom:6px">
+        نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP
+       </div>
+       <div class="input-row">
+        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
+        <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
+       </div>
+       <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
+      </div>
+      <!-- Convert Pi -> USDT -->
+      <div class="card">
+       <div class="h3">💱 تبدیل PiP → USDT</div>
+       <div class="muted" style="margin-bottom:6px">
+        نرخ نمایشی: 1PiP = <b id="usdtPerPi">5</b> USDT
+       </div>
+       <div class="input-row">
+        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار PiP">
+        <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>
+       </div>
+       <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
+      </div>
+     </div>
+     <!-- Withdraw -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">🏦 برداشت</div>
       <div class="grid-3">
-        <div class="card">
-          <div class="kicker">Coins</div>
-          <div class="big"><span id="coinsBalance">0</span></div>
-        </div>
-        <div class="card">
-          <div class="kicker">PiP</div>
-          <div class="big"><span id="piBalance">0.00</span></div>
-        </div>
-        <div class="card">
-          <div class="kicker">USDT</div>
-          <div class="big"><span id="usdtBalance">0.00</span></div>
-        </div>
+       <div>
+        <div class="muted">نوع دارایی</div>
+        <select id="withdrawAsset"> <option value="pi">PiP</option> <option value="usdt">USDT</option> </select>
+       </div>
+       <div>
+        <div class="muted">آدرس کیف پول</div>
+        <input id="withdrawAddr" placeholder="مثلاً Pi wallet / TRON / ERC-20">
+       </div>
+       <div>
+        <div class="muted">مقدار</div>
+        <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount">
+       </div>
       </div>
-
-      <div class="grid-2" style="margin-top:12px">
-        <!-- Convert Coins -> Pi -->
-        <div class="card">
-          <div class="h3">🔄 تبدیل Coins → PiP </div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: <b id="coinsPerPi">100</b>coins = 1 PiP</div>
-          <div class="input-row">
-            <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="مقدار کوین">
-            <button id="coinsToPiBtn" class="btn btn-gold">تبدیل</button>
-          </div>
-          <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
-        </div>
-
-        <!-- Convert Pi -> USDT -->
-        <div class="card">
-          <div class="h3">💱 تبدیل PiP → USDT</div>
-          <div class="muted" style="margin-bottom:6px">نرخ نمایشی: 1PiP = <b id="usdtPerPi">5</b> USDT</div>
-          <div class="input-row">
-            <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="مقدار PiP">
-            <button id="piToUsdtBtn" class="btn btn-gold">تبدیل</button>
-          </div>
-          <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
-        </div>
+      <div class="row" style="margin-top:10px">
+       <button id="withdrawBtn" class="btn btn-gold">ثبت درخواست</button>
+       <div class="muted">برای پردازش واقعی، نیاز به تأیید سمت سرور دارید.</div>
       </div>
-
-      <!-- Withdraw -->
-      <div class="card" style="margin-top:12px">
-        <div class="h3">🏦 برداشت</div>
-        <div class="grid-3">
-          <div>
-            <div class="muted">نوع دارایی</div>
-            <select id="withdrawAsset">
-              <option value="pi">PiP</option>
-              <option value="usdt">USDT</option>
-            </select>
-          </div>
-          <div>
-            <div class="muted">آدرس کیف پول</div>
-            <input id="withdrawAddr" placeholder="مثلاً Pi wallet / TRON / ERC-20"/>
-          </div>
-          <div>
-            <div class="muted">مقدار</div>
-            <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount"/>
-          </div>
-        </div>
-        <div class="row" style="margin-top:10px">
-          <button id="withdrawBtn" class="btn btn-gold">ثبت درخواست</button>
-          <div class="muted">برای پردازش واقعی، نیاز به تأیید سمت سرور دارید.</div>
-        </div>
-      </div>
-
-      <!-- Transactions -->
-      <div class="card" style="margin-top:12px">
-        <div class="h3">تراکنش‌ها</div>
-        <table class="table">
-          <thead><tr><th>توضیح</th><th>مقدار</th><th>زمان</th></tr></thead>
-          <tbody id="txList"></tbody>
-        </table>
-        <div id="noTx" class="muted" style="margin-top:6px">هنوز تراکنشی وجود ندارد.</div>
-      </div>
+     </div>
+     <!-- Transactions -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">تراکنش‌ها</div>
+      <table class="table">
+       <thead>
+        <tr>
+         <th>توضیح</th>
+         <th>مقدار</th>
+         <th>زمان</th>
+        </tr>
+       </thead>
+       <tbody id="txList"></tbody>
+      </table>
+      <div id="noTx" class="muted" style="margin-top:6px">هنوز تراکنشی وجود ندارد.</div>
+     </div>
     </section>
-
     <!-- Friends -->
     <section class="tab" id="tab-friends">
+     <div class="card">
+      <div class="h3">لینک دعوت شما</div>
+      <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
+      <div class="row" style="margin-top:8px">
+       <button id="copyRef" class="btn btn-gold">کپی لینک</button>
+       <button id="shareRef" class="btn btn-ghost">اشتراک گذاری</button>
+      </div>
+     </div>
+     <div class="grid-3" style="margin-top:12px">
       <div class="card">
-        <div class="h3">لینک دعوت شما</div>
-        <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
-        <div class="row" style="margin-top:8px">
-          <button id="copyRef" class="btn btn-gold">کپی لینک</button>
-          <button id="shareRef" class="btn btn-ghost">اشتراک گذاری</button>
-        </div>
+       <div class="kicker">Invited</div>
+       <div class="big" id="friendsInvited">0</div>
       </div>
-
-      <div class="grid-3" style="margin-top:12px">
-        <div class="card">
-          <div class="kicker">Invited</div>
-          <div class="big" id="friendsInvited">0</div>
-        </div>
-        <div class="card">
-          <div class="kicker">Active</div>
-          <div class="big" id="friendsActive">0</div>
-        </div>
-        <div class="card">
-          <div class="kicker">پاداش</div>
-          <div class="big accent">+30 coins / active</div>
-        </div>
+      <div class="card">
+       <div class="kicker">Active</div>
+       <div class="big" id="friendsActive">0</div>
       </div>
-
-      <div class="card" style="margin-top:12px">
-        <div class="h3">رندۀ برتر (Top 10)</div>
-        <table class="table" id="leaderTable">
-          <thead><tr><th>#</th><th>کاربر</th><th>Coins</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <div class="muted" style="margin-top:6px">رتبه شما: <b id="myRank">#—</b></div>
+      <div class="card">
+       <div class="kicker">پاداش</div>
+       <div class="big accent">+30 coins / active</div>
       </div>
+     </div>
+     <div class="card" style="margin-top:12px">
+      <div class="h3">رندۀ برتر (Top 10)</div>
+      <table class="table" id="leaderTable">
+       <thead>
+        <tr>
+         <th>#</th>
+         <th>کاربر</th>
+         <th>Coins</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+      <div class="muted" style="margin-top:6px">
+       رتبه شما: <b id="myRank">#—</b>
+      </div>
+     </div>
     </section>
-
     <!-- Tasks -->
     <section class="tab" id="tab-tasks">
-      <div class="card">
-        <div class="h3">تسک‌های روزانه و اجتماعی</div>
-        <div id="tasksWrap"></div>
-        <div class="muted" style="margin-top:6px">* برای تأیید واقعی لینک‌ها به بک‌اند نیاز دارید.</div>
+     <div class="card">
+      <div class="h3">تسک‌های روزانه و اجتماعی</div>
+      <div id="tasksWrap"></div>
+      <div class="muted" style="margin-top:6px">* برای تأیید واقعی لینک‌ها به بک‌اند نیاز دارید.</div>
+     </div>
+     <div class="card" style="margin-top:12px">
+      <div class="h3">⚒️ Manual Mining</div>
+      <div class="row">
+       <div class="muted">با هر کلیک +0.5 coin (Cooldown 10s)</div>
+       <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
       </div>
-
-      <div class="card" style="margin-top:12px">
-        <div class="h3">⚒️ Manual Mining</div>
-        <div class="row">
-          <div class="muted">با هر کلیک +0.5 coin (Cooldown 10s)</div>
-          <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
-        </div>
-        <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
-      </div>
+      <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
+     </div>
     </section>
-
     <!-- Profile -->
     <section class="tab" id="tab-profile">
-      <div class="card">
-        <div class="h3">پروفایل</div>
-        <div class="input-row" style="margin-top:6px">
-          <input id="firstName" placeholder="نام">
-          <input id="lastName" placeholder="نام خانوادگی">
-          <input id="userId" placeholder="شناسه کاربر">
-          <button id="saveProfile" class="btn btn-gold">ذخیره</button>
-        </div>
-        <div class="muted" style="margin-top:6px">اطلاعات روی همین دستگاه ذخیره می‌شود.</div>
+     <div class="card">
+      <div class="h3">پروفایل</div>
+      <div class="input-row" style="margin-top:6px">
+       <input id="firstName" placeholder="نام"> <input id="lastName" placeholder="نام خانوادگی"> <input id="userId" placeholder="شناسه کاربر">
+       <button id="saveProfile" class="btn btn-gold">ذخیره</button>
       </div>
+      <div class="muted" style="margin-top:6px">اطلاعات روی همین دستگاه ذخیره می‌شود.</div>
+     </div>
     </section>
-
-  </main>
-
-  <!-- Tabs bar -->
-  <nav class="tabs">
+   </main>
+   <!-- Tabs bar -->
+   <nav class="tabs">
     <div class="tabs-inner">
-      <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
-      <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
-      <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>
-      <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>
-      <button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button>
+     <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
+     <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
+     <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>
+     <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>
+     <button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button>
     </div>
-  </nav>
-</div>
-
-<!-- Share Modal -->
-<div id="shareModal" class="share-modal">
-  <div class="share-modal-content">
+   </nav>
+  </div>
+  <!-- Share Modal -->
+  <div id="shareModal" class="share-modal">
+   <div class="share-modal-content">
     <div class="h3">اشتراک گذاری لینک دعوت</div>
     <div class="muted">لینک دعوت خود را از طریق برنامه‌های زیر به اشتراک بگذارید</div>
     <div class="share-apps">
-      <div class="share-app" data-app="whatsapp">
-        <svg viewBox="0 0 24 24" fill="#25D366">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488"/>
-        </svg>
-        <span>WhatsApp</span>
-      </div>
-      <div class="share-app" data-app="telegram">
-        <svg viewBox="0 0 24 24" fill="#0088cc">
-          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-        </svg>
-        <span>Telegram</span>
-      </div>
-      <div class="share-app" data-app="imo">
-  <svg viewBox="0 0 24 24" fill="#1ddbcf">
-    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/>
-    <path d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/>
-    <circle cx="12" cy="12" r="2.5"/>
-  </svg>
-  <span>Imo</span>
-</div>
-      <div class="share-app" data-app="copy">
-        <svg viewBox="0 0 24 24" fill="#9e9e9e">
-          <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-        </svg>
-        <span>کپی</span>
-      </div>
-      <div class="share-app" data-app="more">
-        <svg viewBox="0 0 24 24" fill="#9e9e9e">
-          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-        </svg>
-        <span>سایر</span>
-      </div>
+     <div class="share-app" data-app="whatsapp">
+      <svg viewBox="0 0 24 24" fill="#25D366">
+       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488" />
+      </svg>
+      <span>WhatsApp</span>
+     </div>
+     <div class="share-app" data-app="telegram">
+      <svg viewBox="0 0 24 24" fill="#0088cc">
+       <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" />
+      </svg>
+      <span>Telegram</span>
+     </div>
+     <div class="share-app" data-app="imo">
+      <svg viewBox="0 0 24 24" fill="#1ddbcf">
+       <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z" /> <path d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z" /> <circle cx="12" cy="12" r="2.5" />
+      </svg>
+      <span>Imo</span>
+     </div>
+     <div class="share-app" data-app="copy">
+      <svg viewBox="0 0 24 24" fill="#9e9e9e">
+       <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+      </svg>
+      <span>کپی</span>
+     </div>
+     <div class="share-app" data-app="more">
+      <svg viewBox="0 0 24 24" fill="#9e9e9e">
+       <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+      </svg>
+      <span>سایر</span>
+     </div>
     </div>
     <div class="row" style="margin-top:15px; justify-content:flex-end">
-      <button id="closeShareModal" class="btn btn-ghost">بستن</button>
+     <button id="closeShareModal" class="btn btn-ghost">بستن</button>
     </div>
+   </div>
   </div>
-</div>
-
-<script>
+  <script>
 /* ================== Config ================== */
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
 const STORAGE_KEY = 'pinet_clicker_state_v5';
@@ -714,6 +726,63 @@ withdrawBtn.addEventListener('click', async ()=>{
 
 /* ================== Friends & Rank ================== */
 const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
+
+// New function to fetch friends data from API
+async function fetchFriendsData() {
+  try {
+    const userId = state.profile.id || rid().slice(0,6);
+    const response = await fetch(`${API_BASE}/referral/stats`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ userId })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      // Update state with the fetched data
+      if (data.invited !== undefined) {
+        state.friendsInvited = data.invited;
+      }
+      if (data.active !== undefined) {
+        state.friendsActive = data.active;
+      }
+      
+      // If we have active friends, calculate and add rewards
+      if (data.active > 0) {
+        const previousActive = state.friendsActive || 0;
+        const newActive = data.active;
+        
+        // Only reward for newly active friends
+        if (newActive > previousActive) {
+          const newActiveCount = newActive - previousActive;
+          const reward = newActiveCount * REF_REWARD;
+          
+          // Add reward to coins
+          state.coins += reward;
+          
+          // Add transaction record
+          pushTx({
+            type: 'earn', 
+            amount: reward, 
+            note: `Referral reward for ${newActiveCount} new active friends`, 
+            ts: Date.now()
+          });
+          
+          // Update UI
+          updateMiningUI();
+          renderWallet();
+        }
+      }
+      
+      save();
+      renderFriendsBox();
+    }
+  } catch (e) {
+    console.error('Failed to fetch friends data:', e);
+    // If API fails, we'll keep the current values
+  }
+}
+
 function setupFriends(){
   // referral link + backend registration
   const base = "https://t.me/piprotocolbot"; 
@@ -721,15 +790,39 @@ function setupFriends(){
   const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
 
+  // Fetch friends data from API
+  fetchFriendsData();
+
   // بررسی اگر از طریق لینک دعوت وارد شده باشد
   const urlParams = new URLSearchParams(window.location.search);
   const inviterCode = urlParams.get('start');
   if(inviterCode && inviterCode !== userCode){
+    // Register the referral
     fetch(`${API_BASE}/referral/register`, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ inviterCode, userId: userCode })
-    }).catch(e=>console.error('Referral registration failed', e));
+    })
+    .then(response => {
+      if(response.ok) {
+        // If registration successful, increment the inviter's count locally
+        // This is just for UI feedback, the actual count comes from the API
+        return response.json();
+      }
+      throw new Error('Referral registration failed');
+    })
+    .then(data => {
+      // If we get a successful response, update the local state
+      if(data && data.success) {
+        pushTx({type:'info', amount:0, note:`Joined via invite ${inviterCode}`, ts: Date.now()});
+        save();
+        renderWallet();
+        
+        // Refresh friends data after registration
+        fetchFriendsData();
+      }
+    })
+    .catch(e => console.error('Referral registration failed', e));
   }
 
   copyRefBtn.addEventListener('click', async ()=>{ 
@@ -763,6 +856,9 @@ function setupFriends(){
     app.addEventListener('click', () => {
       const appType = app.dataset.app;
       shareLink(myLink, appType);
+      
+      // Track share event - this could potentially count as an invite
+      trackShareEvent(appType);
     });
   });
 
@@ -779,7 +875,45 @@ function setupFriends(){
 
   // if joined via ?ref (client-side info only)
   const url = new URL(location.href); const ref = url.searchParams.get('ref');
-  if(ref){ pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); save(); renderWallet(); }
+  if(ref){ 
+    pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); 
+    save(); 
+    renderWallet(); 
+  }
+}
+
+// Track share events
+function trackShareEvent(platform) {
+  try {
+    fetch(`${API_BASE}/referral/share`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ 
+        userId: state.profile.id || rid().slice(0,6),
+        platform
+      })
+    });
+    
+    // Optimistically increment invited count for better UX
+    // The real count will be updated from the API later
+    state.friendsInvited++;
+    renderFriendsBox();
+    save();
+  } catch(e) {
+    console.error('Failed to track share event:', e);
+  }
+}
+
+// Add a function to manually update friends count (for testing or when API is unavailable)
+function updateFriendsCount(invited, active) {
+  if (typeof invited === 'number') {
+    state.friendsInvited = invited;
+  }
+  if (typeof active === 'number') {
+    state.friendsActive = active;
+  }
+  save();
+  renderFriendsBox();
 }
 
 function shareLink(link, appType) {
@@ -1084,35 +1218,6 @@ function claimTaskReward(taskId, reward, title) {
   updateMiningUI();
 }
 
-// در تابع boot، وضعیت تسک‌ها را از state بازیابی کنید
-function boot(){
-  updateMiningUI();
-  renderWallet();
-  setupFriends();
-  setupTasks();
-  setupProfile();
-  loadNews();
-
-  // بازیابی وضعیت تسک‌ها از state
-  if (state.taskStatuses) {
-    TASKS.forEach(task => {
-      if (state.taskStatuses[task.id]) {
-        task.status = state.taskStatuses[task.id];
-      }
-    });
-  }
-
-  // اگر در حال ماینینگ بود، تیک را ادامه بده یا اگر تمام شده اما هنوز claim نشده، UI را آماده کن
-  if(state.miningStart){
-    const {remaining} = miningMetrics();
-    if(remaining>0) runTick();
-    else {
-      // تایمر تمام شده اما کاربر هنوز claim نکرده — فقط آپدیت UI تا دکمه فعال باشد
-      updateMiningUI();
-    }
-  }
-}
-
 /* ================== News ================== */
 async function loadNews(){
   newsListEl.innerHTML = '';
@@ -1216,6 +1321,11 @@ function boot(){
   setInterval(() => {
     updateResetTimer();
   }, 1000);
+  
+  // Periodically refresh friends data (every 5 minutes)
+  setInterval(() => {
+    fetchFriendsData();
+  }, 5 * 60 * 1000);
 
   // بازیابی وضعیت تسک‌ها از state
   if (state.taskStatuses) {
@@ -1239,5 +1349,5 @@ function boot(){
 boot();
 
 </script>
-</body>
+ </body>
 </html>
