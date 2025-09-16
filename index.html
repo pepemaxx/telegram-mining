@@ -604,8 +604,6 @@ const shareModal = $('shareModal');
 const closeShareModal = $('closeShareModal');
 const shareApps = document.querySelectorAll('.share-app');
 
-کلمات ما مفهوم مثل — و • و ... را جایگزین کن
-
 // Misc $('coinsPerPi').textContent= COINS_PER_PI; $('usdtPerPi').textContent= USDT_PER_PI; rateText&& (rateText.textContent = RATE_PER_SEC.toString());
 
 /* ================== Tabs ================== */ document.querySelectorAll('.tab-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-'+btn.dataset.tab).classList.add('active'); }); });
