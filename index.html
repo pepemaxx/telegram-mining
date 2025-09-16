@@ -1532,6 +1532,12 @@ async function loadNews(){
 function setupProfile(){
   firstNameInput.value = state.profile.first||'';
   lastNameInput.value  = state.profile.last||'';
+  
+  // اطمینان از اینکه User ID تنظیم شده است
+  if (!state.profile.userId) {
+    initializeUserId(); // اگر User ID وجود ندارد، آن را ایجاد کنید
+  }
+  
   userIdDisplay.textContent = state.profile.userId;
   
   saveProfileBtn.addEventListener('click',()=>{
