@@ -509,7 +509,7 @@ function generateUserId() {
 
 // Initialize user ID - try to get from Telegram or generate a new one
 function initializeUserId() {
-  // If we already have a user ID in state, keep it
+  // اگر قبلاً User ID داریم و 7 رقمی است، از همان استفاده کنیم
   if (state.profile.userId && state.profile.userId.length === 7) {
     return state.profile.userId;
   }
@@ -519,25 +519,29 @@ function initializeUserId() {
   // Try to get user ID from Telegram if available
   if (isTelegramWebApp) {
     try {
-      // Try to get Telegram user ID and format it to 7 digits
       const telegramId = window.Telegram.WebApp.initDataUnsafe.user?.id;
       if (telegramId) {
-        // Take the last 7 digits of the Telegram ID, or pad with zeros if needed
+        // ایجاد شناسه 7 رقمی از Telegram ID
         userId = String(telegramId).slice(-7).padStart(7, '0');
+        console.log('Using Telegram ID:', userId);
       }
     } catch (e) {
       console.error('Error getting Telegram user ID:', e);
     }
   }
   
-  // If we couldn't get a valid ID from Telegram, generate one
+  // اگر از تلگرام نتوانستیم بگیریم یا معتبر نبود، ایجاد کنیم
   if (!userId || userId.length !== 7) {
     userId = generateUserId();
+    console.log('Generated new User ID:', userId);
   }
   
-  // Save the user ID to state
+  // ذخیره در state
   state.profile.userId = userId;
   save();
+  
+  // نمایش در کنسول برای دیباگ
+  console.log('Final User ID:', state.profile.userId);
   
   return userId;
 }
