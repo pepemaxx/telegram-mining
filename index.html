@@ -70,7 +70,7 @@ input::placeholder{color:#cbd5e1}
 .pill{font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.06)}
 .pill.good{background:rgba(16,185,129,.18); border-color:rgba(16,185,129,.4); color:#d1fae5}
 .pill.warn{background:rgba(245,158,11,.16); border-color:rgba(245,158,11,.45)}
-.pill.bad{background:rgba(239,68,68,.16; border-color:rgba(239,68,68,.45)}
+.pill.bad{background:rgba(239,68,68,.16); border-color:rgba(239,68,68,.45)}
 
 .progress{height:10px; border-radius:999px; background:rgba(255,255,255,.18); overflow:hidden}
 .progress>div{height:100%; background:linear-gradient(90deg,#fde047,#f59e0b); width:0%; transition: width .25s}
@@ -212,12 +212,12 @@ section.tab.active{display:block}
        <div class="h2">News</div>
        <div class="badge">
         <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-         <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 极 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 极 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
+         <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
         </svg>
         Latest
        </div>
       </div>
-      <ul id="newsList" style="margin:6极 0 0 0; padding:0; list-style:none"></ul>
+      <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>
      </div>
     </section>
     <!-- Wallet -->
@@ -231,7 +231,7 @@ section.tab.active{display:block}
       </div>
       <div class="card">
        <div class="kicker">PiP</div>
-      极 <div class="big">
+       <div class="big">
         <span id="piBalance">0.00</span>
        </div>
       </div>
@@ -251,7 +251,7 @@ section.tab.active{display:block}
        </div>
        <div class="input-row">
         <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coin amount">
-        <button id="coins极PiBtn" class="btn btn-gold">Convert</button>
+        <button id="coinsToPiBtn" class="btn btn-gold">Convert</button>
        </div>
        <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
       </div>
@@ -261,7 +261,7 @@ section.tab.active{display:block}
        <div class="muted" style="margin-bottom:6px">
         Display rate: 1PiP = <b id="usdtPerPi">5</b> USDT
        </div>
-       <div class极="input-row">
+       <div class="input-row">
         <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="PiP amount">
         <button id="piToUsdtBtn" class="btn btn-gold">Convert</button>
        </div>
@@ -282,10 +282,10 @@ section.tab.active{display:block}
        </div>
        <div>
         <div class="muted">Amount</div>
-        <input id="withdrawAmt" type="number"极="0" step="0.01" placeholder="Amount">
+        <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount">
        </div>
       </div>
-      <div class="row" style极="margin-top:10px">
+      <div class="row" style="margin-top:10px">
        <button id="withdrawBtn" class="btn btn-gold">Submit Request</button>
        <div class="muted">For actual processing, server-side confirmation is required.</div>
       </div>
@@ -298,7 +298,7 @@ section.tab.active{display:block}
         <tr>
          <th>Description</th>
          <th>Amount</th>
-         <th>Time</极>
+         <th>Time</th>
         </tr>
        </thead>
        <tbody id="txList"></tbody>
@@ -326,8 +326,8 @@ section.tab.active{display:block}
        <div class="big" id="friendsActive">0</div>
       </div>
       <div class="card">
-       <div class="kicker">Speed Boost</div>
-       <div class="big accent">+0.001 / friend</div>
+       <div class="kicker">Reward</div>
+       <div class="big accent">+100 coins / invite</div>
       </div>
      </div>
      <!-- Invited Friends List -->
@@ -344,7 +344,7 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Active friends increase your mining speed.
+       Invitation reward: <b>100</b> coins (one time per friend)
       </div>
      </div>
      <!-- Active Friends List -->
@@ -384,7 +384,12 @@ section.tab.active{display:block}
     </section>
     <!-- Tasks -->
     <section class="tab" id="tab-tasks">
-     <div class="极" style="margin-top:12px">
+     <div class="card">
+      <div class="h3">Daily & Social Tasks</div>
+      <div id="tasksWrap"></div>
+      <div class="muted" style="margin-top:6px">* To verify task completion, server-side confirmation is required.</div>
+     </div>
+     <div class="card" style="margin-top:12px">
       <div class="h3">⚒ Manual Mining</div>
       <div class="row">
        <div class="muted">+0.5 coin per click (10s Cooldown)</div>
@@ -398,20 +403,17 @@ section.tab.active{display:block}
      <div class="card">
       <div class="h3">Profile</div>
       <div class="input-row" style="margin-top:6px">
-       <input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name">
+       <input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name"> <input id="userId" placeholder="User ID">
        <button id="saveProfile" class="btn btn-gold">Save</button>
       </div>
-      <div class="muted" style="margin-top:6px">
-       Your User ID: <b id="user-id-display"></b><br>
-       This ID is unique and cannot be changed.
-      </div>
+      <div class="muted" style="margin-top:6px">Information is saved locally on this device.</div>
      </div>
     </section>
    </main>
    <!-- Tabs bar -->
    <nav class="tabs">
     <div class="tabs-inner">
-     <button class="tab-btn active" data-tab="min极">Mining <span class="mini">24h</span></button>
+     <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
      <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
      <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>
      <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>
@@ -427,32 +429,32 @@ section.tab.active{display:block}
     <div class="share-apps">
      <div class="share-app" data-app="whatsapp">
       <svg viewBox="0 0 24 24" fill="#25D366">
-       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2极-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 极.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 极.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488" />
+       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488" />
       </svg>
       <span>WhatsApp</span>
      </div>
      <div class="share-app" data-app="telegram">
       <svg viewBox="0 0 24 24" fill="#0088cc">
-       <path d="M12 0C5.373 0 0 5.373 极 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" />
+       <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" />
       </svg>
       <span>Telegram</span>
      </div>
      <div class="share-app" data-app="imo">
       <svg viewBox="0 0 24 24" fill="#1ddbcf">
-       <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z" /> <path d="M12 5c-3.9 极-7 3.1-7 极s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm极 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z" /> <circle cx="12" cy="12" r="2.5" />
+       <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z" /> <path d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z" /> <circle cx="12" cy="12" r="2.5" />
       </svg>
       <span>Imo</span>
      </div>
      <div class="share-app" data-app="copy">
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
-       <path d="M16 1极4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+       <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
       </svg>
       <span>Copy</span>
      </div>
      <div class="share-app" data-app="more">
       <svg viewBox="0 0 24 24" fill="#9e9e9e">
-       <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-极.1 0-2 .9-2 2s.9 2 2 极 2-.9 2-2-.9-2-2-2z" />
-      </极>
+       <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+      </svg>
       <span>Other</span>
      </div>
     </div>
@@ -464,11 +466,12 @@ section.tab.active{display:block}
   <script>
 /* ================== Config ================== */
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
-const STORAGE_KEY = 'pinet_clicker_state_v6'; // Updated storage key for new changes
+const STORAGE_KEY = 'pinet_clicker_state_v5';
 const DURATION_MS = 24*60*60*1000;  // 24 hours
 const RATE_PER_SEC = 0.002;          // coins/sec demo
 const COINS_PER_PI = 100;           // 100 coins => 1 Pi
 const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
+const REF_REWARD   = 30;            // coins per active friend
 const MANUAL_GAIN  = 0.5;
 const MANUAL_COOLDOWN = 10*1000;
 
@@ -480,7 +483,8 @@ const state = load() || {
   friendsInvited: 0, friendsActive: 0,
   invitedFriends: [],     // [{id, username, inviteDate, isActive}]
   activeFriends: [],      // [{id, username, activeDate}]
-  profile: { first:'', last:'', id: generateUniqueUserId() }, // Generate unique ID on first load
+  rewardedFriends: [],    // [id1, id2, ...] - IDs of friends who have already been rewarded
+  profile: { first:'', last:'', id:'' },
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
@@ -497,7 +501,7 @@ const timerEl = $('timer');
 const sessionEarningsEl = $('sessionEarnings');
 const progressBarEl = $('progressBar');
 const rateText = $('rateText');
-const startBtn = $极('startBtn');
+const startBtn = $('startBtn');
 const claimBtn = $('claimBtn');
 
 // Wallet
@@ -534,8 +538,10 @@ const manualCooldownEl = $('manualCooldown');
 // Profile
 const firstNameInput = $('firstName');
 const lastNameInput  = $('lastName');
+const userIdInput    = $('userId');
 const saveProfileBtn = $('saveProfile');
-const userIdDisplay = $('user-id-display');
+
+// Header
 
 // News
 const newsListEl = $('newsList');
@@ -549,22 +555,6 @@ const shareApps = document.querySelectorAll('.share-app');
 $('coinsPerPi').textContent = COINS_PER_PI;
 $('usdtPerPi').textContent  = USDT_PER_PI;
 rateText && (rateText.textContent = RATE_PER_SEC.toString());
-
-/* ================== Helper Functions ================== */
-function generateUniqueUserId() {
-  // Generate a unique user ID using current timestamp and random number
-  return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
-
-function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
-function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
-function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
-
-function pushTx(tx){
-  state.tx.unshift(Object.assign({id:rid(), ts: Date.now()}, tx));
-  // keep length reasonable
-  if(state.tx.length>200) state.tx.length=200;
-}
 
 /* ================== Tabs ================== */
 document.querySelectorAll('.tab-btn').forEach(btn=>{
@@ -584,9 +574,8 @@ function formatHHMMSS(ms){
   const h = String(Math.floor(s/3600)).padStart(2,'0');
   const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
   const ss= String(s%60).padStart(2,'0');
-  return `${极}:${m}:${ss}`;
+  return `${h}:${m}:${ss}`;
 }
-
 function miningMetrics(){
   if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
   const now = Date.now();
@@ -602,7 +591,6 @@ function miningMetrics(){
   const progress = (clamped / DURATION_MS) * 100;
   return {elapsed, remaining, progress, rewardNow, effectiveRate};
 }
-
 function runTick(){
   clearInterval(tickId);
   tick();
@@ -623,7 +611,7 @@ function tick(){
   }
 
   const {remaining, progress, rewardNow} = miningMetrics();
-  timer极.textContent = formatHHMMSS(remaining);
+  timerEl.textContent = formatHHMMSS(remaining);
   sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
   progressBarEl.style.width = `${progress}%`;
 
@@ -656,10 +644,9 @@ startBtn.addEventListener('click', async ()=>{
     await fetch(`${API_BASE}/mining/start`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ts:state.miningStart})});
   }catch(e){}
 });
-
 claimBtn.addEventListener('click', async ()=>{
   // If mining hasn't started, or timer hasn't finished, don't allow
-  if(!state.mining极tart) return;
+  if(!state.miningStart) return;
   const {remaining, rewardNow} = miningMetrics();
 
   // If not complete yet, don't allow (safety)
@@ -733,7 +720,7 @@ function updateMiningUI(){
 /* ================== Wallet & Conversions ================== */
 function renderWallet(){
   // Display coin balance with 3 decimal places
-  coinsBalanceEl.textContent = state.coins.to极ed(3);
+  coinsBalanceEl.textContent = state.coins.toFixed(3);
   piBalanceEl.textContent = Number(state.pi).toFixed(2);
   usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
 
@@ -777,7 +764,7 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   piToUsdtAmt.value='';
   piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
   try{
-    await fetch(`${API_BASE}/convert极pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
+    await fetch(`${API_BASE}/convert/pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
   }catch(e){}
 });
 
@@ -809,7 +796,7 @@ const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','S
 // New function to fetch friends data from API
 async function fetchFriendsData() {
   try {
-    const userId = state.profile.id;
+    const userId = state.profile.id || rid().slice(0,6);
     const response = await fetch(`${API_BASE}/referral/stats`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -830,6 +817,23 @@ async function fetchFriendsData() {
       // Process invited friends data if available
       if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
         state.invitedFriends = data.invitedFriends;
+        
+        // Check for new invited friends to reward (one-time 100 coin reward)
+        data.invitedFriends.forEach(friend => {
+          if (!state.rewardedFriends.includes(friend.id)) {
+            // Add 100 coins reward for new invited friend
+            state.coins += 100;
+            state.rewardedFriends.push(friend.id);
+            
+            // Add transaction record
+            pushTx({
+              type: 'earn', 
+              amount: 100, 
+              note: `Referral reward for inviting ${friend.username || 'a friend'}`, 
+              ts: Date.now()
+            });
+          }
+        });
       }
       
       // Process active friends data if available
@@ -900,12 +904,17 @@ function generateFakeFriendsData() {
       }
     }
   }
+  
+  // Initialize rewardedFriends if needed
+  if (!state.rewardedFriends) {
+    state.rewardedFriends = [];
+  }
 }
 
 function setupFriends(){
-  // referral link based on unique user ID
+  // referral link + backend registration
   const base = "https://t.me/piprotocolbot"; 
-  const userCode = state.profile.id;
+  const userCode = state.profile.id || rid().slice(0,6); 
   const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
 
@@ -951,7 +960,7 @@ function setupFriends(){
     }catch(e){
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
-      textArea.value = my极ink;
+      textArea.value = myLink;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
@@ -975,6 +984,9 @@ function setupFriends(){
     app.addEventListener('click', () => {
       const appType = app.dataset.app;
       shareLink(myLink, appType);
+      
+      // Track share event - this could potentially count as an invite
+      trackShareEvent(appType);
     });
   });
 
@@ -989,6 +1001,83 @@ function setupFriends(){
 
   renderFriendsBox();
   renderFriendsTables();
+
+  // if joined via ?ref (client-side info only)
+  const url = new URL(location.href); const ref = url.searchParams.get('ref');
+  if(ref){ 
+    pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); 
+    save(); 
+    renderWallet(); 
+  }
+}
+
+// Track share events
+function trackShareEvent(platform) {
+  try {
+    fetch(`${API_BASE}/referral/share`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ 
+        userId: state.profile.id || rid().slice(0,6),
+        platform
+      })
+    });
+    
+    // Optimistically increment invited count for better UX
+    // The real count will be updated from the API later
+    state.friendsInvited++;
+    
+    // Add the shared friend to invitedFriends list
+    const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
+    const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+    
+    const newFriend = {
+      id: 'inv_' + rid().slice(0, 8),
+      username: randomName,
+      inviteDate: new Date().toISOString(),
+      isActive: false
+    };
+    
+    if (!state.invitedFriends) {
+      state.invitedFriends = [];
+    }
+    
+    state.invitedFriends.push(newFriend);
+    
+    // Check if this friend should be rewarded
+    if (!state.rewardedFriends.includes(newFriend.id)) {
+      state.coins += 100;
+      state.rewardedFriends.push(newFriend.id);
+      
+      // Add transaction record
+      pushTx({
+        type: 'earn', 
+        amount: 100, 
+        note: `Referral reward for inviting ${newFriend.username}`, 
+        ts: Date.now()
+      });
+    }
+    
+    renderFriendsBox();
+    renderFriendsTables();
+    renderWallet();
+    updateMiningUI();
+    save();
+  } catch(e) {
+    console.error('Failed to track share event:', e);
+  }
+}
+
+// Add a function to manually update friends count (for testing or when API is unavailable)
+function updateFriendsCount(invited, active) {
+  if (typeof invited === 'number') {
+    state.friendsInvited = invited;
+  }
+  if (typeof active === 'number') {
+    state.friendsActive = active;
+  }
+  save();
+  renderFriendsBox();
 }
 
 function shareLink(link, appType) {
@@ -1129,7 +1218,7 @@ const TASKS = [
     title:'👍 Like a YouTube Video', 
     kind:'social', 
     reward:20, 
-    url:'极ttps://youtube.com/watch?v=example',
+    url:'https://youtube.com/watch?v=example',
     status: 'start'
   },
   { 
@@ -1138,7 +1227,7 @@ const TASKS = [
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
-    status: '极tart'
+    status: 'start'
   },
   { 
     id:'tg_react',      
@@ -1157,6 +1246,7 @@ const TASKS = [
     status: 'start'
   }
 ];
+
 
 /* ================== Daily Reset Functions ================== */
 
@@ -1187,7 +1277,7 @@ function resetDailyTasks() {
   
   // Remove daily task from completed tasks list
   const dailyIndex = state.completedTasks.indexOf('daily');
- 极 (dailyIndex > -1) {
+  if (dailyIndex > -1) {
     state.completedTasks.splice(dailyIndex, 1);
   }
 
@@ -1209,6 +1299,7 @@ function resetDailyTasks() {
   renderTasks();
 }
 
+
 function setupTasks(){
   renderTasks();
   manualMineBtn.addEventListener('click', ()=>{
@@ -1220,7 +1311,7 @@ function setupTasks(){
     }
     state.coins += MANUAL_GAIN;
     state.lastManual = now;
-    manualCooldownEl.textContent = `Cooldown: ${MANUAL_COOLDOWN/极000}s`;
+    manualCooldownEl.textContent = `Cooldown: ${MANUAL_COOLDOWN/1000}s`;
     pushTx({type:'earn', amount:MANUAL_GAIN, note:'Manual mining click', ts: Date.now()});
     save(); renderWallet(); updateMiningUI();
 
@@ -1332,7 +1423,7 @@ function renderTasks(){
   });
 }
 
-function handleTaskAction(task极d) {
+function handleTaskAction(taskId) {
   // Change task status to checking
   const task = TASKS.find(t => t.id === taskId);
   if (task) {
@@ -1350,7 +1441,7 @@ function handleTaskAction(task极d) {
     setTimeout(() => {
       task.status = 'claim';
       if (state.taskStatuses) {
-        state.taskStatuses[taskId]极 'claim';
+        state.taskStatuses[taskId] = 'claim';
       }
       save();
       renderTasks();
@@ -1413,7 +1504,7 @@ async function loadNews(){
     // Fallback news items
     add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy极 announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
+    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
     add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
@@ -1427,14 +1518,60 @@ async function loadNews(){
 function setupProfile(){
   firstNameInput.value = state.profile.first||'';
   lastNameInput.value  = state.profile.last||'';
-  userIdDisplay.textContent = state.profile.id;
-  
+  userIdInput.value    = state.profile.id||'';
   saveProfileBtn.addEventListener('click',()=>{
     state.profile.first = firstNameInput.value.trim();
     state.profile.last  = lastNameInput.value.trim();
-    save(); 
-    alert('Profile saved!');
+    state.profile.id    = userIdInput.value.trim();
+    save(); alert('Saved!');
+    // Update referral link if user ID changed
+    setupFriends();
   });
+}
+
+/* ================== Persistence ================== */
+function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
+function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
+function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
+
+/* ================== Helpers ================== */
+function pushTx(tx){
+  state.tx.unshift(Object.assign({id:rid(), ts: Date.now()}, tx));
+  // keep length reasonable
+  if(state.tx.length>200) state.tx.length=200;
+}
+
+// New function for updating reset timer (real-time)
+function updateResetTimer() {
+  const now = new Date();
+  const resetTime = new Date();
+  resetTime.setHours(24, 0, 0, 0); // 24:00 (midnight)
+
+  // If reset time has passed, set for next day
+  if (resetTime < now) {
+    resetTime.setDate(resetTime.getDate() + 1);
+  }
+
+  const timeUntilReset = resetTime - now;
+
+  if (timeUntilReset <= 0) {
+    // If reset time reached, reset tasks
+    checkAndResetDailyTasks();
+    return;
+  }
+
+  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
+
+  // Update timer only if in Tasks tab
+  const resetTimerEl = document.getElementById('resetTimer');
+  if (resetTimerEl) {
+    resetTimerEl.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+  }
+
+  // Store remaining time for use in other tabs
+  state.timeUntilReset = timeUntilReset;
 }
 
 /* ================== Boot ================== */
@@ -1484,9 +1621,8 @@ function boot(){
     startBtn.disabled = false; // Enable start button when not mining
   }
 }
-
-// Initialize the application
 boot();
+
 </script>
  </body>
 </html>
