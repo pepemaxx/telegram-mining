@@ -1592,8 +1592,11 @@ function updateResetTimer() {
 /* ================== Boot ================== */
 function boot(){
   // Initialize user ID (try to get from Telegram or generate a new one)
-  initializeUserId();
+  initializeUserId(); // این خط باید اول باشد
 
+  // سپس بقیه توابع را فراخوانی کنید
+  setupProfile(); // این خط را به اینجا منتقل کنید
+  
   // Check and reset daily tasks
   checkAndResetDailyTasks();
 
@@ -1607,7 +1610,6 @@ function boot(){
   renderWallet();
   setupFriends();
   setupTasks();
-  setupProfile();
   loadNews();
 
   // Start real-time timer for reset (every 1 second)
