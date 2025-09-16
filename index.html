@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="en" dir="ltr">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PiProtocol – Daily Mining</title>
+  <title>PiProtocol \u2013 Daily Mining</title>
   <style>
 /* ====== Theme ====== */
 :root{
@@ -156,14 +157,15 @@ section.tab.active{display:block}
 }
 </style>
   <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
  </head>
  <body>
   <div id="app">
    <!-- Header -->
    <header>
     <div>
-     <div class="title">PiProtocol – Daily Mining</div>
-     <div class="sub">24h mining • Local persistence + API fallback</div>
+     <div class="title">PiProtocol \u2013 Daily Mining</div>
+     <div class="sub">24h mining \u2022 Local persistence + API fallback</div>
     </div>
    </header>
    <!-- Main -->
@@ -203,7 +205,7 @@ section.tab.active{display:block}
        <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec • Press <b>Start</b> to begin the timer from the beginning.
+       Rate: <b id="rateText">0.002</b> coin/sec \u2022 Press <b>Start</b> to begin the timer from the beginning.
       </div>
      </div>
      <!-- News -->
@@ -245,7 +247,7 @@ section.tab.active{display:block}
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
       <div class="card">
-       <div class="h3">🔄 Convert Coins → PiP</div>
+       <div class="h3">\ud83d\udd04 Convert Coins \u2192 PiP</div>
        <div class="muted" style="margin-bottom:6px">
         Display rate: <b id="coinsPerPi">100</b>coins = 1 PiP
        </div>
@@ -257,7 +259,7 @@ section.tab.active{display:block}
       </div>
       <!-- Convert Pi -> USDT -->
       <div class="card">
-       <div class="h3">💰 Convert PiP → USDT</div>
+       <div class="h3">\ud83d\udcb0 Convert PiP \u2192 USDT</div>
        <div class="muted" style="margin-bottom:6px">
         Display rate: 1PiP = <b id="usdtPerPi">5</b> USDT
        </div>
@@ -270,7 +272,7 @@ section.tab.active{display:block}
      </div>
      <!-- Withdraw -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">🏦 Withdraw</div>
+      <div class="h3">\ud83c\udfe6 Withdraw</div>
       <div class="grid-3">
        <div>
         <div class="muted">Asset Type</div>
@@ -376,7 +378,7 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Your rank: <b id="myRank">#—</b>
+       Your rank: <b id="myRank">#\u2014</b>
       </div>
      </div>
     </section>
@@ -388,7 +390,7 @@ section.tab.active{display:block}
       <div class="muted" style="margin-top:6px">* To verify task completion, server-side confirmation is required.</div>
      </div>
      <div class="card" style="margin-top:12px">
-      <div class="h3">⚒ Manual Mining</div>
+      <div class="h3">\u2692 Manual Mining</div>
       <div class="row">
        <div class="muted">+0.5 coin per click (10s Cooldown)</div>
        <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
@@ -405,7 +407,7 @@ section.tab.active{display:block}
       </div>
       <div style="margin-top:10px">
        <div class="muted">User ID (7-digit, cannot be changed)</div>
-       <div id="userIdDisplay" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;font-weight:bold;margin-top:5px;text-align:center"></div>
+       <div id="userIdDisplay" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;font-weight:bold;margin-top:5px;text-align:center;font-size:24px;letter-spacing:1px"></div>
       </div>
       <div class="row" style="margin-top:10px">
        <button id="saveProfile" class="btn btn-gold">Save Profile</button>
@@ -488,7 +490,7 @@ const state = load() || {
   invitedFriends: [],     // [{id, username, inviteDate, isActive}]
   activeFriends: [],      // [{id, username, activeDate}]
   rewardedFriends: [],    // [id1, id2, ...] - IDs of friends who have already been rewarded
-  profile: { first:'', last:'', userId: generateUserId() },
+  profile: { first:'', last:'', userId: '' }, // Will be set in initializeUserId()
   myRank: 112131,
   completedTasks: [],
   lastManual: 0,
@@ -496,10 +498,48 @@ const state = load() || {
   lastResetDate: new Date().toDateString()
 };
 
+// Check if Telegram WebApp is available
+const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
+
 // Generate a 7-digit user ID if not already present
 function generateUserId() {
-  // Generate a random 7-digit number
+  // Generate a random 7-digit number (between 1000000 and 9999999)
   return Math.floor(1000000 + Math.random() * 9000000).toString();
+}
+
+// Initialize user ID - try to get from Telegram or generate a new one
+function initializeUserId() {
+  // If we already have a user ID in state, keep it
+  if (state.profile.userId && state.profile.userId.length === 7) {
+    return state.profile.userId;
+  }
+  
+  let userId = '';
+  
+  // Try to get user ID from Telegram if available
+  if (isTelegramWebApp) {
+    try {
+      // Try to get Telegram user ID and format it to 7 digits
+      const telegramId = window.Telegram.WebApp.initDataUnsafe.user?.id;
+      if (telegramId) {
+        // Take the last 7 digits of the Telegram ID, or pad with zeros if needed
+        userId = String(telegramId).slice(-7).padStart(7, '0');
+      }
+    } catch (e) {
+      console.error('Error getting Telegram user ID:', e);
+    }
+  }
+  
+  // If we couldn't get a valid ID from Telegram, generate one
+  if (!userId || userId.length !== 7) {
+    userId = generateUserId();
+  }
+  
+  // Save the user ID to state
+  state.profile.userId = userId;
+  save();
+  
+  return userId;
 }
 
 /* ================== Elements ================== */
@@ -630,7 +670,7 @@ function tick(){
     clearInterval(tickId); tickId=null;
     claimBtn.disabled=false;
     startBtn.disabled = false; // Enable start button when timer completes
-    miningStatusEl.textContent='Completed – claim pending';
+    miningStatusEl.textContent='Completed \u2013 claim pending';
     miningStatusEl.className='pill warn';
   }else{
     claimBtn.disabled=true;
@@ -697,7 +737,7 @@ function updateMiningUI(){
     if(remaining <= 0){
       claimBtn.disabled = false;
       startBtn.disabled = false; // Enable start button when timer completes
-      miningStatusEl.textContent = 'Completed – claim pending';
+      miningStatusEl.textContent = 'Completed \u2013 claim pending';
       miningStatusEl.className = 'pill warn';
     }else{
       claimBtn.disabled = true;
@@ -740,7 +780,7 @@ function renderWallet(){
   noTxEl.style.display='none';
   state.tx.slice(0,80).forEach(t=>{
     const tr = document.createElement('tr');
-    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'—'}</div><div class="muted">${t.type}</div>`;
+    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'\u2014'}</div><div class="muted">${t.type}</div>`;
     const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(3); // Show 3 decimal places
     const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts||Date.now()).toLocaleString();
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
@@ -754,10 +794,10 @@ coinsToPiBtn.addEventListener('click', async ()=>{
   if(coins > state.coins) return alert('Not enough coins');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins \u2192 ${pi.toFixed(2)} Pi`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
-  coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
+  coinsToPiHint.textContent = `\u2248 ${pi.toFixed(2)} Pi`;
   try{
     await fetch(`${API_BASE}/convert/coins-to-pi`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})});
   }catch(e){}
@@ -769,10 +809,10 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   if(pi > state.pi) return alert('Not enough Pi');
   const usdt = pi * USDT_PER_PI;
   state.pi -= pi; state.usdt += usdt;
-  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
+  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi \u2192 ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
-  piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
+  piToUsdtHint.textContent = `\u2248 ${usdt.toFixed(2)} USDT`;
   try{
     await fetch(`${API_BASE}/convert/pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
   }catch(e){}
@@ -787,7 +827,7 @@ withdrawBtn.addEventListener('click', async ()=>{
   if(asset==='usdt' && amt>state.usdt) return alert('Not enough USDT');
 
   // Local: Just register a display transaction
-  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...`, ts: Date.now()});
+  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} \u2192 ${addr.slice(0,12)}...`, ts: Date.now()});
   save(); renderWallet();
 
   try{
@@ -1174,14 +1214,14 @@ function renderFriendsTables() {
 const TASKS = [
   { 
     id:'daily',   
-    title:'🎁 Daily Reward', 
+    title:'\ud83c\udf81 Daily Reward', 
     kind:'daily', 
     reward:15, 
     url:'' 
   },
   { 
     id:'yt_subscribe',      
-    title:'▶️ Subscribe to YouTube Channel', 
+    title:'\u25b6\ufe0f Subscribe to YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/@YouTubeChannel',
@@ -1189,7 +1229,7 @@ const TASKS = [
   },
   { 
     id:'yt_like',      
-    title:'👍 Like a YouTube Video', 
+    title:'\ud83d\udc4d Like a YouTube Video', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
@@ -1197,7 +1237,7 @@ const TASKS = [
   },
   { 
     id:'yt_comment',      
-    title:'💬 Comment on YouTube Channel', 
+    title:'\ud83d\udcac Comment on YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
@@ -1205,7 +1245,7 @@ const TASKS = [
   },
   { 
     id:'tg_react',      
-    title:'🔥 React to a Telegram Post', 
+    title:'\ud83d\udd25 React to a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1213,7 +1253,7 @@ const TASKS = [
   },
   { 
     id:'tg_comment',      
-    title:'💬 Comment on a Telegram Post', 
+    title:'\ud83d\udcac Comment on a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1464,27 +1504,27 @@ async function loadNews(){
     }
     
     // Custom news items about the project, roadmap, and partners
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
+    add('\ud83d\ude80 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('\ud83c\udfc6 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
+    add('\ud83d\udcb0 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
   }catch(e){
     // Fallback news items
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
+    add('\ud83d\ude80 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('\ud83c\udfc6 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
+    add('\ud83d\udcb0 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
   }
 }
 
@@ -1551,6 +1591,9 @@ function updateResetTimer() {
 
 /* ================== Boot ================== */
 function boot(){
+  // Initialize user ID (try to get from Telegram or generate a new one)
+  initializeUserId();
+
   // Check and reset daily tasks
   checkAndResetDailyTasks();
 
@@ -1594,7 +1637,7 @@ function boot(){
       startBtn.disabled = true; // Disable start button while mining is active
     }
     else {
-      // Timer finished but user hasn't claimed yet — just update UI so button is active
+      // Timer finished but user hasn't claimed yet \u2014 just update UI so button is active
       updateMiningUI();
       startBtn.disabled = false; // Enable start button when timer completes
     }
