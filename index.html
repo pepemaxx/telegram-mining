@@ -1574,8 +1574,49 @@ function boot(){
   
   // Periodically refresh friends data (every 5 minutes)
   setInterval(() => {
-    fetchFriendsData();
-  }, 5 * 60 * 1000);
+    async function fetchFriendsData() {
+  try {
+    const userId = state.profile.userId;
+    const url = `${API_BASE}/api/referral/stats?user=${encodeURIComponent(userId)}`;
+    const res = await fetch(url, { method: 'GET' });
+    if (!res.ok) throw new Error('fetch failed');
+
+    const data = await res.json();
+    // expected: { invited, active, invitedFriends: [...], activeFriends: [...] }
+
+    state.friendsInvited = Number.isFinite(data.invited) ? data.invited : (Array.isArray(data.invitedFriends) ? data.invitedFriends.length : 0);
+    // prefer explicit active count; otherwise derive from activeFriends array length
+    state.friendsActive = Number.isFinite(data.active) ? data.active : (Array.isArray(data.activeFriends) ? data.activeFriends.length : 0);
+
+    state.invitedFriends = Array.isArray(data.invitedFriends) ? data.invitedFriends.map(f => ({
+      id: f.id,
+      username: f.username || (`user_${f.id||rid().slice(0,6)}`),
+      inviteDate: f.inviteDate || f.created_at || null,
+      isActive: !!f.isActive
+    })) : (state.invitedFriends || []);
+
+    state.activeFriends = Array.isArray(data.activeFriends) ? data.activeFriends.map(f => ({
+      id: f.id,
+      username: f.username || (`user_${f.id||rid().slice(0,6)}`),
+      activeDate: f.activeDate || f.activated_at || null
+    })) : (state.activeFriends || []);
+
+    // ensure consistency
+    state.friendsActive = state.activeFriends.length;
+    state.friendsInvited = state.invitedFriends.length;
+
+    save();
+    renderFriendsBox();
+    renderFriendsTables();
+    updateMiningUI();
+    renderWallet();
+  } catch (e) {
+    console.error('Failed to fetch friends data:', e);
+    // keep existing state; render tables so UI doesn't break
+    renderFriendsBox();
+    renderFriendsTables();
+  }
+}
 
   // Restore task statuses from state
   if (state.taskStatuses) {
