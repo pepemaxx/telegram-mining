@@ -812,6 +812,43 @@ async function fetchFriendsData() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ userId })
     });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      // به‌روزرسانی state با داده‌های واقعی از بک‌اند
+      state.friendsInvited = data.invited || 0;
+      state.friendsActive = data.active || 0;
+      state.invitedFriends = data.invitedFriends || [];
+      state.activeFriends = data.activeFriends || [];
+      
+      // حذف fake data
+      save();
+      renderFriendsBox();
+      renderFriendsTables();
+      updateMiningUI();
+    }
+  } catch (e) {
+    console.error('Failed to fetch friends data:', e);
+    // فقط در صورت خطا از fake data استفاده شود
+  }
+}
+
+
+
+
+
+
+
+
+async function fetchFriendsData() {
+  try {
+    const userId = state.profile.userId;
+    const response = await fetch(`${API_BASE}/referral/stats`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ userId })
+    });
     
     if (response.ok) {
       const data = await response.json();
