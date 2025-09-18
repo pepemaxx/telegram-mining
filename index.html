@@ -834,63 +834,6 @@ async function fetchFriendsData() {
   }
 }
 
-
-
-
-
-
-
-
-async function fetchFriendsData() {
-  try {
-    const userId = state.profile.userId;
-    const response = await fetch(`${API_BASE}/referral/stats`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ userId })
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      
-      // Update state with the fetched data
-      if (data.invited !== undefined) {
-        state.friendsInvited = data.invited;
-      }
-      if (data.active !== undefined) {
-        state.friendsActive = data.active;
-      }
-      
-      // Process invited friends data if available
-      if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
-        state.invitedFriends = data.invitedFriends;
-      }
-      
-      // Process active friends data if available
-      if (data.activeFriends && Array.isArray(data.activeFriends)) {
-        state.activeFriends = data.activeFriends;
-      }
-      
-      // If no data from API, generate some fake data for demo purposes
-      if (!state.invitedFriends || state.invitedFriends.length === 0) {
-        generateFakeFriendsData();
-      }
-      
-      save();
-      renderFriendsBox();
-      renderFriendsTables();
-      updateMiningUI(); // Update UI to reflect new mining rate with active friends bonus
-      renderWallet();
-    }
-  } catch (e) {
-    console.error('Failed to fetch friends data:', e);
-    // If API fails, generate fake data for demo
-    generateFakeFriendsData();
-    renderFriendsBox();
-    renderFriendsTables();
-  }
-}
-
 // Generate fake friends data for demo purposes
 function generateFakeFriendsData() {
   const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
