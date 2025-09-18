@@ -981,15 +981,22 @@ function setupFriends(){
 
 // Track share events
 function trackShareEvent(platform) {
-  try {
-    fetch(`${API_BASE}/referral/share`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ 
-        userId: state.profile.userId,
-        platform
-      })
-    });
+  fetch(`${API_BASE}/referral/share`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ 
+      userId: state.profile.userId,
+      platform
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // فقط در صورت موفقیت داده‌ها را به‌روز کنید
+      fetchFriendsData(); // دوباره داده‌ها را دریافت کنید
+    }
+  });
+}
     
     // Optimistically increment invited count for better UX
     // The real count will be updated from the API later
