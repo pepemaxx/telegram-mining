@@ -317,19 +317,19 @@ section.tab.active{display:block}
       </div>
      </div>
      <div class="grid-3" style="margin-top:12px">
-      <div class="card">
-       <div class="kicker">Invited</div>
-       <div class="big" id="friendsInvited">0</div>
-      </div>
-      <div class="card">
-       <div class="kicker">Active</div>
-       <div class="big" id="friendsActive">0</div>
-      </div>
-      <div class="card">
-       <div class="kicker">Reward</div>
-       <div class="big accent">No rewards</div>
-      </div>
-     </div>
+  <div class="card">
+    <div class="kicker">Invited</div>
+    <div class="big" id="friendsInvited">0</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Active</div>
+    <div class="big" id="friendsActive">0</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Reward</div>
+    <div class="big accent">No rewards</div>
+  </div>
+</div>
      <!-- Invited Friends List -->
      <div class="card" style="margin-top:12px">
       <div class="h3">Invited Friends</div>
@@ -1090,7 +1090,7 @@ function shareLink(link, appType) {
 
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
-  friendsActiveEl.textContent = state.friendsActive;
+  friendsActiveEl.textContent = state.friendsActive; // این خط مهم است
 }
 
 // Render the invited and active friends tables
