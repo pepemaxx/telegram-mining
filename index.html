@@ -816,41 +816,17 @@ async function fetchFriendsData() {
     if (response.ok) {
       const data = await response.json();
       
-      // Update state with the fetched data
+      // این بخش‌ها باید مقداردهی شوند
       if (data.invited !== undefined) {
         state.friendsInvited = data.invited;
       }
       if (data.active !== undefined) {
-        state.friendsActive = data.active;
+        state.friendsActive = data.active; // این خط مهم است
       }
-      
-      // Process invited friends data if available
-      if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
-        state.invitedFriends = data.invitedFriends;
-      }
-      
-      // Process active friends data if available
-      if (data.activeFriends && Array.isArray(data.activeFriends)) {
-        state.activeFriends = data.activeFriends;
-      }
-      
-      // If no data from API, generate some fake data for demo purposes
-      if (!state.invitedFriends || state.invitedFriends.length === 0) {
-        generateFakeFriendsData();
-      }
-      
-      save();
-      renderFriendsBox();
-      renderFriendsTables();
-      updateMiningUI(); // Update UI to reflect new mining rate with active friends bonus
-      renderWallet();
+      // ...
     }
   } catch (e) {
     console.error('Failed to fetch friends data:', e);
-    // If API fails, generate fake data for demo
-    generateFakeFriendsData();
-    renderFriendsBox();
-    renderFriendsTables();
   }
 }
 
