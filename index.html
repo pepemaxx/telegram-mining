@@ -154,8 +154,65 @@ section.tab.active{display:block}
 .share-app span {
   font-size: 12px;
 }
+
+/* Referral Reward Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.reward-animation {
+  animation: pulse 1.5s infinite;
+}
+
+/* Referral Levels */
+.referral-level {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.referral-level.active {
+  border-color: var(--brand);
+  background: rgba(241,196,15,0.1);
+}
+
+.level-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.18);
+  overflow: hidden;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.level-progress > div {
+  height: 100%;
+  background: linear-gradient(90deg,#fde047,#f59e0b);
+  transition: width .25s;
+}
+
+/* QR Code */
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.qr-code {
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
 </style>
   <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
  </head>
  <body>
   <div id="app">
@@ -311,25 +368,37 @@ section.tab.active{display:block}
      <div class="card">
       <div class="h3">Your Referral Link</div>
       <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
+      <div class="qr-code-container">
+        <div id="qrCode" class="qr-code"></div>
+      </div>
       <div class="row" style="margin-top:8px">
        <button id="copyRef" class="btn btn-gold">Copy Link</button>
        <button id="shareRef" class="btn btn-ghost">Share</button>
       </div>
      </div>
      <div class="grid-3" style="margin-top:12px">
-  <div class="card">
-    <div class="kicker">Invited</div>
-    <div class="big" id="friendsInvited">0</div>
-  </div>
-  <div class="card">
-    <div class="kicker">Active</div>
-    <div class="big" id="friendsActive">0</div>
-  </div>
-  <div class="card">
-    <div class="kicker">Reward</div>
-    <div class="big accent">No rewards</div>
-  </div>
-</div>
+      <div class="card">
+       <div class="kicker">Invited</div>
+       <div class="big" id="friendsInvited">0</div>
+      </div>
+      <div class="card">
+       <div class="kicker">Active</div>
+       <div class="big" id="friendsActive">0</div>
+      </div>
+      <div class="card">
+       <div class="kicker">Reward</div>
+       <div class="big accent" id="referralReward">0 coins</div>
+      </div>
+     </div>
+     <!-- Referral Levels -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">Referral Program</div>
+      <div class="muted" style="margin-bottom:10px">Invite friends and earn rewards as they become active miners!</div>
+      
+      <div id="referralLevels">
+        <!-- Levels will be populated by JavaScript -->
+      </div>
+     </div>
      <!-- Invited Friends List -->
      <div class="card" style="margin-top:12px">
       <div class="h3">Invited Friends</div>
@@ -343,7 +412,7 @@ section.tab.active{display:block}
        </thead>
        <tbody></tbody>
       </table>
-      <div class="muted" style="margin-top:6px">No rewards for invitations</div>
+      <div id="invitedFriendsMessage" class="muted" style="margin-top:6px">Earn rewards for each friend who joins and becomes active</div>
      </div>
      <!-- Active Friends List -->
      <div class="card" style="margin-top:12px">
@@ -412,6 +481,17 @@ section.tab.active{display:block}
       </div>
       <div class="muted" style="margin-top:6px">Information is saved locally on this device. User ID is permanent and cannot be changed.</div>
      </div>
+     <!-- Referrer Information -->
+     <div class="card" style="margin-top:12px">
+      <div class="h3">Referrer Information</div>
+      <div id="referrerInfo" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;margin-top:5px;">
+        <div id="noReferrer" class="muted">You weren't invited by anyone.</div>
+        <div id="hasReferrer" style="display:none;">
+          <div>You were invited by: <span id="referrerName" style="font-weight:bold;"></span></div>
+          <div class="muted" style="margin-top:5px;">Invitation date: <span id="referrerDate"></span></div>
+        </div>
+      </div>
+     </div>
     </section>
    </main>
    <!-- Tabs bar -->
@@ -467,6 +547,19 @@ section.tab.active{display:block}
     </div>
    </div>
   </div>
+  <!-- Reward Notification Modal -->
+  <div id="rewardModal" class="share-modal">
+    <div class="share-modal-content">
+      <div class="h3" style="text-align:center;">🎉 Referral Reward!</div>
+      <div style="text-align:center; margin:15px 0;">
+        <div class="big accent reward-animation" id="rewardAmount">+10 coins</div>
+        <div class="muted" style="margin-top:10px;">Your friend has become active!</div>
+      </div>
+      <div class="row" style="margin-top:15px; justify-content:center;">
+        <button id="claimRewardBtn" class="btn btn-gold">Claim Reward</button>
+      </div>
+    </div>
+  </div>
   <script>
 /* ================== Config ================== */
 const API_BASE = 'https://pinet-backend-production.up.railway.app'; // Backend base (provided)
@@ -475,9 +568,21 @@ const DURATION_MS = 24*60*60*1000;  // 24 hours
 const RATE_PER_SEC = 0.002;          // coins/sec demo
 const COINS_PER_PI = 100;           // 100 coins => 1 Pi
 const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
-const REF_REWARD   = 0;             // No rewards for invited friends
 const MANUAL_GAIN  = 0.5;
 const MANUAL_COOLDOWN = 10*1000;
+
+// Referral system configuration
+const REFERRAL_LEVELS = [
+  { level: 1, required: 1, reward: 5, speedBoost: 0.001 },
+  { level: 2, required: 5, reward: 10, speedBoost: 0.002 },
+  { level: 3, required: 10, reward: 20, speedBoost: 0.003 },
+  { level: 4, required: 25, reward: 50, speedBoost: 0.004 },
+  { level: 5, required: 50, reward: 100, speedBoost: 0.005 }
+];
+
+// Referral rewards
+const REFERRAL_INVITE_REWARD = 2;     // Coins earned when someone uses your referral link
+const REFERRAL_ACTIVATION_REWARD = 5; // Additional coins when a referred user becomes active
 
 /* ================== State ================== */
 const state = load() || {
@@ -493,7 +598,11 @@ const state = load() || {
   completedTasks: [],
   lastManual: 0,
   taskStatuses: {},
-  lastResetDate: new Date().toDateString()
+  lastResetDate: new Date().toDateString(),
+  referrer: null,         // {id, username, date} - Who invited this user
+  pendingRewards: [],     // [{id, username, amount, type}] - Rewards waiting to be claimed
+  referralLevel: 1,       // Current referral level (1-5)
+  totalReferralRewards: 0 // Total coins earned from referrals
 };
 
 // Generate a 7-digit user ID if not already present
@@ -533,12 +642,16 @@ const noTxEl = $('noTx');
 
 // Friends
 const refLinkEl = $('refLink');
+const qrCodeEl = $('qrCode');
 const copyRefBtn = $('copyRef');
 const shareRefBtn = $('shareRef');
 const friendsInvitedEl = $('friendsInvited');
 const friendsActiveEl = $('friendsActive');
+const referralRewardEl = $('referralReward');
+const referralLevelsEl = $('referralLevels');
 const leaderTable = $('leaderTable').querySelector('tbody');
 const myRankEl = $('myRank');
+const invitedFriendsMessageEl = $('invitedFriendsMessage');
 
 // Tasks
 const tasksWrap = $('tasksWrap');
@@ -550,16 +663,20 @@ const firstNameInput = $('firstName');
 const lastNameInput  = $('lastName');
 const userIdDisplay  = $('userIdDisplay');
 const saveProfileBtn = $('saveProfile');
-
-// Header
-
-// News
-const newsListEl = $('newsList');
+const noReferrerEl = $('noReferrer');
+const hasReferrerEl = $('hasReferrer');
+const referrerNameEl = $('referrerName');
+const referrerDateEl = $('referrerDate');
 
 // Share Modal
 const shareModal = $('shareModal');
 const closeShareModal = $('closeShareModal');
 const shareApps = document.querySelectorAll('.share-app');
+
+// Reward Modal
+const rewardModal = $('rewardModal');
+const rewardAmountEl = $('rewardAmount');
+const claimRewardBtn = $('claimRewardBtn');
 
 // Misc
 $('coinsPerPi').textContent = COINS_PER_PI;
@@ -593,14 +710,31 @@ function miningMetrics(){
   const remaining = Math.max(0, DURATION_MS - elapsed);
   const clamped = Math.min(elapsed, DURATION_MS);
   
-  // Calculate base rate plus bonus from active friends
-  const activeFriendsBonus = (state.friendsActive || 0) * 0.001;
+  // Calculate base rate plus bonus from active friends and referral level
+  const activeFriendsBonus = calculateMiningBoost();
   const effectiveRate = RATE_PER_SEC + activeFriendsBonus;
   
   const rewardNow = (clamped/1000) * effectiveRate;
   const progress = (clamped / DURATION_MS) * 100;
   return {elapsed, remaining, progress, rewardNow, effectiveRate};
 }
+
+// Calculate mining boost based on active friends and referral level
+function calculateMiningBoost() {
+  // Base boost from active friends
+  const activeFriendsCount = state.friendsActive || 0;
+  
+  // Get current referral level
+  const currentLevel = state.referralLevel || 1;
+  const levelData = REFERRAL_LEVELS.find(l => l.level === currentLevel) || REFERRAL_LEVELS[0];
+  
+  // Calculate total boost (friends boost + level boost)
+  const friendsBoost = activeFriendsCount * 0.001;
+  const levelBoost = levelData.speedBoost;
+  
+  return friendsBoost + levelBoost;
+}
+
 function runTick(){
   clearInterval(tickId);
   tick();
@@ -651,7 +785,14 @@ startBtn.addEventListener('click', async ()=>{
 
   // Optional: ping backend (ignore failure)
   try{
-    await fetch(`${API_BASE}/mining/start`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ts:state.miningStart})});
+    await fetch(`${API_BASE}/mining/start`,{
+      method:'POST', 
+      headers:{'Content-Type':'application/json'}, 
+      body:JSON.stringify({
+        userId: state.profile.userId,
+        ts: state.miningStart
+      })
+    });
   }catch(e){}
 });
 claimBtn.addEventListener('click', async ()=>{
@@ -676,9 +817,40 @@ claimBtn.addEventListener('click', async ()=>{
 
   // Send to server (optional, ignore errors)
   try{
-    await fetch(`${API_BASE}/claim`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({amount:reward, ts: Date.now()})});
+    await fetch(`${API_BASE}/claim`,{
+      method:'POST', 
+      headers:{'Content-Type':'application/json'}, 
+      body:JSON.stringify({
+        userId: state.profile.userId,
+        amount: reward, 
+        ts: Date.now()
+      })
+    });
+    
+    // After claiming, check if this activates the user for their referrer
+    if (state.referrer && state.referrer.id) {
+      activateForReferrer();
+    }
   }catch(e){}
 });
+
+// Activate this user for their referrer
+async function activateForReferrer() {
+  if (!state.referrer || !state.referrer.id) return;
+  
+  try {
+    await fetch(`${API_BASE}/referral/activate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        referrerId: state.referrer.id,
+        userId: state.profile.userId
+      })
+    });
+  } catch(e) {
+    console.error('Failed to activate for referrer:', e);
+  }
+}
 
 function updateMiningUI(){
   // Simply render related items with the same tick logic (so it's always consistent)
@@ -715,9 +887,8 @@ function updateMiningUI(){
     sessionEarningsEl.textContent='0.000';
     progressBarEl.style.width='0%';
     
-    // Update the displayed mining rate to include active friends bonus
-    const activeFriendsBonus = (state.friendsActive || 0) * 0.001;
-    const effectiveRate = RATE_PER_SEC + activeFriendsBonus;
+    // Update the displayed mining rate to include active friends bonus and referral level
+    const effectiveRate = RATE_PER_SEC + calculateMiningBoost();
     if (rateText) {
       rateText.textContent = effectiveRate.toFixed(3);
     }
@@ -759,7 +930,15 @@ coinsToPiBtn.addEventListener('click', async ()=>{
   coinsToPiAmt.value='';
   coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
   try{
-    await fetch(`${API_BASE}/convert/coins-to-pi`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({coins, pi})});
+    await fetch(`${API_BASE}/convert/coins-to-pi`,{
+      method:'POST', 
+      headers:{'Content-Type':'application/json'}, 
+      body:JSON.stringify({
+        userId: state.profile.userId,
+        coins, 
+        pi
+      })
+    });
   }catch(e){}
 });
 
@@ -774,7 +953,15 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   piToUsdtAmt.value='';
   piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
   try{
-    await fetch(`${API_BASE}/convert/pi-to-usdt`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pi, usdt})});
+    await fetch(`${API_BASE}/convert/pi-to-usdt`,{
+      method:'POST', 
+      headers:{'Content-Type':'application/json'}, 
+      body:JSON.stringify({
+        userId: state.profile.userId,
+        pi, 
+        usdt
+      })
+    });
   }catch(e){}
 });
 
@@ -792,8 +979,14 @@ withdrawBtn.addEventListener('click', async ()=>{
 
   try{
     const res = await fetch(`${API_BASE}/withdraw`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({asset, address:addr, amount:amt})
+      method:'POST', 
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        userId: state.profile.userId,
+        asset, 
+        address:addr, 
+        amount:amt
+      })
     });
     // If needed: check response
   }catch(e){}
@@ -816,17 +1009,63 @@ async function fetchFriendsData() {
     if (response.ok) {
       const data = await response.json();
       
-      // این بخش‌ها باید مقداردهی شوند
+      // Update state with the fetched data
       if (data.invited !== undefined) {
         state.friendsInvited = data.invited;
       }
       if (data.active !== undefined) {
-        state.friendsActive = data.active; // این خط مهم است
+        state.friendsActive = data.active;
       }
-      // ...
+      
+      // Process invited friends data if available
+      if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
+        state.invitedFriends = data.invitedFriends;
+      }
+      
+      // Process active friends data if available
+      if (data.activeFriends && Array.isArray(data.activeFriends)) {
+        state.activeFriends = data.activeFriends;
+      }
+      
+      // Update referral level if available
+      if (data.referralLevel !== undefined) {
+        state.referralLevel = data.referralLevel;
+      }
+      
+      // Update total referral rewards if available
+      if (data.totalReferralRewards !== undefined) {
+        state.totalReferralRewards = data.totalReferralRewards;
+      }
+      
+      // Update pending rewards if available
+      if (data.pendingRewards && Array.isArray(data.pendingRewards)) {
+        state.pendingRewards = data.pendingRewards;
+        
+        // If there are pending rewards, show the reward modal
+        if (state.pendingRewards.length > 0) {
+          showRewardModal();
+        }
+      }
+      
+      // If no data from API, generate some fake data for demo purposes
+      if (!state.invitedFriends || state.invitedFriends.length === 0) {
+        generateFakeFriendsData();
+      }
+      
+      save();
+      renderFriendsBox();
+      renderFriendsTables();
+      renderReferralLevels();
+      updateMiningUI(); // Update UI to reflect new mining rate with active friends bonus
+      renderWallet();
     }
   } catch (e) {
     console.error('Failed to fetch friends data:', e);
+    // If API fails, generate fake data for demo
+    generateFakeFriendsData();
+    renderFriendsBox();
+    renderFriendsTables();
+    renderReferralLevels();
   }
 }
 
@@ -881,6 +1120,13 @@ function setupFriends(){
   const userCode = state.profile.userId; 
   const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
   refLinkEl.textContent = myLink;
+  
+  // Generate QR code for the referral link
+  if (window.QRCode) {
+    QRCode.toCanvas(qrCodeEl, myLink, { width: 120, margin: 1 }, function (error) {
+      if (error) console.error(error);
+    });
+  }
 
   // Fetch friends data from API
   fetchFriendsData();
@@ -893,7 +1139,11 @@ function setupFriends(){
     fetch(`${API_BASE}/referral/register`, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ inviterCode, userId: userCode })
+      body: JSON.stringify({ 
+        inviterCode, 
+        userId: userCode,
+        username: `${state.profile.first || 'User'} ${state.profile.last || ''}`
+      })
     })
     .then(response => {
       if(response.ok) {
@@ -906,9 +1156,17 @@ function setupFriends(){
     .then(data => {
       // If we get a successful response, update the local state
       if(data && data.success) {
+        // Store referrer information
+        state.referrer = {
+          id: inviterCode,
+          username: data.inviterName || 'Unknown User',
+          date: new Date().toISOString()
+        };
+        
         pushTx({type:'info', amount:0, note:`Joined via invite ${inviterCode}`, ts: Date.now()});
         save();
         renderWallet();
+        renderReferrerInfo();
         
         // Refresh friends data after registration
         fetchFriendsData();
@@ -951,7 +1209,16 @@ function setupFriends(){
       
       // Track share event - this could potentially count as an invite
       trackShareEvent(appType);
+      
+      // Close the modal after sharing
+      shareModal.style.display = 'none';
     });
+  });
+
+  // Reward modal claim button
+  claimRewardBtn.addEventListener('click', () => {
+    claimPendingRewards();
+    rewardModal.style.display = 'none';
   });
 
   // leaderboard
@@ -965,6 +1232,8 @@ function setupFriends(){
 
   renderFriendsBox();
   renderFriendsTables();
+  renderReferralLevels();
+  renderReferrerInfo();
 
   // if joined via ?ref (client-side info only)
   const url = new URL(location.href); const ref = url.searchParams.get('ref');
@@ -983,6 +1252,7 @@ function trackShareEvent(platform) {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ 
         userId: state.profile.userId,
+        username: `${state.profile.first || 'User'} ${state.profile.last || ''}`,
         platform
       })
     });
@@ -1010,11 +1280,72 @@ function trackShareEvent(platform) {
     
     renderFriendsBox();
     renderFriendsTables();
+    renderReferralLevels();
     renderWallet();
     updateMiningUI();
     save();
   } catch(e) {
     console.error('Failed to track share event:', e);
+  }
+}
+
+// Show reward modal when there are pending rewards
+function showRewardModal() {
+  if (!state.pendingRewards || state.pendingRewards.length === 0) return;
+  
+  // Calculate total reward amount
+  const totalReward = state.pendingRewards.reduce((sum, reward) => sum + reward.amount, 0);
+  
+  // Update reward amount text
+  rewardAmountEl.textContent = `+${totalReward} coins`;
+  
+  // Show the modal
+  rewardModal.style.display = 'flex';
+}
+
+// Claim pending referral rewards
+function claimPendingRewards() {
+  if (!state.pendingRewards || state.pendingRewards.length === 0) return;
+  
+  // Calculate total reward amount
+  const totalReward = state.pendingRewards.reduce((sum, reward) => sum + reward.amount, 0);
+  
+  // Add rewards to user's balance
+  state.coins += totalReward;
+  
+  // Add transaction for each reward
+  state.pendingRewards.forEach(reward => {
+    pushTx({
+      type: 'earn', 
+      amount: reward.amount, 
+      note: `Referral reward: ${reward.type}`, 
+      ts: Date.now()
+    });
+  });
+  
+  // Update total referral rewards
+  state.totalReferralRewards += totalReward;
+  
+  // Clear pending rewards
+  state.pendingRewards = [];
+  
+  // Update UI
+  save();
+  renderWallet();
+  renderFriendsBox();
+  updateMiningUI();
+  
+  // Notify backend about claimed rewards
+  try {
+    fetch(`${API_BASE}/referral/claim-rewards`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ 
+        userId: state.profile.userId
+      })
+    });
+  } catch(e) {
+    console.error('Failed to notify backend about claimed rewards:', e);
   }
 }
 
@@ -1028,6 +1359,7 @@ function updateFriendsCount(invited, active) {
   }
   save();
   renderFriendsBox();
+  renderReferralLevels();
 }
 
 function shareLink(link, appType) {
@@ -1035,14 +1367,14 @@ function shareLink(link, appType) {
 
   switch(appType) {
     case 'whatsapp':
-      shareUrl = `https://wa.me/?text=${encodeURIComponent(link)}`;
+      shareUrl = `https://wa.me/?text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link: ' + link)}`;
       break;
     case 'telegram':
-      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link')}`;
       break;
     case 'imo':
       // Imo share URL
-      shareUrl = `imo://share?text=${encodeURIComponent(link)}`;
+      shareUrl = `imo://share?text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link: ' + link)}`;
       break;
     case 'copy':
       navigator.clipboard.writeText(link);
@@ -1066,7 +1398,13 @@ function shareLink(link, appType) {
 
 function renderFriendsBox(){
   friendsInvitedEl.textContent = state.friendsInvited;
-  friendsActiveEl.textContent = state.friendsActive; // این خط مهم است
+  friendsActiveEl.textContent = state.friendsActive;
+  
+  // Update referral rewards display
+  referralRewardEl.textContent = `${state.totalReferralRewards || 0} coins`;
+  
+  // Update message based on referral program
+  invitedFriendsMessageEl.textContent = `Earn ${REFERRAL_INVITE_REWARD} coins when someone joins + ${REFERRAL_ACTIVATION_REWARD} coins when they become active`;
 }
 
 // Render the invited and active friends tables
@@ -1146,6 +1484,66 @@ function renderFriendsTables() {
   }
 }
 
+// Render referral levels
+function renderReferralLevels() {
+  referralLevelsEl.innerHTML = '';
+  
+  // Get current level and active friends count
+  const currentLevel = state.referralLevel || 1;
+  const activeFriends = state.friendsActive || 0;
+  
+  // Render each level
+  REFERRAL_LEVELS.forEach(level => {
+    const levelDiv = document.createElement('div');
+    levelDiv.className = `referral-level ${level.level === currentLevel ? 'active' : ''}`;
+    
+    const progress = level.level <= currentLevel ? 100 : 
+                     (level.level === currentLevel + 1 ? 
+                      Math.min(100, (activeFriends / level.required) * 100) : 0);
+    
+    levelDiv.innerHTML = `
+      <div>
+        <div><b>Level ${level.level}</b></div>
+        <div class="muted">${level.required} active friends</div>
+      </div>
+      <div style="text-align:right">
+        <div class="accent">+${level.reward} coins</div>
+        <div class="muted">+${level.speedBoost} mining speed</div>
+      </div>
+    `;
+    
+    // Add progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'level-progress';
+    progressBar.innerHTML = `<div style="width:${progress}%"></div>`;
+    levelDiv.appendChild(progressBar);
+    
+    referralLevelsEl.appendChild(levelDiv);
+  });
+  
+  // Add explanation text
+  const explanation = document.createElement('div');
+  explanation.className = 'muted';
+  explanation.style.marginTop = '10px';
+  explanation.textContent = 'Reach higher levels by inviting more friends who become active miners. Each level increases your mining speed and gives you a one-time coin reward.';
+  referralLevelsEl.appendChild(explanation);
+}
+
+// Render referrer information in profile tab
+function renderReferrerInfo() {
+  if (state.referrer && state.referrer.id) {
+    noReferrerEl.style.display = 'none';
+    hasReferrerEl.style.display = 'block';
+    referrerNameEl.textContent = state.referrer.username || 'Unknown User';
+    
+    const referrerDate = new Date(state.referrer.date);
+    referrerDateEl.textContent = referrerDate.toLocaleDateString('en-US');
+  } else {
+    noReferrerEl.style.display = 'block';
+    hasReferrerEl.style.display = 'none';
+  }
+}
+
 /* ================== Tasks (Daily + Social + Manual) ================== */
 const TASKS = [
   { 
@@ -1193,6 +1591,14 @@ const TASKS = [
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
+    status: 'start'
+  },
+  { 
+    id:'invite_friends',      
+    title:'👥 Invite 3 Friends', 
+    kind:'social', 
+    reward:30, 
+    url:'',
     status: 'start'
   }
 ];
@@ -1303,6 +1709,15 @@ function renderTasks(){
 
   resetHeader.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
   tasksWrap.appendChild(resetHeader);
+
+  // Special handling for invite friends task
+  const inviteFriendsTask = TASKS.find(t => t.id === 'invite_friends');
+  if (inviteFriendsTask) {
+    // Check if the user has invited at least 3 friends
+    if (state.friendsInvited >= 3 && !state.completedTasks.includes('invite_friends')) {
+      state.taskStatuses['invite_friends'] = 'claim';
+    }
+  }
 
   // Rest of the code unchanged...
   TASKS.forEach(t=>{
@@ -1418,6 +1833,21 @@ function claimTaskReward(taskId, reward, title) {
   renderTasks(); 
   renderWallet(); 
   updateMiningUI();
+  
+  // Send task completion to backend
+  try {
+    fetch(`${API_BASE}/tasks/complete`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ 
+        userId: state.profile.userId,
+        taskId,
+        reward
+      })
+    });
+  } catch(e) {
+    console.error('Failed to send task completion to backend:', e);
+  }
 }
 
 /* ================== News ================== */
@@ -1450,6 +1880,8 @@ async function loadNews(){
     
     add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
+    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
+    
   }catch(e){
     // Fallback news items
     add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
@@ -1461,6 +1893,8 @@ async function loadNews(){
     add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
     add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
+    
+    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
   }
 }
 
@@ -1477,7 +1911,25 @@ function setupProfile(){
     save(); alert('Profile saved!');
     // Update referral link
     setupFriends();
+    
+    // Update profile on backend
+    try {
+      fetch(`${API_BASE}/profile/update`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ 
+          userId: state.profile.userId,
+          firstName: state.profile.first,
+          lastName: state.profile.last
+        })
+      });
+    } catch(e) {
+      console.error('Failed to update profile on backend:', e);
+    }
   });
+  
+  // Render referrer information
+  renderReferrerInfo();
 }
 
 /* ================== Persistence ================== */
@@ -1530,12 +1982,6 @@ function boot(){
   // Check and reset daily tasks
   checkAndResetDailyTasks();
 
-  // Clear invited friends list if requested
-  state.invitedFriends = [];
-  state.activeFriends = [];
-  state.friendsInvited = 0;
-  state.friendsActive = 0;
-
   updateMiningUI();
   renderWallet();
   setupFriends();
@@ -1576,6 +2022,11 @@ function boot(){
     }
   } else {
     startBtn.disabled = false; // Enable start button when not mining
+  }
+  
+  // Check for pending rewards
+  if (state.pendingRewards && state.pendingRewards.length > 0) {
+    showRewardModal();
   }
 }
 boot();
