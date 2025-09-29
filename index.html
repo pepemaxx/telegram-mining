@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="en" dir="ltr">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PiProtocol – Daily Mining</title>
+  <title>PiProtocol \u2013 Daily Mining</title>
   <style>
 /* ====== Theme ====== */
 :root{
@@ -219,8 +220,8 @@ section.tab.active{display:block}
    <!-- Header -->
    <header>
     <div>
-     <div class="title">PiProtocol – Daily Mining</div>
-     <div class="sub">24h mining • Local persistence + API fallback</div>
+     <div class="title">PiProtocol \u2013 Daily Mining</div>
+     <div class="sub">24h mining \u2022 Local persistence + API fallback</div>
     </div>
    </header>
    <!-- Main -->
@@ -260,7 +261,7 @@ section.tab.active{display:block}
        <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
       </div>
       <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec • Press <b>Start</b> to begin the timer from the beginning.
+       Rate: <b id="rateText">0.002</b> coin/sec \u2022 Press <b>Start</b> to begin the timer from the beginning.
       </div>
      </div>
      <!-- News -->
@@ -302,7 +303,7 @@ section.tab.active{display:block}
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
       <div class="card">
-       <div class="h3">🔄 Convert Coins → PiP</div>
+       <div class="h3">\ud83d\udd04 Convert Coins \u2192 PiP</div>
        <div class="muted" style="margin-bottom:6px">
         Display rate: <b id="coinsPerPi">100</b>coins = 1 PiP
        </div>
@@ -314,7 +315,7 @@ section.tab.active{display:block}
       </div>
       <!-- Convert Pi -> USDT -->
       <div class="card">
-       <div class="h3">💰 Convert PiP → USDT</div>
+       <div class="h3">\ud83d\udcb0 Convert PiP \u2192 USDT</div>
        <div class="muted" style="margin-bottom:6px">
         Display rate: 1PiP = <b id="usdtPerPi">5</b> USDT
        </div>
@@ -327,7 +328,7 @@ section.tab.active{display:block}
      </div>
      <!-- Withdraw -->
      <div class="card" style="margin-top:12px">
-      <div class="h3">🏦 Withdraw</div>
+      <div class="h3">\ud83c\udfe6 Withdraw</div>
       <div class="grid-3">
        <div>
         <div class="muted">Asset Type</div>
@@ -445,7 +446,7 @@ section.tab.active{display:block}
        <tbody></tbody>
       </table>
       <div class="muted" style="margin-top:6px">
-       Your rank: <b id="myRank">#—</b>
+       Your rank: <b id="myRank">#\u2014</b>
       </div>
      </div>
     </section>
@@ -457,7 +458,7 @@ section.tab.active{display:block}
       <div class="muted" style="margin-top:6px">* To verify task completion, server-side confirmation is required.</div>
      </div>
      <div class="card" style="margin-top:12px">
-      <div class="h3">⚒ Manual Mining</div>
+      <div class="h3">\u2692 Manual Mining</div>
       <div class="row">
        <div class="muted">+0.5 coin per click (10s Cooldown)</div>
        <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
@@ -550,7 +551,7 @@ section.tab.active{display:block}
   <!-- Reward Notification Modal -->
   <div id="rewardModal" class="share-modal">
     <div class="share-modal-content">
-      <div class="h3" style="text-align:center;">🎉 Referral Reward!</div>
+      <div class="h3" style="text-align:center;">\ud83c\udf89 Referral Reward!</div>
       <div style="text-align:center; margin:15px 0;">
         <div class="big accent reward-animation" id="rewardAmount">+10 coins</div>
         <div class="muted" style="margin-top:10px;">Your friend has become active!</div>
@@ -583,6 +584,20 @@ const REFERRAL_LEVELS = [
 // Referral rewards
 const REFERRAL_INVITE_REWARD = 2;     // Coins earned when someone uses your referral link
 const REFERRAL_ACTIVATION_REWARD = 5; // Additional coins when a referred user becomes active
+
+// Leaderboard names that will rotate daily
+const LEADERBOARD_NAMES = [
+  // First set of names
+  ['ShadowFox', 'NovaStar', 'PixelWave', 'IronClad', 'BlueComet', 'SilentPeak', 'QuantumBee', 'BrightMint', 'ArcticFlame', 'NeonDash'],
+  // Second set of names
+  ['CyberWolf', 'StarDust', 'ElectricTiger', 'MoonRider', 'SolarFlare', 'OceanBreeze', 'MountainPeak', 'DesertStorm', 'ForestGreen', 'RiverFlow'],
+  // Third set of names
+  ['GalaxyRider', 'CosmicWave', 'NebulaStar', 'PlanetPulse', 'OrbitGlow', 'VortexSpin', 'AstralBeam', 'MeteorStrike', 'StellarGlow', 'LunarPhase'],
+  // Fourth set of names
+  ['TechGuru', 'DataMaster', 'CodeWizard', 'ByteRunner', 'NetSurfer', 'CloudMiner', 'ChipGenius', 'LogicPro', 'PixelPro', 'WebMaster'],
+  // Fifth set of names
+  ['GoldMiner', 'DiamondHand', 'CryptoKing', 'TokenMaster', 'BlockChain', 'HashPower', 'CoinCollector', 'WalletPro', 'StakeMaster', 'MiningGuru']
+];
 
 /* ================== State ================== */
 const state = load() || {
@@ -764,7 +779,7 @@ function tick(){
     clearInterval(tickId); tickId=null;
     claimBtn.disabled=false;
     startBtn.disabled = false; // Enable start button when timer completes
-    miningStatusEl.textContent='Completed – claim pending';
+    miningStatusEl.textContent='Completed \u2013 claim pending';
     miningStatusEl.className='pill warn';
   }else{
     claimBtn.disabled=true;
@@ -869,7 +884,7 @@ function updateMiningUI(){
     if(remaining <= 0){
       claimBtn.disabled = false;
       startBtn.disabled = false; // Enable start button when timer completes
-      miningStatusEl.textContent = 'Completed – claim pending';
+      miningStatusEl.textContent = 'Completed \u2013 claim pending';
       miningStatusEl.className = 'pill warn';
     }else{
       claimBtn.disabled = true;
@@ -911,7 +926,7 @@ function renderWallet(){
   noTxEl.style.display='none';
   state.tx.slice(0,80).forEach(t=>{
     const tr = document.createElement('tr');
-    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'—'}</div><div class="muted">${t.type}</div>`;
+    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'\u2014'}</div><div class="muted">${t.type}</div>`;
     const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(3); // Show 3 decimal places
     const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts||Date.now()).toLocaleString();
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
@@ -925,10 +940,10 @@ coinsToPiBtn.addEventListener('click', async ()=>{
   if(coins > state.coins) return alert('Not enough coins');
   const pi = coins / COINS_PER_PI;
   state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
+  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins \u2192 ${pi.toFixed(2)} Pi`, ts: Date.now()});
   save(); renderWallet(); updateMiningUI();
   coinsToPiAmt.value='';
-  coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
+  coinsToPiHint.textContent = `\u2248 ${pi.toFixed(2)} Pi`;
   try{
     await fetch(`${API_BASE}/convert/coins-to-pi`,{
       method:'POST', 
@@ -948,10 +963,10 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   if(pi > state.pi) return alert('Not enough Pi');
   const usdt = pi * USDT_PER_PI;
   state.pi -= pi; state.usdt += usdt;
-  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
+  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi \u2192 ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
-  piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
+  piToUsdtHint.textContent = `\u2248 ${usdt.toFixed(2)} USDT`;
   try{
     await fetch(`${API_BASE}/convert/pi-to-usdt`,{
       method:'POST', 
@@ -974,7 +989,7 @@ withdrawBtn.addEventListener('click', async ()=>{
   if(asset==='usdt' && amt>state.usdt) return alert('Not enough USDT');
 
   // Local: Just register a display transaction
-  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...`, ts: Date.now()});
+  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} \u2192 ${addr.slice(0,12)}...`, ts: Date.now()});
   save(); renderWallet();
 
   try{
@@ -994,7 +1009,45 @@ withdrawBtn.addEventListener('click', async ()=>{
 });
 
 /* ================== Friends & Rank ================== */
-const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
+
+// Function to generate a random phone number
+function generateRandomPhoneNumber() {
+  // Generate a random 10-digit phone number
+  const prefix = Math.floor(Math.random() * 900) + 100; // 3-digit prefix (100-999)
+  const middle = Math.floor(Math.random() * 900) + 100; // 3-digit middle (100-999)
+  const suffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // 4-digit suffix
+  
+  return `+${prefix} ${middle} ${suffix}`;
+}
+
+// Function to get today's leaderboard names based on date
+function getTodayLeaderboardNames() {
+  const today = new Date();
+  const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+  const nameSetIndex = dayOfYear % LEADERBOARD_NAMES.length;
+  return LEADERBOARD_NAMES[nameSetIndex];
+}
+
+// Function to update leaderboard with daily changing names and starting from 1 million coins
+function updateLeaderboard() {
+  const leaderTable = document.getElementById('leaderTable').querySelector('tbody');
+  leaderTable.innerHTML = '';
+  
+  // Get today's names
+  const todayNames = getTodayLeaderboardNames();
+  
+  // Create leaderboard entries
+  todayNames.forEach((name, i) => {
+    const tr = document.createElement('tr');
+    // Start from 1 million coins and decrease by 50,000 for each rank
+    const coins = (1000000 - (i * 50000)).toLocaleString();
+    tr.innerHTML = `<td>${i+1}</td><td>${name}</td><td>${coins}</td>`;
+    leaderTable.appendChild(tr);
+  });
+  
+  // Update user's rank
+  document.getElementById('myRank').textContent = `#${state.myRank}`;
+}
 
 // New function to fetch friends data from API
 async function fetchFriendsData() {
@@ -1069,10 +1122,8 @@ async function fetchFriendsData() {
   }
 }
 
-// Generate fake friends data for demo purposes
+// Generate fake friends data for demo purposes with phone numbers
 function generateFakeFriendsData() {
-  const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
-  
   // Generate invited friends
   if (!state.invitedFriends || state.invitedFriends.length === 0) {
     state.invitedFriends = [];
@@ -1086,7 +1137,7 @@ function generateFakeFriendsData() {
       
       state.invitedFriends.push({
         id: 'inv_' + rid().slice(0, 8),
-        username: fakeNames[Math.floor(Math.random() * fakeNames.length)],
+        username: generateRandomPhoneNumber(), // Use phone number instead of name
         inviteDate: inviteDate.toISOString(),
         isActive: isActive
       });
@@ -1106,7 +1157,7 @@ function generateFakeFriendsData() {
         
         state.activeFriends.push({
           id: state.invitedFriends[i].id,
-          username: state.invitedFriends[i].username,
+          username: state.invitedFriends[i].username, // Use the same phone number
           activeDate: activeDate.toISOString()
         });
       }
@@ -1221,15 +1272,9 @@ function setupFriends(){
     rewardModal.style.display = 'none';
   });
 
-  // leaderboard
-  leaderTable.innerHTML = '';
-  FAKE_TOP10.forEach((n,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML = `<td>${i+1}</td><td>${n}</td><td>${(200 - i*10)}</td>`;
-    leaderTable.appendChild(tr);
-  });
-  myRankEl.textContent = `#${state.myRank}`;
-
+  // Update leaderboard with daily changing names and starting from 1 million
+  updateLeaderboard();
+  
   renderFriendsBox();
   renderFriendsTables();
   renderReferralLevels();
@@ -1244,7 +1289,7 @@ function setupFriends(){
   }
 }
 
-// Track share events
+// Track share events with phone numbers
 function trackShareEvent(platform) {
   try {
     fetch(`${API_BASE}/referral/share`, {
@@ -1261,13 +1306,10 @@ function trackShareEvent(platform) {
     // The real count will be updated from the API later
     state.friendsInvited++;
     
-    // Add the shared friend to invitedFriends list
-    const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
-    const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-    
+    // Add the shared friend to invitedFriends list with a phone number
     const newFriend = {
       id: 'inv_' + rid().slice(0, 8),
-      username: randomName,
+      username: generateRandomPhoneNumber(), // Use phone number instead of name
       inviteDate: new Date().toISOString(),
       isActive: false
     };
@@ -1422,7 +1464,7 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || 'User';
+      tdName.textContent = friend.username || generateRandomPhoneNumber(); // Use phone number
       
       const tdDate = document.createElement('td');
       const inviteDate = new Date(friend.inviteDate);
@@ -1457,7 +1499,7 @@ function renderFriendsTables() {
       const tr = document.createElement('tr');
       
       const tdName = document.createElement('td');
-      tdName.textContent = friend.username || 'User';
+      tdName.textContent = friend.username || generateRandomPhoneNumber(); // Use phone number
       
       const tdDate = document.createElement('td');
       const activeDate = new Date(friend.activeDate);
@@ -1548,14 +1590,14 @@ function renderReferrerInfo() {
 const TASKS = [
   { 
     id:'daily',   
-    title:'🎁 Daily Reward', 
+    title:'\ud83c\udf81 Daily Reward', 
     kind:'daily', 
     reward:15, 
     url:'' 
   },
   { 
     id:'yt_subscribe',      
-    title:'▶️ Subscribe to YouTube Channel', 
+    title:'\u25b6\ufe0f Subscribe to YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/@YouTubeChannel',
@@ -1563,7 +1605,7 @@ const TASKS = [
   },
   { 
     id:'yt_like',      
-    title:'👍 Like a YouTube Video', 
+    title:'\ud83d\udc4d Like a YouTube Video', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/watch?v=example',
@@ -1571,7 +1613,7 @@ const TASKS = [
   },
   { 
     id:'yt_comment',      
-    title:'💬 Comment on YouTube Channel', 
+    title:'\ud83d\udcac Comment on YouTube Channel', 
     kind:'social', 
     reward:20, 
     url:'https://youtube.com/channel/example',
@@ -1579,7 +1621,7 @@ const TASKS = [
   },
   { 
     id:'tg_react',      
-    title:'🔥 React to a Telegram Post', 
+    title:'\ud83d\udd25 React to a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1587,7 +1629,7 @@ const TASKS = [
   },
   { 
     id:'tg_comment',      
-    title:'💬 Comment on a Telegram Post', 
+    title:'\ud83d\udcac Comment on a Telegram Post', 
     kind:'social', 
     reward:20, 
     url:'https://t.me/channel/123',
@@ -1595,7 +1637,7 @@ const TASKS = [
   },
   { 
     id:'invite_friends',      
-    title:'👥 Invite 3 Friends', 
+    title:'\ud83d\udc65 Invite 3 Friends', 
     kind:'social', 
     reward:30, 
     url:'',
@@ -1616,6 +1658,9 @@ function checkAndResetDailyTasks() {
     resetDailyTasks();
     state.lastResetDate = today;
     save();
+    
+    // Also update the leaderboard when the day changes
+    updateLeaderboard();
   }
 }
 
@@ -1870,31 +1915,31 @@ async function loadNews(){
     }
     
     // Custom news items about the project, roadmap, and partners
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
+    add('\ud83d\ude80 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('\ud83c\udfc6 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
+    add('\ud83d\udcb0 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
-    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
+    add('\ud83d\udc65 New Referral System Launched', 'We've launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
     
   }catch(e){
     // Fallback news items
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
+    add('\ud83d\ude80 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
     
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
+    add('\ud83e\udd1d Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
     
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
+    add('\ud83d\udcca PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
     
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
+    add('\ud83c\udfc6 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
     
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
+    add('\ud83d\udcb0 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
-    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
+    add('\ud83d\udc65 New Referral System Launched', 'We've launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
   }
 }
 
@@ -2016,7 +2061,7 @@ function boot(){
       startBtn.disabled = true; // Disable start button while mining is active
     }
     else {
-      // Timer finished but user hasn't claimed yet — just update UI so button is active
+      // Timer finished but user hasn't claimed yet \u2014 just update UI so button is active
       updateMiningUI();
       startBtn.disabled = false; // Enable start button when timer completes
     }
@@ -2028,6 +2073,28 @@ function boot(){
   if (state.pendingRewards && state.pendingRewards.length > 0) {
     showRewardModal();
   }
+  
+  // Update leaderboard on boot
+  updateLeaderboard();
+  
+  // Set up daily leaderboard update
+  const updateLeaderboardAtMidnight = () => {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    
+    const timeUntilMidnight = midnight - now;
+    
+    // Set timeout to update leaderboard at midnight
+    setTimeout(() => {
+      updateLeaderboard();
+      // Set up the next day's update
+      updateLeaderboardAtMidnight();
+    }, timeUntilMidnight);
+  };
+  
+  // Start the daily leaderboard update cycle
+  updateLeaderboardAtMidnight();
 }
 boot();
 
