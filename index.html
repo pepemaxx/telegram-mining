@@ -571,6 +571,37 @@ const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
 const MANUAL_GAIN  = 0.5;
 const MANUAL_COOLDOWN = 10*1000;
 
+// لیست اسامی برای لیدربورد
+const USERNAME_POOL = [
+  'ShadowFox', 'NovaStar', 'PixelWave', 'IronClad', 'BlueComet', 
+  'SilentPeak', 'QuantumBee', 'BrightMint', 'ArcticFlame', 'NeonDash',
+  'CyberWolf', 'SolarFlare', 'ThunderBird', 'MysticRiver', 'CrystalEye',
+  'DigitalPhoenix', 'CosmicRider', 'NeptuneKing', 'GalaxyHunter', 'StarVoyager',
+  'MoonWalker', 'SunChaser', 'SpacePioneer', 'TimeTraveler', 'InfinitySeeker',
+  'QuantumLeap', 'NebulaDream', 'OrbitMaster', 'CosmicWave', 'StellarWind'
+];
+
+// تابع تولید اسامی تصادفی بر اساس تاریخ روز
+function getDailyLeaderboardNames() {
+  const today = new Date().toDateString();
+  const seed = today.split('-').join(''); // استفاده از تاریخ به عنوان seed
+  
+  // ایجاد یک generator تصادفی بر اساس تاریخ
+  let seedNum = 0;
+  for (let i = 0; i < seed.length; i++) {
+    seedNum += seed.charCodeAt(i);
+  }
+  
+  const random = (max) => {
+    seedNum = (seedNum * 9301 + 49297) % 233280;
+    return Math.floor((seedNum / 233280) * max);
+  };
+  
+  // انتخاب 10 نام تصادفی از لیست
+  const shuffled = [...USERNAME_POOL].sort(() => random(3) - 1);
+  return shuffled.slice(0, 10);
+}
+
 // Referral system configuration
 const REFERRAL_LEVELS = [
   { level: 1, required: 1, reward: 5, speedBoost: 0.001 },
