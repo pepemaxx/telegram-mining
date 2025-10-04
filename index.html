@@ -1252,14 +1252,8 @@ function setupFriends(){
     rewardModal.style.display = 'none';
   });
 
-  // leaderboard
-  leaderTable.innerHTML = '';
-  FAKE_TOP10.forEach((n,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML = `<td>${i+1}</td><td>${n}</td><td>${(200 - i*10)}</td>`;
-    leaderTable.appendChild(tr);
-  });
-  myRankEl.textContent = `#${state.myRank}`;
+  // leaderboard - استفاده از اسامی روزانه
+  renderLeaderboard();
 
   renderFriendsBox();
   renderFriendsTables();
