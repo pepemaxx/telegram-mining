@@ -1888,7 +1888,7 @@ async function loadNews(){
     if(res.ok){
       const data = await res.json(); // [{title, content, published_at}]
       if(Array.isArray(data) && data.length){
-        data.slice(0,6).forEach(n=> add(n.title, n.content||''));
+        data.slice(0,12).forEach(n=> add(n.title, n.content||'')); // از 6 به 12 افزایش دادیم
         return;
       }
     }
@@ -1906,6 +1906,19 @@ async function loadNews(){
     
     add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
     
+    // اخبار جدید اضافه شده
+    add('🎯 Mobile App Development Started', 'We have started development of the PiProtocol mobile application for iOS and Android. The app will provide a seamless mining experience on mobile devices with push notifications and enhanced security features.');
+    
+    add('🌐 Global Expansion Plan', 'PiProtocol is expanding to new markets! We are planning to launch localized versions for users in Southeast Asia, Latin America, and Middle Eastern countries in the coming months.');
+    
+    add('🔒 Enhanced Security Features', 'New security features including two-factor authentication (2FA) and biometric login will be implemented in the next update to ensure the safety of your assets and personal information.');
+    
+    add('📈 Mining Algorithm Update', 'We have optimized our mining algorithm to be more efficient and energy-friendly. Users will experience better performance and lower battery consumption during mining sessions.');
+    
+    add('🎁 Special Holiday Event', 'A special holiday mining event is coming soon! Get ready for double mining rewards, exclusive bonuses, and limited-time offers during the upcoming festive season.');
+    
+    add('💡 Community Feedback Implementation', 'Based on valuable feedback from our community, we are implementing several requested features including dark mode, multiple language support, and improved user interface.');
+    
   }catch(e){
     // Fallback news items
     add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
@@ -1919,6 +1932,19 @@ async function loadNews(){
     add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
     
     add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
+    
+    // اخبار جدید در حالت fallback نیز اضافه شد
+    add('🎯 Mobile App Development Started', 'We have started development of the PiProtocol mobile application for iOS and Android. The app will provide a seamless mining experience on mobile devices.');
+    
+    add('🌐 Global Expansion Plan', 'PiProtocol is expanding to new markets! We are planning to launch localized versions for users in Southeast Asia, Latin America, and Middle Eastern countries.');
+    
+    add('🔒 Enhanced Security Features', 'New security features including two-factor authentication (2FA) and biometric login will be implemented in the next update.');
+    
+    add('📈 Mining Algorithm Update', 'We have optimized our mining algorithm to be more efficient and energy-friendly. Users will experience better performance.');
+    
+    add('🎁 Special Holiday Event', 'A special holiday mining event is coming soon! Get ready for double mining rewards and exclusive bonuses.');
+    
+    add('💡 Community Feedback Implementation', 'Based on valuable feedback from our community, we are implementing several requested features including dark mode and multiple language support.');
   }
 }
 
