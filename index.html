@@ -2085,6 +2085,142 @@ function boot(){
 }
 boot();
 
+<script>
+/* ===== Tab Switch ===== */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+  }
+});
+
+/* ===== Coins Sync ===== */
+function getCoins(){
+  return parseFloat(localStorage.getItem("coins")||0);
+}
+function setCoins(v){
+  localStorage.setItem("coins",v);
+  document.getElementById("balance").innerText = v.toFixed(2);
+  document.getElementById("coinsBalance").innerText = v.toFixed(2);
+}
+
+/* ===== Deposit ===== */
+document.getElementById("depositBtn").onclick=()=>{
+  let amt=parseFloat(document.getElementById("depositAmt").value||0);
+  if(amt<=0) return;
+  let c=getCoins();
+  c+=amt;
+  setCoins(c);
+  document.getElementById("depositAmt").value="";
+  alert("Balance added");
+};
+
+/* ===== Plans System ===== */
+let activePlan=null;
+let planStart=0;
+let planEnd=0;
+let boostRate=0;
+
+const plans=[
+ {id:1,name:"3 Months",cost:500,boost:0.002,duration:90},
+ {id:2,name:"6 Months",cost:300,boost:0.0015,duration:180},
+ {id:3,name:"9 Months",cost:100,boost:0.001,duration:270},
+ {id:4,name:"12 Months",cost:25,boost:0.0005,duration:365}
+];
+
+function renderPlans(){
+ const wrap=document.getElementById("plansWrap");
+ wrap.innerHTML="";
+
+ plans.forEach(p=>{
+  wrap.innerHTML+=`
+  <div class="card">
+    <div class="h3">${p.name}</div>
+    <div class="muted">Cost: ${p.cost} coins</div>
+    <div class="muted">Boost: +${p.boost}/sec</div>
+    <button class="btn btn-gold" ${activePlan?"disabled":""}
+      onclick="activatePlan(${p.id})">Activate</button>
+  </div>`;
+ });
+}
+
+function activatePlan(id){
+ const p=plans.find(x=>x.id===id);
+ let coins=getCoins();
+
+ if(activePlan){
+  alert("Only one plan allowed");
+  return;
+ }
+
+ if(coins<p.cost){
+  alert("Not enough balance");
+  return;
+ }
+
+ coins-=p.cost;
+ setCoins(coins);
+
+ activePlan=p;
+ boostRate=p.boost;
+ planStart=Date.now();
+ planEnd=planStart+p.duration*86400000;
+
+ localStorage.setItem("plan",JSON.stringify({
+  id:p.id,start:planStart,end:planEnd
+ }));
+
+ renderPlans();
+}
+
+function loadPlan(){
+ let data=localStorage.getItem("plan");
+ if(!data) return;
+ data=JSON.parse(data);
+ const p=plans.find(x=>x.id===data.id);
+ if(!p) return;
+
+ activePlan=p;
+ boostRate=p.boost;
+ planStart=data.start;
+ planEnd=data.end;
+}
+
+function updatePlanUI(){
+ const info=document.getElementById("activePlanInfo");
+ const bar=document.getElementById("planProgress");
+
+ if(!activePlan){
+  info.innerText="No active plan";
+  bar.style.width="0%";
+  return;
+ }
+
+ let now=Date.now();
+ if(now>=planEnd){
+  activePlan=null;
+  boostRate=0;
+  localStorage.removeItem("plan");
+  renderPlans();
+  return;
+ }
+
+ let total=planEnd-planStart;
+ let done=now-planStart;
+ let percent=(done/total)*100;
+
+ info.innerText=activePlan.name+" active";
+ bar.style.width=percent+"%";
+}
+
+setInterval(updatePlanUI,1000);
+
+/* ===== Init ===== */
+loadPlan();
+renderPlans();
+setCoins(getCoins());
 </script>
  </body>
 </html>
