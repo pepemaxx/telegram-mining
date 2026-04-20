@@ -496,22 +496,14 @@ section.tab.active{display:block}
    </main>
    <!-- Tabs bar -->
    <nav class="tabs">
-<section class="tab" id="tab-plans">
-  <div class="card">
-    <div class="h2">Plans (Boost System)</div>
-    <div class="muted">Activate one plan to increase your mining speed</div>
-  </div>
-
-  <div id="plansWrap" class="grid-2" style="margin-top:12px"></div>
-
-  <div class="card" style="margin-top:12px">
-    <div class="h3">Active Plan</div>
-    <div id="activePlanInfo" class="muted">No active plan</div>
-    <div class="progress" style="margin-top:10px">
-      <div id="planProgress"></div>
-    </div>
-  </div>
-</section> style="grid-template-columns:repeat(6,1fr)">
+<div class="tabs-inner" style="grid-template-columns:repeat(6,1fr)">
+  <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
+  <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
+  <button class="tab-btn" data-tab="plans">Plans <span class="mini">Boost</span></button>
+  <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>
+  <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>
+  <button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button>
+</div> style="grid-template-columns:repeat(6,1fr)">
   <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
   <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
   <button class="tab-btn" data-tab="plans">Plans <span class="mini">Boost</span></button>
