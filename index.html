@@ -210,6 +210,16 @@ section.tab.active{display:block}
   background: white;
   border-radius: 8px;
 }
+/* اضافه کردن grid-4 برای نمایش ۴ طرح در ردیف */
+.grid-4{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px}
+@media (max-width:720px){ .grid-4{grid-template-columns:1fr} }
+
+/* استایل کارت هر طرح */
+.plan-card{background:rgba(0,0,0,0.3); border-radius:20px; padding:14px; text-align:center; border:1px solid var(--border)}
+.plan-price{font-size:1.6rem; font-weight:800; color:var(--brand)}
+.profit-badge{background:rgba(16,185,129,0.2); border-radius:20px; padding:4px 8px; font-size:0.75rem; display:inline-block}
+.timer-text{font-family:monospace; font-size:1.4rem; font-weight:800; letter-spacing:1px}
+.btn-outline{background:transparent; border:1px solid var(--brand); color:var(--brand)}
 </style>
   <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
