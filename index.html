@@ -717,6 +717,23 @@ const depositAmountInput = document.getElementById('depositAmount');
 const txHashInput = document.getElementById('txHash');
 const submitDepositReqBtn = document.getElementById('submitDepositReqBtn');
 const depositStatusSpan = document.getElementById('depositStatus');
+// === کد جدید برای مدیریت آدرس ادمین و کپی ===
+function updateAdminAddress() {
+  const network = selectedNetwork.value;
+  if (network === 'TRC20') {
+    adminWalletSpan.textContent = ADMIN_TRC20_ADDRESS;
+  } else {
+    adminWalletSpan.textContent = ADMIN_BEP20_ADDRESS;
+  }
+}
+selectedNetwork.addEventListener('change', updateAdminAddress);
+updateAdminAddress();
+
+copyWalletBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(adminWalletSpan.textContent);
+  depositStatusSpan.textContent = '✅ آدرس کیف پول کپی شد';
+  setTimeout(() => depositStatusSpan.textContent = '', 3000);
+});
 const timerEl = $('timer');
 const sessionEarningsEl = $('sessionEarnings');
 const progressBarEl = $('progressBar');
