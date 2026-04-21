@@ -752,6 +752,24 @@ const rewardModal = $('rewardModal');
 const rewardAmountEl = $('rewardAmount');
 const claimRewardBtn = $('claimRewardBtn');
 
+const depositBtn = document.getElementById('depositBtn');
+if (depositBtn) {
+  depositBtn.addEventListener('click', () => {
+    const amount = parseFloat(document.getElementById('depositAmount').value);
+    if (isNaN(amount) || amount <= 0) {
+      alert('لطفاً مقدار معتبر USDT وارد کنید');
+      return;
+    }
+    state.usdt += amount;
+    pushTx({ type: 'deposit', amount: amount, note: `واریز ${amount} USDT`, ts: Date.now() });
+    save();
+    renderWallet();
+    updateMiningUI();
+    document.getElementById('depositAmount').value = '';
+    alert(`${amount} USDT با موفقیت واریز شد.`);
+  });
+}
+
 // Misc
 $('coinsPerPi').textContent = COINS_PER_PI;
 $('usdtPerPi').textContent  = USDT_PER_PI;
