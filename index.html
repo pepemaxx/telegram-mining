@@ -665,6 +665,17 @@ const state = load() || {
   referralLevel: 1,       // Current referral level (1-5)
   totalReferralRewards: 0 // Total coins earned from referrals
 };
+// ========== سرمایه‌گذاری ==========
+const INVEST_PLANS = [
+  { id: 'plan500', name: 'پلن ۵۰۰ دلاری', requiredUSDT: 500, durationMonths: 3, profitPercent: 1, baseAmount: 500 },
+  { id: 'plan300', name: 'پلن ۳۰۰ دلاری', requiredUSDT: 300, durationMonths: 6, profitPercent: 1, baseAmount: 300 },
+  { id: 'plan100', name: 'پلن ۱۰۰ دلاری', requiredUSDT: 100, durationMonths: 9, profitPercent: 1, baseAmount: 100 },
+  { id: 'plan25',  name: 'پلن ۲۵ دلاری',  requiredUSDT: 25,  durationMonths: 12, profitPercent: 1, baseAmount: 25 }
+];
+
+function getDurationSeconds(months) {
+  return months * 30 * 24 * 3600;
+}
 
 // Generate a 7-digit user ID if not already present
 function generateUserId() {
