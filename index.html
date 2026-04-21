@@ -311,12 +311,29 @@ section.tab.active{display:block}
      </div>
 <!-- واریز واقعی تتر -->
 <div class="card">
- <div class="h3">💸 واریز واقعی USDT</div>
- <div class="row" style="margin:8px 0">
-  <input type="number" id="depositAmount" placeholder="مقدار USDT" step="0.1" min="1">
-  <button id="depositBtn" class="btn btn-gold">واریز به حساب</button>
+ <div class="h3">💸 واریز USDT (شبکه TRC20 / BEP20)</div>
+ <div class="muted" style="margin-bottom:8px">
+   لطفاً مبلغ دلخواه را به آدرس کیف پول زیر واریز کنید:
  </div>
- <div class="muted">* افزایش موجودی تتر (شبیه‌سازی واریز)</div>
+ <div class="pill" style="word-break:break-all;background:#00000030;padding:8px;margin:8px 0">
+   <span id="adminWalletAddress">0xYourWalletAddressHere</span>
+   <button id="copyWalletBtn" class="btn btn-ghost" style="padding:4px 8px;margin-left:8px">کپی</button>
+ </div>
+ <div class="row" style="margin:8px 0">
+   <select id="selectedNetwork" style="flex:1">
+     <option value="TRC20">TRC20 (USDT - Tron)</option>
+     <option value="BEP20">BEP20 (USDT - BSC)</option>
+   </select>
+   <input type="number" id="depositAmount" placeholder="مقدار USDT" step="0.1" min="1" style="flex:1">
+ </div>
+ <div class="row">
+   <input type="text" id="txHash" placeholder="کد تراکنش (Transaction Hash)" style="flex:2">
+   <button id="submitDepositReqBtn" class="btn btn-gold">ثبت درخواست واریز</button>
+ </div>
+ <div id="depositStatus" class="muted" style="margin-top:8px;font-size:12px"></div>
+ <div class="muted" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+   ⚠️ پس از ارسال USDT، کد تراکنش را وارد کنید. درخواست شما بررسی شده و پس از تأیید، موجودی USDT اضافه می‌شود.
+ </div>
 </div>
      <div class="grid-2" style="margin-top:12px">
       <!-- Convert Coins -> Pi -->
