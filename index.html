@@ -1009,6 +1009,8 @@ function renderWallet(){
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
     txListEl.appendChild(tr);
   });
+renderPlans();
+updateActivePlanDisplay();
 }
 
 coinsToPiBtn.addEventListener('click', async ()=>{
