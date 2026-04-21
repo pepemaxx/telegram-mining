@@ -710,6 +710,13 @@ function generateUserId() {
 const $ = (id)=>document.getElementById(id);
 const balanceEl = $('balance');
 const miningStatusEl = $('miningStatus');
+const adminWalletSpan = document.getElementById('adminWalletAddress');
+const copyWalletBtn = document.getElementById('copyWalletBtn');
+const selectedNetwork = document.getElementById('selectedNetwork');
+const depositAmountInput = document.getElementById('depositAmount');
+const txHashInput = document.getElementById('txHash');
+const submitDepositReqBtn = document.getElementById('submitDepositReqBtn');
+const depositStatusSpan = document.getElementById('depositStatus');
 const timerEl = $('timer');
 const sessionEarningsEl = $('sessionEarnings');
 const progressBarEl = $('progressBar');
