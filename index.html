@@ -663,7 +663,9 @@ const state = load() || {
   referrer: null,         // {id, username, date} - Who invited this user
   pendingRewards: [],     // [{id, username, amount, type}] - Rewards waiting to be claimed
   referralLevel: 1,       // Current referral level (1-5)
-  totalReferralRewards: 0 // Total coins earned from referrals
+  totalReferralRewards: 0,
+activeInvestment: null,   // ذخیره اطلاعات طرح فعال
+ // Total coins earned from referrals
 };
 // ========== سرمایه‌گذاری ==========
 const INVEST_PLANS = [
