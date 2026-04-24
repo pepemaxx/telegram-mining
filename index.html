@@ -1091,7 +1091,7 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   if(!pi) return alert('Enter a valid amount');
   if(pi > state.pi) return alert('Not enough Pi');
   const usdt = pi * USDT_PER_PI;
-  state.pi -= pi; state.usdt += usdt;
+  state.pi -= pi; state.usdtEarned += usdt;
   pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
