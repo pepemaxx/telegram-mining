@@ -667,7 +667,8 @@ const REFERRAL_ACTIVATION_REWARD = 5; // Additional coins when a referred user b
 
 /* ================== State ================== */
 const state = load() || {
-  coins: 0, pi: 0, usdt: 0,
+  coins: 0, pi: 0, usdtEarned: 0,      // از تبدیل و سود سرمایه‌گذاری
+usdtDeposited: 0,   // واریز دستی فقط TRC20
   tx: [],                 // {id,type,amount,ts,note}
   miningStart: null,
   friendsInvited: 0, friendsActive: 0,
