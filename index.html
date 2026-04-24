@@ -667,8 +667,7 @@ const REFERRAL_ACTIVATION_REWARD = 5; // Additional coins when a referred user b
 
 /* ================== State ================== */
 const state = load() || {
-  coins: 0, pi: 0, usdtEarned: 0,      // از تبدیل و سود سرمایه‌گذاری
-usdtDeposited: 0,   // واریز دستی فقط TRC20
+  coins: 0, pi: 0, usdt: 0,
   tx: [],                 // {id,type,amount,ts,note}
   miningStart: null,
   friendsInvited: 0, friendsActive: 0,
@@ -688,9 +687,6 @@ usdtDeposited: 0,   // واریز دستی فقط TRC20
 activeInvestment: null,   // ذخیره اطلاعات طرح فعال
  // Total coins earned from referrals
 };
-function totalUsdt() { 
-  return (state.usdtEarned || 0) + (state.usdtDeposited || 0); 
-}
 // ========== سرمایه‌گذاری ==========
 const INVEST_PLANS = [
   { id: 'plan500', name: 'پلن ۵۰۰ دلاری', requiredUSDT: 500, durationMonths: 3, profitPercent: 1, baseAmount: 500 },
@@ -808,7 +804,7 @@ if (depositBtn) {
       alert('لطفاً مقدار معتبر USDT وارد کنید');
       return;
     }
-    state.usdtDeposited += amount;
+    state.usdt += amount;
     pushTx({ type: 'deposit', amount: amount, note: `واریز ${amount} USDT`, ts: Date.now() });
     save();
     renderWallet();
@@ -1043,9 +1039,7 @@ function renderWallet(){
   // Display coin balance with 3 decimal places
   coinsBalanceEl.textContent = state.coins.toFixed(3);
   piBalanceEl.textContent = Number(state.pi).toFixed(2);
-  document.getElementById('earnedUsdtBalance').textContent = (state.usdtEarned || 0).toFixed(2);
-document.getElementById('depositedUsdtBalance').textContent = (state.usdtDeposited || 0).toFixed(2);
-document.getElementById('totalUsdtBalance').textContent = totalUsdt().toFixed(2);
+  usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
 
   // transactions
   txListEl.innerHTML='';
@@ -1091,7 +1085,7 @@ piToUsdtBtn.addEventListener('click', async ()=>{
   if(!pi) return alert('Enter a valid amount');
   if(pi > state.pi) return alert('Not enough Pi');
   const usdt = pi * USDT_PER_PI;
-  state.pi -= pi; state.usdtEarned += usdt;
+  state.pi -= pi; state.usdt += usdt;
   pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
   save(); renderWallet();
   piToUsdtAmt.value='';
