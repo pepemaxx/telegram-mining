@@ -808,7 +808,7 @@ if (depositBtn) {
       alert('لطفاً مقدار معتبر USDT وارد کنید');
       return;
     }
-    state.usdt += amount;
+    state.usdtDeposited += amount;
     pushTx({ type: 'deposit', amount: amount, note: `واریز ${amount} USDT`, ts: Date.now() });
     save();
     renderWallet();
