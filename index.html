@@ -1,3 +1,6 @@
+I've updated the HTML document according to your requests: USDT balance is now split into Earned, Deposited, and Total parts. Deposits are only supported via TRC20 network. The "Invited Friends" table has been removed from the Friends tab, and related social tasks have been cleaned up. All changes are reflected in the wallet, deposit form, and referral sections.
+
+```html
 <!doctype html>
 <html lang="en" dir="ltr">
  <head>
@@ -92,11 +95,9 @@ section.tab.active{display:block}
 /* Badges */
 .badge{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08); border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:12px}
 
-/* Nice section headers */
+/* Section headers */
 .h3{font-size:16px; font-weight:900; margin:0 0 8px}
 .h2{font-size:18px; font-weight:900; margin:0 0 10px}
-
-/* Icon (inline) */
 .icon{width:18px; height:18px; opacity:.9}
 
 /* Share Modal */
@@ -112,7 +113,6 @@ section.tab.active{display:block}
   justify-content: center;
   align-items: center;
 }
-
 .share-modal-content {
   background: var(--card);
   border: 1px solid var(--border);
@@ -122,14 +122,12 @@ section.tab.active{display:block}
   max-width: 400px;
   backdrop-filter: blur(10px);
 }
-
 .share-apps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-top: 15px;
 }
-
 .share-app {
   display: flex;
   flex-direction: column;
@@ -140,31 +138,17 @@ section.tab.active{display:block}
   cursor: pointer;
   transition: background 0.2s;
 }
+.share-app:hover { background: rgba(255,255,255,0.2); }
+.share-app svg { width: 30px; height: 30px; margin-bottom: 5px; }
+.share-app span { font-size: 12px; }
 
-.share-app:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.share-app svg {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 5px;
-}
-
-.share-app span {
-  font-size: 12px;
-}
-
-/* Referral Reward Animation */
+/* Reward Animation */
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
-
-.reward-animation {
-  animation: pulse 1.5s infinite;
-}
+.reward-animation { animation: pulse 1.5s infinite; }
 
 /* Referral Levels */
 .referral-level {
@@ -177,12 +161,7 @@ section.tab.active{display:block}
   border-radius: 12px;
   border: 1px solid var(--border);
 }
-
-.referral-level.active {
-  border-color: var(--brand);
-  background: rgba(241,196,15,0.1);
-}
-
+.referral-level.active { border-color: var(--brand); background: rgba(241,196,15,0.1); }
 .level-progress {
   height: 6px;
   border-radius: 999px;
@@ -191,30 +170,12 @@ section.tab.active{display:block}
   width: 100%;
   margin-top: 5px;
 }
+.level-progress > div { height: 100%; background: linear-gradient(90deg,#fde047,#f59e0b); transition: width .25s; }
 
-.level-progress > div {
-  height: 100%;
-  background: linear-gradient(90deg,#fde047,#f59e0b);
-  transition: width .25s;
-}
-
-/* QR Code */
-.qr-code-container {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0;
-}
-
-.qr-code {
-  padding: 10px;
-  background: white;
-  border-radius: 8px;
-}
-/* اضافه کردن grid-4 برای نمایش ۴ طرح در ردیف */
+.qr-code-container { display: flex; justify-content: center; margin: 15px 0; }
+.qr-code { padding: 10px; background: white; border-radius: 8px; }
 .grid-4{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px}
 @media (max-width:720px){ .grid-4{grid-template-columns:1fr} }
-
-/* استایل کارت هر طرح */
 .plan-card{background:rgba(0,0,0,0.3); border-radius:20px; padding:14px; text-align:center; border:1px solid var(--border)}
 .plan-price{font-size:1.6rem; font-weight:800; color:var(--brand)}
 .profit-badge{background:rgba(16,185,129,0.2); border-radius:20px; padding:4px 8px; font-size:0.75rem; display:inline-block}
@@ -226,2109 +187,212 @@ section.tab.active{display:block}
  </head>
  <body>
   <div id="app">
-   <!-- Header -->
-   <header>
-    <div>
-     <div class="title">PiProtocol – Daily Mining</div>
-     <div class="sub">24h mining • Local persistence + API fallback</div>
-    </div>
-   </header>
-   <!-- Main -->
+   <header><div><div class="title">PiProtocol – Daily Mining</div><div class="sub">24h mining • local + TRC20 deposits</div></div></header>
    <main>
     <!-- Mining -->
     <section class="tab active" id="tab-mining">
-     <div class="card row">
-      <div>
-       <div class="kicker">Wallet Balance</div>
-       <div class="big">
-        <span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span>
-       </div>
-      </div>
-      <div style="text-align:end">
-       <div class="kicker">Mining Status</div>
-       <div id="miningStatus" class="pill">Inactive</div>
-      </div>
-     </div>
-     <div class="card">
-      <div class="row" style="align-items:flex-end">
-       <div>
-        <div class="kicker">Time remaining</div>
-        <div id="timer" class="big">00:00:00</div>
-       </div>
-       <div style="text-align:end">
-        <div class="kicker">Session earnings</div>
-        <div class="big accent">
-         <span id="sessionEarnings">0</span> coins
-        </div>
-       </div>
-      </div>
-      <div class="progress" style="margin-top:10px">
-       <div id="progressBar"></div>
-      </div>
-      <div class="row" style="margin-top:12px">
-       <button id="startBtn" class="btn btn-gold">Start 24h</button>
-       <button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button>
-      </div>
-      <div class="muted" style="margin-top:8px">
-       Rate: <b id="rateText">0.002</b> coin/sec • Press <b>Start</b> to begin the timer from the beginning.
-      </div>
-     </div>
-     <!-- News -->
-     <div class="card">
-      <div class="row" style="justify-content:space-between">
-       <div class="h2">News</div>
-       <div class="badge">
-        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-         <path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" />
-        </svg>
-        Latest
-       </div>
-      </div>
-      <ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul>
-     </div>
+     <div class="card row"><div><div class="kicker">Wallet Balance</div><div class="big"><span id="balance">0</span> <span class="muted" style="font-size:14px">coins</span></div></div><div style="text-align:end"><div class="kicker">Mining Status</div><div id="miningStatus" class="pill">Inactive</div></div></div>
+     <div class="card"><div class="row" style="align-items:flex-end"><div><div class="kicker">Time remaining</div><div id="timer" class="big">00:00:00</div></div><div style="text-align:end"><div class="kicker">Session earnings</div><div class="big accent"><span id="sessionEarnings">0</span> coins</div></div></div><div class="progress" style="margin-top:10px"><div id="progressBar"></div></div><div class="row" style="margin-top:12px"><button id="startBtn" class="btn btn-gold">Start 24h</button><button id="claimBtn" class="btn btn-ghost" disabled>Finish &amp; Claim</button></div><div class="muted" style="margin-top:8px">Rate: <b id="rateText">0.002</b> coin/sec • Press <b>Start</b> to begin.</div></div>
+     <div class="card"><div class="row" style="justify-content:space-between"><div class="h2">News</div><div class="badge"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h13a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4z" /><path d="M8 8h8M8 12h8M8 16h6" stroke="#000" stroke-opacity=".28" /></svg>Latest</div></div><ul id="newsList" style="margin:6px 0 0 0; padding:0; list-style:none"></ul></div>
     </section>
     <!-- Wallet -->
     <section class="tab" id="tab-wallet">
-     <div class="grid-3">
-      <div class="card">
-       <div class="kicker">Coins</div>
-       <div class="big">
-        <span id="coinsBalance">0</span>
-       </div>
-      </div>
-      <div class="card">
-       <div class="kicker">PiP</div>
-       <div class="big">
-        <span id="piBalance">0.00</span>
-       </div>
-      </div>
-      <div class="card">
-       <div class="kicker">USDT</div>
-       <div class="big">
-        <span id="usdtBalance">0.00</span>
-       </div>
-      </div>
-     </div>
-<!-- واریز واقعی تتر -->
-<div class="card">
- <div class="h3">💸 واریز USDT (شبکه TRC20 / BEP20)</div>
- <div class="muted" style="margin-bottom:8px">
-   لطفاً مبلغ دلخواه را به آدرس کیف پول زیر واریز کنید:
- </div>
- <div class="pill" style="word-break:break-all;background:#00000030;padding:8px;margin:8px 0">
-   <span id="adminWalletAddress">0xYourWalletAddressHere</span>
-   <button id="copyWalletBtn" class="btn btn-ghost" style="padding:4px 8px;margin-left:8px">کپی</button>
- </div>
- <div class="row" style="margin:8px 0">
-   <select id="selectedNetwork" style="flex:1">
-     <option value="TRC20">TRC20 (USDT - Tron)</option>
-     <option value="BEP20">BEP20 (USDT - BSC)</option>
-   </select>
-   <input type="number" id="depositAmount" placeholder="مقدار USDT" step="0.1" min="1" style="flex:1">
- </div>
- <div class="row">
-   <input type="text" id="txHash" placeholder="کد تراکنش (Transaction Hash)" style="flex:2">
-   <button id="submitDepositReqBtn" class="btn btn-gold">ثبت درخواست واریز</button>
- </div>
- <div id="depositStatus" class="muted" style="margin-top:8px;font-size:12px"></div>
- <div class="muted" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
-   ⚠️ پس از ارسال USDT، کد تراکنش را وارد کنید. درخواست شما بررسی شده و پس از تأیید، موجودی USDT اضافه می‌شود.
- </div>
-</div>
-     <div class="grid-2" style="margin-top:12px">
-      <!-- Convert Coins -> Pi -->
-      <div class="card">
-       <div class="h3">🔄 Convert Coins → PiP</div>
-       <div class="muted" style="margin-bottom:6px">
-        Display rate: <b id="coinsPerPi">100</b>coins = 1 PiP
-       </div>
-       <div class="input-row">
-        <input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coin amount">
-        <button id="coinsToPiBtn" class="btn btn-gold">Convert</button>
-       </div>
-       <div id="coinsToPiHint" class="muted" style="margin-top:6px"></div>
-      </div>
-      <!-- Convert Pi -> USDT -->
-      <div class="card">
-       <div class="h3">💰 Convert PiP → USDT</div>
-       <div class="muted" style="margin-bottom:6px">
-        Display rate: 1PiP = <b id="usdtPerPi">5</b> USDT
-       </div>
-       <div class="input-row">
-        <input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="PiP amount">
-        <button id="piToUsdtBtn" class="btn btn-gold">Convert</button>
-       </div>
-       <div id="piToUsdtHint" class="muted" style="margin-top:6px"></div>
-      </div>
-     </div>
-     <!-- Withdraw -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">🏦 Withdraw</div>
-      <div class="grid-3">
-       <div>
-        <div class="muted">Asset Type</div>
-        <select id="withdrawAsset"> <option value="pi">PiP</option> <option value="usdt">USDT</option> </select>
-       </div>
-       <div>
-        <div class="muted">Wallet Address</div>
-        <input id="withdrawAddr" placeholder="e.g., Pi wallet / TRON / ERC-20">
-       </div>
-       <div>
-        <div class="muted">Amount</div>
-        <input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount">
-       </div>
-      </div>
-      <div class="row" style="margin-top:10px">
-       <button id="withdrawBtn" class="btn btn-gold">Submit Request</button>
-       <div class="muted">For actual processing, server-side confirmation is required.</div>
-      </div>
-     </div>
-     <!-- Transactions -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">Transactions</div>
-      <table class="table">
-       <thead>
-        <tr>
-         <th>Description</th>
-         <th>Amount</th>
-         <th>Time</th>
-        </tr>
-       </thead>
-       <tbody id="txList"></tbody>
-      </table>
-      <div id="noTx" class="muted" style="margin-top:6px">No transactions yet.</div>
-     </div>
+     <div class="grid-3"><div class="card"><div class="kicker">Coins</div><div class="big"><span id="coinsBalance">0</span></div></div><div class="card"><div class="kicker">PiP</div><div class="big"><span id="piBalance">0.00</span></div></div><div class="card"><div class="kicker">💰 Total USDT</div><div class="big"><span id="totalUsdtBalance">0.00</span></div></div></div>
+     <div class="grid-2" style="margin-top:12px"><div class="card"><div class="kicker">📌 USDT Earned</div><div class="big accent"><span id="earnedUsdtBalance">0.00</span></div><div class="muted">From conversions & investment profits</div></div><div class="card"><div class="kicker">🏦 USDT Deposited (TRC20)</div><div class="big accent"><span id="depositedUsdtBalance">0.00</span></div><div class="muted">Manual deposits only</div></div></div>
+     
+     <!-- Deposit TRC20 only -->
+     <div class="card"><div class="h3">💸 واریز USDT (فقط TRC20)</div><div class="muted" style="margin-bottom:8px">لطفاً مبلغ را به آدرس TRC20 زیر واریز کنید و کد تراکنش را ثبت نمایید:</div><div class="pill" style="word-break:break-all;background:#00000030;padding:8px;margin:8px 0"><span id="adminWalletAddress">TYourTronWalletAddressHere</span><button id="copyWalletBtn" class="btn btn-ghost" style="padding:4px 8px;margin-left:8px">کپی</button></div><div class="row" style="margin:8px 0"><input type="number" id="depositAmount" placeholder="مقدار USDT (TRC20)" step="0.1" min="1" style="flex:1"><input type="text" id="txHash" placeholder="کد تراکنش (Transaction Hash)" style="flex:2"></div><button id="submitDepositReqBtn" class="btn btn-gold">ثبت واریز و افزایش موجودی</button><div id="depositStatus" class="muted" style="margin-top:8px;font-size:12px"></div><div class="muted" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">⚠️ فقط شبکه TRC20 پذیرفته می‌شود. پس از ارسال، کد تراکنش را وارد کرده و ثبت کنید.</div></div>
+     
+     <div class="grid-2" style="margin-top:12px"><div class="card"><div class="h3">🔄 Convert Coins → PiP</div><div class="muted" style="margin-bottom:6px">Rate: <b id="coinsPerPi">100</b>coins = 1 PiP</div><div class="input-row"><input id="coinsToPiAmt" type="number" min="0" step="1" placeholder="Coin amount"><button id="coinsToPiBtn" class="btn btn-gold">Convert</button></div><div id="coinsToPiHint" class="muted" style="margin-top:6px"></div></div><div class="card"><div class="h3">💰 Convert PiP → USDT (Earned)</div><div class="muted" style="margin-bottom:6px">Rate: 1PiP = <b id="usdtPerPi">5</b> USDT</div><div class="input-row"><input id="piToUsdtAmt" type="number" min="0" step="0.01" placeholder="PiP amount"><button id="piToUsdtBtn" class="btn btn-gold">Convert</button></div><div id="piToUsdtHint" class="muted" style="margin-top:6px"></div></div></div>
+     
+     <div class="card" style="margin-top:12px"><div class="h3">🏦 Withdraw</div><div class="grid-3"><div><div class="muted">Asset Type</div><select id="withdrawAsset"><option value="usdt">USDT (TRC20)</option><option value="pi">PiP</option></select></div><div><div class="muted">Wallet Address</div><input id="withdrawAddr" placeholder="TRC20 / Pi wallet"></div><div><div class="muted">Amount</div><input id="withdrawAmt" type="number" min="0" step="0.01" placeholder="Amount"></div></div><div class="row" style="margin-top:10px"><button id="withdrawBtn" class="btn btn-gold">Submit Request</button><div class="muted">Demo request – backend confirmation needed</div></div></div>
+     
+     <div class="card" style="margin-top:12px"><div class="h3">Transactions</div><table class="table"><thead><tr><th>Description</th><th>Amount</th><th>Time</th></tr></thead><tbody id="txList"></tbody></table><div id="noTx" class="muted" style="margin-top:6px">No transactions yet.</div></div>
     </section>
-<!-- تب سرمایه‌گذاری (Invest) -->
-<section class="tab" id="tab-invest">
-  <div class="card">
-    <div class="kicker">📊 پلن‌های سرمایه‌گذاری | سود 1% روزانه (ثانیه شمار)</div>
-    <div class="muted" style="margin-bottom:12px">فقط یک طرح می‌تواند فعال باشد. برای فعال‌سازی موجودی تتر کافی الزامی است.</div>
-    <div class="grid-4" id="plansContainer"></div>
-    <div id="activePlanInfo" class="card" style="margin-top:16px; background:rgba(0,0,0,0.3);"></div>
-  </div>
-</section>
-    <!-- Friends -->
+    
+    <!-- Invest -->
+    <section class="tab" id="tab-invest">
+      <div class="card"><div class="kicker">📊 سرمایه‌گذاری | سود 1% روزانه (ثانیه شمار)</div><div class="muted" style="margin-bottom:12px">فقط یک طرح می‌تواند فعال باشد. موجودی کل USDT (مجموع کسب شده + واریز شده) ملاک است.</div><div class="grid-4" id="plansContainer"></div><div id="activePlanInfo" class="card" style="margin-top:16px; background:rgba(0,0,0,0.3);"></div></div>
+    </section>
+    
+    <!-- Friends (invited table removed) -->
     <section class="tab" id="tab-friends">
-     <div class="card">
-      <div class="h3">Your Referral Link</div>
-      <div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div>
-      <div class="qr-code-container">
-        <div id="qrCode" class="qr-code"></div>
-      </div>
-      <div class="row" style="margin-top:8px">
-       <button id="copyRef" class="btn btn-gold">Copy Link</button>
-       <button id="shareRef" class="btn btn-ghost">Share</button>
-      </div>
-     </div>
-     <div class="grid-3" style="margin-top:12px">
-      <div class="card">
-       <div class="kicker">Invited</div>
-       <div class="big" id="friendsInvited">0</div>
-      </div>
-      <div class="card">
-       <div class="kicker">Active</div>
-       <div class="big" id="friendsActive">0</div>
-      </div>
-      <div class="card">
-       <div class="kicker">Reward</div>
-       <div class="big accent" id="referralReward">0 coins</div>
-      </div>
-     </div>
-     <!-- Referral Levels -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">Referral Program</div>
-      <div class="muted" style="margin-bottom:10px">Invite friends and earn rewards as they become active miners!</div>
-      
-      <div id="referralLevels">
-        <!-- Levels will be populated by JavaScript -->
-      </div>
-     </div>
-     <!-- Invited Friends List -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">Invited Friends</div>
-      <table class="table" id="invitedFriendsTable">
-       <thead>
-        <tr>
-         <th>User</th>
-         <th>Invite Date</th>
-         <th>Status</th>
-        </tr>
-       </thead>
-       <tbody></tbody>
-      </table>
-      <div id="invitedFriendsMessage" class="muted" style="margin-top:6px">Earn rewards for each friend who joins and becomes active</div>
-     </div>
-     <!-- Active Friends List -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">Active Friends</div>
-      <table class="table" id="activeFriendsTable">
-       <thead>
-        <tr>
-         <th>User</th>
-         <th>Activation Date</th>
-         <th>Speed Boost</th>
-        </tr>
-       </thead>
-       <tbody></tbody>
-      </table>
-      <div class="muted" style="margin-top:6px">
-       Mining speed increase: <b>+0.001</b> per active friend
-      </div>
-     </div>
-<!-- Leaderboard -->
-<div class="card" style="margin-top:12px">
-  <div class="h3">Leaderboard (Top 10)</div>
-  <table class="table" id="leaderTable">
-   <thead>
-    <tr>
-     <th>#</th>
-     <th>User</th>
-     <!-- حذف ستون Coins -->
-    </tr>
-   </thead>
-   <tbody></tbody>
-  </table>
-  <div class="muted" style="margin-top:6px">
-   Your rank: <b id="myRank">#—</b>
-  </div>
-</div>
+     <div class="card"><div class="h3">Your Referral Link</div><div id="refLink" class="muted" style="word-break:break-all;background:rgba(255,255,255,.08);border:1px dashed var(--border);padding:10px;border-radius:12px"></div><div class="qr-code-container"><div id="qrCode" class="qr-code"></div></div><div class="row" style="margin-top:8px"><button id="copyRef" class="btn btn-gold">Copy Link</button><button id="shareRef" class="btn btn-ghost">Share</button></div></div>
+     <div class="grid-3" style="margin-top:12px"><div class="card"><div class="kicker">Invited</div><div class="big" id="friendsInvited">0</div></div><div class="card"><div class="kicker">Active</div><div class="big" id="friendsActive">0</div></div><div class="card"><div class="kicker">Reward</div><div class="big accent" id="referralReward">0 coins</div></div></div>
+     
+     <div class="card" style="margin-top:12px"><div class="h3">Referral Program</div><div class="muted" style="margin-bottom:10px">Invite friends and earn rewards as they become active miners!</div><div id="referralLevels"></div></div>
+     
+     <!-- Active Friends only (Invited table removed) -->
+     <div class="card" style="margin-top:12px"><div class="h3">Active Friends</div><table class="table" id="activeFriendsTable"><thead><tr><th>User</th><th>Activation Date</th><th>Speed Boost</th></tr></thead><tbody></tbody></table><div class="muted" style="margin-top:6px">Mining speed increase: <b>+0.001</b> per active friend</div></div>
+     
+     <div class="card" style="margin-top:12px"><div class="h3">Leaderboard (Top 10)</div><table class="table" id="leaderTable"><thead><tr><th>#</th><th>User</th></tr></thead><tbody></tbody></table><div class="muted" style="margin-top:6px">Your rank: <b id="myRank">#—</b></div></div>
     </section>
-    <!-- Tasks -->
-    <section class="tab" id="tab-tasks">
-     <div class="card">
-      <div class="h3">Daily &amp; Social Tasks</div>
-      <div id="tasksWrap"></div>
-      <div class="muted" style="margin-top:6px">* To verify task completion, server-side confirmation is required.</div>
-     </div>
-     <div class="card" style="margin-top:12px">
-      <div class="h3">⚒ Manual Mining</div>
-      <div class="row">
-       <div class="muted">+0.5 coin per click (10s Cooldown)</div>
-       <button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button>
-      </div>
-      <div id="manualCooldown" class="muted" style="margin-top:6px"></div>
-     </div>
-    </section>
+    
+    <!-- Tasks (removed invite_friends task) -->
+    <section class="tab" id="tab-tasks"><div class="card"><div class="h3">Daily &amp; Social Tasks</div><div id="tasksWrap"></div><div class="muted" style="margin-top:6px">* Complete each task to earn coins.</div></div><div class="card" style="margin-top:12px"><div class="h3">⚒ Manual Mining</div><div class="row"><div class="muted">+0.5 coin per click (10s Cooldown)</div><button id="manualMineBtn" class="btn btn-gold">Mine +0.5</button></div><div id="manualCooldown" class="muted" style="margin-top:6px"></div></div></section>
+    
     <!-- Profile -->
-    <section class="tab" id="tab-profile">
-     <div class="card">
-      <div class="h3">Profile</div>
-      <div class="input-row" style="margin-top:6px">
-       <input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name">
-      </div>
-      <div style="margin-top:10px">
-       <div class="muted">User ID (7-digit, cannot be changed)</div>
-       <div id="userIdDisplay" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;font-weight:bold;margin-top:5px;text-align:center"></div>
-      </div>
-      <div class="row" style="margin-top:10px">
-       <button id="saveProfile" class="btn btn-gold">Save Profile</button>
-      </div>
-      <div class="muted" style="margin-top:6px">Information is saved locally on this device. User ID is permanent and cannot be changed.</div>
-     </div>
-     <!-- Referrer Information -->
-     <div class="card" style="margin-top:12px">
-      <div class="h3">Referrer Information</div>
-      <div id="referrerInfo" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;margin-top:5px;">
-        <div id="noReferrer" class="muted">You weren't invited by anyone.</div>
-        <div id="hasReferrer" style="display:none;">
-          <div>You were invited by: <span id="referrerName" style="font-weight:bold;"></span></div>
-          <div class="muted" style="margin-top:5px;">Invitation date: <span id="referrerDate"></span></div>
-        </div>
-      </div>
-     </div>
-    </section>
+    <section class="tab" id="tab-profile"><div class="card"><div class="h3">Profile</div><div class="input-row" style="margin-top:6px"><input id="firstName" placeholder="First Name"> <input id="lastName" placeholder="Last Name"></div><div style="margin-top:10px"><div class="muted">User ID (7-digit, cannot be changed)</div><div id="userIdDisplay" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;font-weight:bold;margin-top:5px;text-align:center"></div></div><div class="row" style="margin-top:10px"><button id="saveProfile" class="btn btn-gold">Save Profile</button></div><div class="muted" style="margin-top:6px">Information is saved locally.</div></div><div class="card" style="margin-top:12px"><div class="h3">Referrer Information</div><div id="referrerInfo" style="background:rgba(255,255,255,.08);border:1px solid var(--border);padding:10px;border-radius:12px;"><div id="noReferrer" class="muted">You weren't invited by anyone.</div><div id="hasReferrer" style="display:none;"><div>You were invited by: <span id="referrerName" style="font-weight:bold;"></span></div><div class="muted">Invitation date: <span id="referrerDate"></span></div></div></div></div></section>
    </main>
-   <!-- Tabs bar -->
-   <nav class="tabs">
-    <div class="tabs-inner">
- <button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button>
- <button class="tab-btn" data-tab="wallet">Wallet <span class="mini">Convert</span></button>
- <button class="tab-btn" data-tab="invest">Invest <span class="mini">Plans</span></button>
- <button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button>
- <button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button>
- <button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button>
-</div>
-    </div>
-   </nav>
+   <nav class="tabs"><div class="tabs-inner"><button class="tab-btn active" data-tab="mining">Mining <span class="mini">24h</span></button><button class="tab-btn" data-tab="wallet">Wallet <span class="mini">USDT</span></button><button class="tab-btn" data-tab="invest">Invest <span class="mini">Plans</span></button><button class="tab-btn" data-tab="friends">Friends <span class="mini">Rank</span></button><button class="tab-btn" data-tab="tasks">Tasks <span class="mini">Daily</span></button><button class="tab-btn" data-tab="profile">Profile <span class="mini">You</span></button></div></nav>
   </div>
+  
   <!-- Share Modal -->
-  <div id="shareModal" class="share-modal">
-   <div class="share-modal-content">
-    <div class="h3">Share Referral Link</div>
-    <div class="muted">Share your referral link using the apps below</div>
-    <div class="share-apps">
-     <div class="share-app" data-app="whatsapp">
-      <svg viewBox="0 0 24 24" fill="#25D366">
-       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488" />
-      </svg>
-      <span>WhatsApp</span>
-     </div>
-     <div class="share-app" data-app="telegram">
-      <svg viewBox="0 0 24 24" fill="#0088cc">
-       <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" />
-      </svg>
-      <span>Telegram</span>
-     </div>
-     <div class="share-app" data-app="imo">
-      <svg viewBox="0 0 24 24" fill="#1ddbcf">
-       <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z" /> <path d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z" /> <circle cx="12" cy="12" r="2.5" />
-      </svg>
-      <span>Imo</span>
-     </div>
-     <div class="share-app" data-app="copy">
-      <svg viewBox="0 0 24 24" fill="#9e9e9e">
-       <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
-      </svg>
-      <span>Copy</span>
-     </div>
-     <div class="share-app" data-app="more">
-      <svg viewBox="0 0 24 24" fill="#9e9e9e">
-       <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-      </svg>
-      <span>Other</span>
-     </div>
-    </div>
-    <div class="row" style="margin-top:15px; justify-content:flex-end">
-     <button id="closeShareModal" class="btn btn-ghost">Close</button>
-    </div>
-   </div>
-  </div>
-  <!-- Reward Notification Modal -->
-  <div id="rewardModal" class="share-modal">
-    <div class="share-modal-content">
-      <div class="h3" style="text-align:center;">🎉 Referral Reward!</div>
-      <div style="text-align:center; margin:15px 0;">
-        <div class="big accent reward-animation" id="rewardAmount">+10 coins</div>
-        <div class="muted" style="margin-top:10px;">Your friend has become active!</div>
-      </div>
-      <div class="row" style="margin-top:15px; justify-content:center;">
-        <button id="claimRewardBtn" class="btn btn-gold">Claim Reward</button>
-      </div>
-    </div>
-  </div>
+  <div id="shareModal" class="share-modal"><div class="share-modal-content"><div class="h3">Share Referral Link</div><div class="muted">Share your referral link</div><div class="share-apps"><div class="share-app" data-app="whatsapp"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488"/></svg><span>WhatsApp</span></div><div class="share-app" data-app="telegram"><svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg><span>Telegram</span></div><div class="share-app" data-app="imo"><svg viewBox="0 0 24 24" fill="#1ddbcf"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/><circle cx="12" cy="12" r="2.5"/></svg><span>Imo</span></div><div class="share-app" data-app="copy"><svg viewBox="0 0 24 24" fill="#9e9e9e"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg><span>Copy</span></div><div class="share-app" data-app="more"><svg viewBox="0 0 24 24" fill="#9e9e9e"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg><span>Other</span></div></div><div class="row" style="margin-top:15px; justify-content:flex-end"><button id="closeShareModal" class="btn btn-ghost">Close</button></div></div></div>
+  <div id="rewardModal" class="share-modal"><div class="share-modal-content"><div class="h3" style="text-align:center;">🎉 Referral Reward!</div><div style="text-align:center; margin:15px 0;"><div class="big accent reward-animation" id="rewardAmount">+10 coins</div><div class="muted">Your friend has become active!</div></div><div class="row" style="margin-top:15px; justify-content:center;"><button id="claimRewardBtn" class="btn btn-gold">Claim Reward</button></div></div></div>
+  
   <script>
-/* ================== Config ================== */
-const API_BASE = 'pinet-backend-production-9f3d.up.railway.app'; // Backend base (provided)
-// آدرس کیف پول ادمین (در شبکه TRC20 یا BEP20 - یکسان یا جداگانه)
-const ADMIN_TRC20_ADDRESS = "TYourTronWalletAddressHere";   // آدرس ترون
-const ADMIN_BEP20_ADDRESS = "0xYourBscWalletAddressHere";   // آدرس بی‌اس‌سی
-const STORAGE_KEY = 'pinet_clicker_state_v5';
-const DURATION_MS = 24*60*60*1000;  // 24 hours
-const RATE_PER_SEC = 0.002;          // coins/sec demo
-const COINS_PER_PI = 100;           // 100 coins => 1 Pi
-const USDT_PER_PI  = 5;             // 1 Pi => 5 USDT
-const MANUAL_GAIN  = 0.5;
-const MANUAL_COOLDOWN = 10*1000;
+    /* ================== CONFIG ================== */
+    const API_BASE = 'pinet-backend-production-9f3d.up.railway.app';
+    const ADMIN_TRC20_ADDRESS = "TYourTronWalletAddressHere";   // only TRC20 used
+    const STORAGE_KEY = 'pinet_clicker_state_v6';
+    const DURATION_MS = 24*60*60*1000;
+    const RATE_PER_SEC = 0.002;
+    const COINS_PER_PI = 100;
+    const USDT_PER_PI  = 5;
+    const MANUAL_GAIN  = 0.5;
+    const MANUAL_COOLDOWN = 10*1000;
 
-// لیست اسامی برای لیدربورد
-const USERNAME_POOL = [
-  'ShadowFox', 'NovaStar', 'PixelWave', 'IronClad', 'BlueComet', 
-  'SilentPeak', 'QuantumBee', 'BrightMint', 'ArcticFlame', 'NeonDash',
-  'CyberWolf', 'SolarFlare', 'ThunderBird', 'MysticRiver', 'CrystalEye',
-  'DigitalPhoenix', 'CosmicRider', 'NeptuneKing', 'GalaxyHunter', 'StarVoyager',
-  'MoonWalker', 'SunChaser', 'SpacePioneer', 'TimeTraveler', 'InfinitySeeker',
-  'QuantumLeap', 'NebulaDream', 'OrbitMaster', 'CosmicWave', 'StellarWind'
-];
+    const REFERRAL_LEVELS = [
+      { level: 1, required: 1, reward: 5, speedBoost: 0.001 },
+      { level: 2, required: 5, reward: 10, speedBoost: 0.002 },
+      { level: 3, required: 10, reward: 20, speedBoost: 0.003 },
+      { level: 4, required: 25, reward: 50, speedBoost: 0.004 },
+      { level: 5, required: 50, reward: 100, speedBoost: 0.005 }
+    ];
+    const REFERRAL_INVITE_REWARD = 2;
+    const REFERRAL_ACTIVATION_REWARD = 5;
+    const INVEST_PLANS = [
+      { id: 'plan500', name: 'پلن ۵۰۰ دلاری', requiredUSDT: 500, durationMonths: 3, profitPercent: 1, baseAmount: 500 },
+      { id: 'plan300', name: 'پلن ۳۰۰ دلاری', requiredUSDT: 300, durationMonths: 6, profitPercent: 1, baseAmount: 300 },
+      { id: 'plan100', name: 'پلن ۱۰۰ دلاری', requiredUSDT: 100, durationMonths: 9, profitPercent: 1, baseAmount: 100 },
+      { id: 'plan25',  name: 'پلن ۲۵ دلاری',  requiredUSDT: 25,  durationMonths: 12, profitPercent: 1, baseAmount: 25 }
+    ];
 
-// تابع تولید اسامی تصادفی بر اساس تاریخ روز
-function getDailyLeaderboardNames() {
-  const today = new Date().toDateString();
-  const seed = today.split('-').join(''); // استفاده از تاریخ به عنوان seed
-  
-  // ایجاد یک generator تصادفی بر اساس تاریخ
-  let seedNum = 0;
-  for (let i = 0; i < seed.length; i++) {
-    seedNum += seed.charCodeAt(i);
-  }
-  
-  const random = (max) => {
-    seedNum = (seedNum * 9301 + 49297) % 233280;
-    return Math.floor((seedNum / 233280) * max);
-  };
-  
-  // انتخاب 10 نام تصادفی از لیست
-  const shuffled = [...USERNAME_POOL].sort(() => random(3) - 1);
-  return shuffled.slice(0, 10);
-}
+    function getDurationSeconds(months) { return months * 30 * 24 * 3600; }
+    function generateUserId() { return Math.floor(1000000 + Math.random() * 9000000).toString(); }
 
-// Referral system configuration
-const REFERRAL_LEVELS = [
-  { level: 1, required: 1, reward: 5, speedBoost: 0.001 },
-  { level: 2, required: 5, reward: 10, speedBoost: 0.002 },
-  { level: 3, required: 10, reward: 20, speedBoost: 0.003 },
-  { level: 4, required: 25, reward: 50, speedBoost: 0.004 },
-  { level: 5, required: 50, reward: 100, speedBoost: 0.005 }
-];
-
-// Referral rewards
-const REFERRAL_INVITE_REWARD = 2;     // Coins earned when someone uses your referral link
-const REFERRAL_ACTIVATION_REWARD = 5; // Additional coins when a referred user becomes active
-
-/* ================== State ================== */
-const state = load() || {
-  coins: 0, pi: 0, usdt: 0,
-  tx: [],                 // {id,type,amount,ts,note}
-  miningStart: null,
-  friendsInvited: 0, friendsActive: 0,
-  invitedFriends: [],     // [{id, username, inviteDate, isActive}]
-  activeFriends: [],      // [{id, username, activeDate}]
-  rewardedFriends: [],    // [id1, id2, ...] - IDs of friends who have already been rewarded
-  profile: { first:'', last:'', userId: generateUserId() },
-  myRank: 112131,
-  completedTasks: [],
-  lastManual: 0,
-  taskStatuses: {},
-  lastResetDate: new Date().toDateString(),
-  referrer: null,         // {id, username, date} - Who invited this user
-  pendingRewards: [],     // [{id, username, amount, type}] - Rewards waiting to be claimed
-  referralLevel: 1,       // Current referral level (1-5)
-  totalReferralRewards: 0,
-activeInvestment: null,   // ذخیره اطلاعات طرح فعال
- // Total coins earned from referrals
-};
-// ========== سرمایه‌گذاری ==========
-const INVEST_PLANS = [
-  { id: 'plan500', name: 'پلن ۵۰۰ دلاری', requiredUSDT: 500, durationMonths: 3, profitPercent: 1, baseAmount: 500 },
-  { id: 'plan300', name: 'پلن ۳۰۰ دلاری', requiredUSDT: 300, durationMonths: 6, profitPercent: 1, baseAmount: 300 },
-  { id: 'plan100', name: 'پلن ۱۰۰ دلاری', requiredUSDT: 100, durationMonths: 9, profitPercent: 1, baseAmount: 100 },
-  { id: 'plan25',  name: 'پلن ۲۵ دلاری',  requiredUSDT: 25,  durationMonths: 12, profitPercent: 1, baseAmount: 25 }
-];
-
-function getDurationSeconds(months) {
-  return months * 30 * 24 * 3600;
-}
-
-// Generate a 7-digit user ID if not already present
-function generateUserId() {
-  // Generate a random 7-digit number
-  return Math.floor(1000000 + Math.random() * 9000000).toString();
-}
-
-/* ================== Elements ================== */
-// Mining
-const $ = (id)=>document.getElementById(id);
-const balanceEl = $('balance');
-const miningStatusEl = $('miningStatus');
-const adminWalletSpan = document.getElementById('adminWalletAddress');
-const copyWalletBtn = document.getElementById('copyWalletBtn');
-const selectedNetwork = document.getElementById('selectedNetwork');
-const depositAmountInput = document.getElementById('depositAmount');
-const txHashInput = document.getElementById('txHash');
-const submitDepositReqBtn = document.getElementById('submitDepositReqBtn');
-const depositStatusSpan = document.getElementById('depositStatus');
-// === کد جدید برای مدیریت آدرس ادمین و کپی ===
-function updateAdminAddress() {
-  const network = selectedNetwork.value;
-  if (network === 'TRC20') {
-    adminWalletSpan.textContent = ADMIN_TRC20_ADDRESS;
-  } else {
-    adminWalletSpan.textContent = ADMIN_BEP20_ADDRESS;
-  }
-}
-selectedNetwork.addEventListener('change', updateAdminAddress);
-updateAdminAddress();
-
-copyWalletBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText(adminWalletSpan.textContent);
-  depositStatusSpan.textContent = '✅ آدرس کیف پول کپی شد';
-  setTimeout(() => depositStatusSpan.textContent = '', 3000);
-});
-const timerEl = $('timer');
-const sessionEarningsEl = $('sessionEarnings');
-const progressBarEl = $('progressBar');
-const rateText = $('rateText');
-const startBtn = $('startBtn');
-const claimBtn = $('claimBtn');
-
-// Wallet
-const coinsBalanceEl = $('coinsBalance');
-const piBalanceEl = $('piBalance');
-const usdtBalanceEl = $('usdtBalance');
-const coinsToPiAmt = $('coinsToPiAmt');
-const coinsToPiBtn = $('coinsToPiBtn');
-const coinsToPiHint = $('coinsToPiHint');
-const piToUsdtAmt = $('piToUsdtAmt');
-const piToUsdtBtn = $('piToUsdtBtn');
-const piToUsdtHint = $('piToUsdtHint');
-const withdrawAsset = $('withdrawAsset');
-const withdrawAddr = $('withdrawAddr');
-const withdrawAmt = $('withdrawAmt');
-const withdrawBtn = $('withdrawBtn');
-const txListEl = $('txList');
-const noTxEl = $('noTx');
-
-// Friends
-const refLinkEl = $('refLink');
-const qrCodeEl = $('qrCode');
-const copyRefBtn = $('copyRef');
-const shareRefBtn = $('shareRef');
-const friendsInvitedEl = $('friendsInvited');
-const friendsActiveEl = $('friendsActive');
-const referralRewardEl = $('referralReward');
-const referralLevelsEl = $('referralLevels');
-const leaderTable = $('leaderTable').querySelector('tbody');
-const myRankEl = $('myRank');
-const invitedFriendsMessageEl = $('invitedFriendsMessage');
-
-// Tasks
-const tasksWrap = $('tasksWrap');
-const manualMineBtn = $('manualMineBtn');
-const manualCooldownEl = $('manualCooldown');
-
-// Profile
-const firstNameInput = $('firstName');
-const lastNameInput  = $('lastName');
-const userIdDisplay  = $('userIdDisplay');
-const saveProfileBtn = $('saveProfile');
-const noReferrerEl = $('noReferrer');
-const hasReferrerEl = $('hasReferrer');
-const referrerNameEl = $('referrerName');
-const referrerDateEl = $('referrerDate');
-
-// Share Modal
-const shareModal = $('shareModal');
-const closeShareModal = $('closeShareModal');
-const shareApps = document.querySelectorAll('.share-app');
-
-// Reward Modal
-const rewardModal = $('rewardModal');
-const rewardAmountEl = $('rewardAmount');
-const claimRewardBtn = $('claimRewardBtn');
-
-const depositBtn = document.getElementById('depositBtn');
-if (depositBtn) {
-  depositBtn.addEventListener('click', () => {
-    const amount = parseFloat(document.getElementById('depositAmount').value);
-    if (isNaN(amount) || amount <= 0) {
-      alert('لطفاً مقدار معتبر USDT وارد کنید');
-      return;
-    }
-    state.usdt += amount;
-    pushTx({ type: 'deposit', amount: amount, note: `واریز ${amount} USDT`, ts: Date.now() });
-    save();
-    renderWallet();
-    updateMiningUI();
-    document.getElementById('depositAmount').value = '';
-    alert(`${amount} USDT با موفقیت واریز شد.`);
-  });
-}
-
-// Misc
-$('coinsPerPi').textContent = COINS_PER_PI;
-$('usdtPerPi').textContent  = USDT_PER_PI;
-rateText && (rateText.textContent = RATE_PER_SEC.toString());
-
-/* ================== Tabs ================== */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-  });
-});
-
-/* ================== Mining Logic ================== */
-let tickId=null;
-
-function formatHHMMSS(ms){
-  const s = Math.max(0, Math.floor(ms/1000));
-  const h = String(Math.floor(s/3600)).padStart(2,'0');
-  const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
-  const ss= String(s%60).padStart(2,'0');
-  return `${h}:${m}:${ss}`;
-}
-function miningMetrics(){
-  if(!state.miningStart) return {elapsed:0, remaining:0, progress:0, rewardNow:0};
-  const now = Date.now();
-  const elapsed = Math.max(0, now - state.miningStart);
-  const remaining = Math.max(0, DURATION_MS - elapsed);
-  const clamped = Math.min(elapsed, DURATION_MS);
-  
-  // Calculate base rate plus bonus from active friends and referral level
-  const activeFriendsBonus = calculateMiningBoost();
-  const effectiveRate = RATE_PER_SEC + activeFriendsBonus;
-  
-  const rewardNow = (clamped/1000) * effectiveRate;
-  const progress = (clamped / DURATION_MS) * 100;
-  return {elapsed, remaining, progress, rewardNow, effectiveRate};
-}
-
-// Calculate mining boost based on active friends and referral level
-function calculateMiningBoost() {
-  // Base boost from active friends
-  const activeFriendsCount = state.friendsActive || 0;
-  
-  // Get current referral level
-  const currentLevel = state.referralLevel || 1;
-  const levelData = REFERRAL_LEVELS.find(l => l.level === currentLevel) || REFERRAL_LEVELS[0];
-  
-  // Calculate total boost (friends boost + level boost)
-  const friendsBoost = activeFriendsCount * 0.001;
-  const levelBoost = levelData.speedBoost;
-  
-  return friendsBoost + levelBoost;
-}
-
-function runTick(){
-  clearInterval(tickId);
-  tick();
-  tickId = setInterval(tick, 1000);
-}
-
-function tick(){
-  // If mining is not active, show default state
-  if(!state.miningStart){
-    miningStatusEl.textContent='Inactive';
-    miningStatusEl.className='pill';
-    claimBtn.disabled=true;
-    timerEl.textContent='00:00:00';
-    sessionEarningsEl.textContent='0';
-    progressBarEl.style.width='0%';
-    startBtn.disabled = false; // Enable start button when not mining
-    return;
-  }
-
-  const {remaining, progress, rewardNow} = miningMetrics();
-  timerEl.textContent = formatHHMMSS(remaining);
-  sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
-  progressBarEl.style.width = `${progress}%`;
-
-  // When timer finishes: Enable Claim button and change status to Completed
-  if(remaining<=0){
-    clearInterval(tickId); tickId=null;
-    claimBtn.disabled=false;
-    startBtn.disabled = false; // Enable start button when timer completes
-    miningStatusEl.textContent='Completed – claim pending';
-    miningStatusEl.className='pill warn';
-  }else{
-    claimBtn.disabled=true;
-    startBtn.disabled = true; // Disable start button while mining is active
-    miningStatusEl.textContent='Active';
-    miningStatusEl.className='pill good';
-  }
-}
-
-startBtn.addEventListener('click', async ()=>{
-  // Each Start: begins from the start
-  state.miningStart = Date.now();
-  pushTx({type:'info', amount:0, note:'Started 24h mining', ts: Date.now()});
-  save(); updateMiningUI(); runTick();
-  
-  // Disable start button while mining is active
-  startBtn.disabled = true;
-
-  // Optional: ping backend (ignore failure)
-  try{
-    await fetch(`${API_BASE}/mining/start`,{
-      method:'POST', 
-      headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({
-        userId: state.profile.userId,
-        ts: state.miningStart
-      })
-    });
-  }catch(e){}
-});
-claimBtn.addEventListener('click', async ()=>{
-  // If mining hasn't started, or timer hasn't finished, don't allow
-  if(!state.miningStart) return;
-  const {remaining, rewardNow} = miningMetrics();
-
-  // If not complete yet, don't allow (safety)
-  if(remaining>0) return alert('Timer not finished yet.');
-
-  const reward = Number(rewardNow.toFixed(3)); // Use 3 decimal places
-  if(reward>0){
-    state.coins += reward;
-    pushTx({type:'earn', amount:reward, note:'Mining session reward', ts: Date.now()});
-  }
-
-  // Clear the mining session (waiting for user to start again)
-  state.miningStart = null;
-  save();
-  updateMiningUI();
-  renderWallet();
-
-  // Send to server (optional, ignore errors)
-  try{
-    await fetch(`${API_BASE}/claim`,{
-      method:'POST', 
-      headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({
-        userId: state.profile.userId,
-        amount: reward, 
-        ts: Date.now()
-      })
-    });
-    
-    // After claiming, check if this activates the user for their referrer
-    if (state.referrer && state.referrer.id) {
-      activateForReferrer();
-    }
-  }catch(e){}
-});
-
-// Activate this user for their referrer
-async function activateForReferrer() {
-  if (!state.referrer || !state.referrer.id) return;
-  
-  try {
-    await fetch(`${API_BASE}/referral/activate`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        referrerId: state.referrer.id,
-        userId: state.profile.userId
-      })
-    });
-  } catch(e) {
-    console.error('Failed to activate for referrer:', e);
-  }
-}
-
-function updateMiningUI(){
-  // Simply render related items with the same tick logic (so it's always consistent)
-  if(state.miningStart){
-    // If mining, show based on metrics
-    const {remaining, progress, rewardNow, effectiveRate} = miningMetrics();
-    timerEl.textContent = formatHHMMSS(remaining);
-    sessionEarningsEl.textContent = rewardNow.toFixed(3); // Show 3 decimal places
-    progressBarEl.style.width = `${progress}%`;
-    
-    // Update the displayed mining rate to include active friends bonus
-    if (rateText) {
-      rateText.textContent = effectiveRate.toFixed(3);
-    }
-
-    if(remaining <= 0){
-      claimBtn.disabled = false;
-      startBtn.disabled = false; // Enable start button when timer completes
-      miningStatusEl.textContent = 'Completed – claim pending';
-      miningStatusEl.className = 'pill warn';
-    }else{
-      claimBtn.disabled = true;
-      startBtn.disabled = true; // Disable start button while mining is active
-      miningStatusEl.textContent = 'Active';
-      miningStatusEl.className = 'pill good';
-    }
-  }else{
-    // When miningStart is null, Claim button is inactive
-    claimBtn.disabled = true;
-    startBtn.disabled = false; // Enable start button when not mining
-    miningStatusEl.textContent = 'Inactive';
-    miningStatusEl.className = 'pill';
-    timerEl.textContent='00:00:00';
-    sessionEarningsEl.textContent='0.000';
-    progressBarEl.style.width='0%';
-    
-    // Update the displayed mining rate to include active friends bonus and referral level
-    const effectiveRate = RATE_PER_SEC + calculateMiningBoost();
-    if (rateText) {
-      rateText.textContent = effectiveRate.toFixed(3);
-    }
-  }
-
-  // Display coin balance with 3 decimal places
-  balanceEl.textContent = state.coins.toFixed(3);
-}
-
-/* ================== Wallet & Conversions ================== */
-function renderWallet(){
-  // Display coin balance with 3 decimal places
-  coinsBalanceEl.textContent = state.coins.toFixed(3);
-  piBalanceEl.textContent = Number(state.pi).toFixed(2);
-  usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
-
-  // transactions
-  txListEl.innerHTML='';
-  if(!state.tx.length){ noTxEl.style.display='block'; return; }
-  noTxEl.style.display='none';
-  state.tx.slice(0,80).forEach(t=>{
-    const tr = document.createElement('tr');
-    const td1 = document.createElement('td'); td1.innerHTML = `<div>${t.note||'—'}</div><div class="muted">${t.type}</div>`;
-    const td2 = document.createElement('td'); td2.textContent = (t.type==='earn'?'+':'') + Number(t.amount).toFixed(3); // Show 3 decimal places
-    const td3 = document.createElement('td'); td3.className='muted'; td3.textContent = new Date(t.ts||Date.now()).toLocaleString();
-    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
-    txListEl.appendChild(tr);
-  });
-renderPlans();
-updateActivePlanDisplay();
-}
-
-coinsToPiBtn.addEventListener('click', async ()=>{
-  const coins = Math.max(0, Math.floor(Number(coinsToPiAmt.value||0)));
-  if(!coins) return alert('Enter a valid amount');
-  if(coins > state.coins) return alert('Not enough coins');
-  const pi = coins / COINS_PER_PI;
-  state.coins -= coins; state.pi += pi;
-  pushTx({type:'swap', amount:pi, note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`, ts: Date.now()});
-  save(); renderWallet(); updateMiningUI();
-  coinsToPiAmt.value='';
-  coinsToPiHint.textContent = `≈ ${pi.toFixed(2)} Pi`;
-  try{
-    await fetch(`${API_BASE}/convert/coins-to-pi`,{
-      method:'POST', 
-      headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({
-        userId: state.profile.userId,
-        coins, 
-        pi
-      })
-    });
-  }catch(e){}
-});
-
-piToUsdtBtn.addEventListener('click', async ()=>{
-  const pi = Math.max(0, Number(piToUsdtAmt.value||0));
-  if(!pi) return alert('Enter a valid amount');
-  if(pi > state.pi) return alert('Not enough Pi');
-  const usdt = pi * USDT_PER_PI;
-  state.pi -= pi; state.usdt += usdt;
-  pushTx({type:'swap', amount:usdt, note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT`, ts: Date.now()});
-  save(); renderWallet();
-  piToUsdtAmt.value='';
-  piToUsdtHint.textContent = `≈ ${usdt.toFixed(2)} USDT`;
-  try{
-    await fetch(`${API_BASE}/convert/pi-to-usdt`,{
-      method:'POST', 
-      headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({
-        userId: state.profile.userId,
-        pi, 
-        usdt
-      })
-    });
-  }catch(e){}
-});
-
-withdrawBtn.addEventListener('click', async ()=>{
-  const asset = withdrawAsset.value;
-  const addr = withdrawAddr.value.trim();
-  const amt = Math.max(0, Number(withdrawAmt.value||0));
-  if(!addr || !amt) return alert('Complete all fields');
-  if(asset==='pi' && amt>state.pi) return alert('Not enough Pi');
-  if(asset==='usdt' && amt>state.usdt) return alert('Not enough USDT');
-
-  // Local: Just register a display transaction
-  pushTx({type:'withdraw', amount:amt, note:`Withdraw request ${amt} ${asset.toUpperCase()} → ${addr.slice(0,12)}...`, ts: Date.now()});
-  save(); renderWallet();
-
-  try{
-    const res = await fetch(`${API_BASE}/withdraw`,{
-      method:'POST', 
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        userId: state.profile.userId,
-        asset, 
-        address:addr, 
-        amount:amt
-      })
-    });
-    // If needed: check response
-  }catch(e){}
-  alert('Withdrawal request registered (demo). For actual withdrawal, server confirmation is mandatory.');
-});
-
-/* ================== Friends & Rank ================== */
-const FAKE_TOP10 = ['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
-
-// New function to fetch friends data from API
-async function fetchFriendsData() {
-  try {
-    const userId = state.profile.userId;
-    const response = await fetch(`${API_BASE}/referral/stats`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ userId })
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      
-      // Update state with the fetched data
-      if (data.invited !== undefined) {
-        state.friendsInvited = data.invited;
-      }
-      if (data.active !== undefined) {
-        state.friendsActive = data.active;
-      }
-      
-      // Process invited friends data if available
-      if (data.invitedFriends && Array.isArray(data.invitedFriends)) {
-        state.invitedFriends = data.invitedFriends;
-      }
-      
-      // Process active friends data if available
-      if (data.activeFriends && Array.isArray(data.activeFriends)) {
-        state.activeFriends = data.activeFriends;
-      }
-      
-      // Update referral level if available
-      if (data.referralLevel !== undefined) {
-        state.referralLevel = data.referralLevel;
-      }
-      
-      // Update total referral rewards if available
-      if (data.totalReferralRewards !== undefined) {
-        state.totalReferralRewards = data.totalReferralRewards;
-      }
-      
-      // Update pending rewards if available
-      if (data.pendingRewards && Array.isArray(data.pendingRewards)) {
-        state.pendingRewards = data.pendingRewards;
-        
-        // If there are pending rewards, show the reward modal
-        if (state.pendingRewards.length > 0) {
-          showRewardModal();
-        }
-      }
-      
-      // If no data from API, generate some fake data for demo purposes
-      if (!state.invitedFriends || state.invitedFriends.length === 0) {
-        generateFakeFriendsData();
-      }
-      
-      save();
-      renderFriendsBox();
-      renderFriendsTables();
-      renderReferralLevels();
-      updateMiningUI(); // Update UI to reflect new mining rate with active friends bonus
-      renderWallet();
-    }
-  } catch (e) {
-    console.error('Failed to fetch friends data:', e);
-    // If API fails, generate fake data for demo
-    generateFakeFriendsData();
-    renderFriendsBox();
-    renderFriendsTables();
-    renderReferralLevels();
-  }
-}
-
-// Generate fake friends data for demo purposes
-function generateFakeFriendsData() {
-  const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
-  
-  // Generate invited friends
-  if (!state.invitedFriends || state.invitedFriends.length === 0) {
-    state.invitedFriends = [];
-    const invitedCount = Math.min(state.friendsInvited || 0, 10);
-    
-    for (let i = 0; i < invitedCount; i++) {
-      const isActive = i < (state.friendsActive || 0);
-      const daysAgo = Math.floor(Math.random() * 30) + 1;
-      const inviteDate = new Date();
-      inviteDate.setDate(inviteDate.getDate() - daysAgo);
-      
-      state.invitedFriends.push({
-        id: 'inv_' + rid().slice(0, 8),
-        username: fakeNames[Math.floor(Math.random() * fakeNames.length)],
-        inviteDate: inviteDate.toISOString(),
-        isActive: isActive
-      });
-    }
-  }
-  
-  // Generate active friends
-  if (!state.activeFriends || state.activeFriends.length === 0) {
-    state.activeFriends = [];
-    const activeCount = Math.min(state.friendsActive || 0, state.invitedFriends.length);
-    
-    for (let i = 0; i < activeCount; i++) {
-      if (i < state.invitedFriends.length && state.invitedFriends[i].isActive) {
-        const daysAgo = Math.floor(Math.random() * 15) + 1;
-        const activeDate = new Date();
-        activeDate.setDate(activeDate.getDate() - daysAgo);
-        
-        state.activeFriends.push({
-          id: state.invitedFriends[i].id,
-          username: state.invitedFriends[i].username,
-          activeDate: activeDate.toISOString()
-        });
-      }
-    }
-  }
-}
-
-function setupFriends(){
-  // referral link + backend registration
-  const base = "https://t.me/piprotocolbot"; 
-  const userCode = state.profile.userId; 
-  const myLink = `${base}?start=${encodeURIComponent(userCode)}`;
-  refLinkEl.textContent = myLink;
-  
-  // Generate QR code for the referral link
-  if (window.QRCode) {
-    QRCode.toCanvas(qrCodeEl, myLink, { width: 120, margin: 1 }, function (error) {
-      if (error) console.error(error);
-    });
-  }
-
-  // Fetch friends data from API
-  fetchFriendsData();
-
-  // Check if entered via referral link
-  const urlParams = new URLSearchParams(window.location.search);
-  const inviterCode = urlParams.get('start');
-  if(inviterCode && inviterCode !== userCode){
-    // Register the referral
-    fetch(`${API_BASE}/referral/register`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ 
-        inviterCode, 
-        userId: userCode,
-        username: `${state.profile.first || 'User'} ${state.profile.last || ''}`
-      })
-    })
-    .then(response => {
-      if(response.ok) {
-        // If registration successful, increment the inviter's count locally
-        // This is just for UI feedback, the actual count comes from the API
-        return response.json();
-      }
-      throw new Error('Referral registration failed');
-    })
-    .then(data => {
-      // If we get a successful response, update the local state
-      if(data && data.success) {
-        // Store referrer information
-        state.referrer = {
-          id: inviterCode,
-          username: data.inviterName || 'Unknown User',
-          date: new Date().toISOString()
-        };
-        
-        pushTx({type:'info', amount:0, note:`Joined via invite ${inviterCode}`, ts: Date.now()});
-        save();
-        renderWallet();
-        renderReferrerInfo();
-        
-        // Refresh friends data after registration
-        fetchFriendsData();
-      }
-    })
-    .catch(e => console.error('Referral registration failed', e));
-  }
-
-  copyRefBtn.addEventListener('click', async ()=>{ 
-    try{ 
-      await navigator.clipboard.writeText(myLink); 
-      alert('Invite link copied!');
-    }catch(e){
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
-      textArea.value = myLink;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      alert('Invite link copied!');
-    } 
-  });
-
-  // Share button
-  shareRefBtn.addEventListener('click', ()=>{
-    shareModal.style.display = 'flex';
-  });
-
-  // Close modal
-  closeShareModal.addEventListener('click', ()=>{
-    shareModal.style.display = 'none';
-  });
-
-  // Share apps functionality
-  shareApps.forEach(app => {
-    app.addEventListener('click', () => {
-      const appType = app.dataset.app;
-      shareLink(myLink, appType);
-      
-      // Track share event - this could potentially count as an invite
-      trackShareEvent(appType);
-      
-      // Close the modal after sharing
-      shareModal.style.display = 'none';
-    });
-  });
-
-  // Reward modal claim button
-  claimRewardBtn.addEventListener('click', () => {
-    claimPendingRewards();
-    rewardModal.style.display = 'none';
-  });
-
-  // leaderboard
-  leaderTable.innerHTML = '';
-  FAKE_TOP10.forEach((n,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML = `<td>${i+1}</td><td>${n}</td><td>${(200 - i*10)}</td>`;
-    leaderTable.appendChild(tr);
-  });
-  myRankEl.textContent = `#${state.myRank}`;
-
-  renderFriendsBox();
-  renderFriendsTables();
-  renderReferralLevels();
-  renderReferrerInfo();
-
-  // if joined via ?ref (client-side info only)
-  const url = new URL(location.href); const ref = url.searchParams.get('ref');
-  if(ref){ 
-    pushTx({type:'info', amount:0, note:`Joined via invite ${ref}`, ts: Date.now()}); 
-    save(); 
-    renderWallet(); 
-  }
-}
-
-// Track share events
-function trackShareEvent(platform) {
-  try {
-    fetch(`${API_BASE}/referral/share`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ 
-        userId: state.profile.userId,
-        username: `${state.profile.first || 'User'} ${state.profile.last || ''}`,
-        platform
-      })
-    });
-    
-    // Optimistically increment invited count for better UX
-    // The real count will be updated from the API later
-    state.friendsInvited++;
-    
-    // Add the shared friend to invitedFriends list
-    const fakeNames = ['Ali', 'Mohammad', 'Sara', 'Maryam', 'Reza', 'Hossein', 'Fatemeh', 'Zahra', 'Amir', 'Nima'];
-    const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-    
-    const newFriend = {
-      id: 'inv_' + rid().slice(0, 8),
-      username: randomName,
-      inviteDate: new Date().toISOString(),
-      isActive: false
+    /* ================== STATE (split USDT) ================== */
+    let state = load() || {
+      coins: 0, pi: 0,
+      usdtEarned: 0,   // from conversions & invest profits
+      usdtDeposited: 0, // manual TRC20 deposits
+      tx: [],
+      miningStart: null,
+      friendsInvited: 0, friendsActive: 0,
+      activeFriends: [],
+      rewardedFriends: [],
+      profile: { first:'', last:'', userId: generateUserId() },
+      myRank: 112131,
+      completedTasks: [],
+      lastManual: 0,
+      taskStatuses: {},
+      lastResetDate: new Date().toDateString(),
+      referrer: null,
+      pendingRewards: [],
+      referralLevel: 1,
+      totalReferralRewards: 0,
+      activeInvestment: null
     };
-    
-    if (!state.invitedFriends) {
-      state.invitedFriends = [];
+    function totalUsdt() { return (state.usdtEarned || 0) + (state.usdtDeposited || 0); }
+
+    /* ================== UTILITIES ================== */
+    function pushTx(tx) { state.tx.unshift({ id: crypto.randomUUID?.()||Math.random().toString(36), ts: Date.now(), ...tx }); if(state.tx.length>200) state.tx.length=200; save(); }
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function load() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return null; } }
+    const $ = id => document.getElementById(id);
+
+    /* ================== MINING ================== */
+    let tickId = null;
+    function formatHHMMSS(ms){ let s=Math.max(0,Math.floor(ms/1000)); return `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+    function calculateMiningBoost(){ return (state.friendsActive||0)*0.001 + ((REFERRAL_LEVELS.find(l=>l.level=== (state.referralLevel||1))||REFERRAL_LEVELS[0]).speedBoost); }
+    function miningMetrics(){
+      if(!state.miningStart) return {remaining:0, progress:0, rewardNow:0, effectiveRate:RATE_PER_SEC+calculateMiningBoost()};
+      let elapsed=Math.max(0, Date.now()-state.miningStart), remaining=Math.max(0,DURATION_MS-elapsed), clamped=Math.min(elapsed,DURATION_MS);
+      let eff=RATE_PER_SEC+calculateMiningBoost();
+      return {remaining, progress:(clamped/DURATION_MS)*100, rewardNow:(clamped/1000)*eff, effectiveRate:eff};
     }
-    
-    state.invitedFriends.push(newFriend);
-    
-    renderFriendsBox();
-    renderFriendsTables();
-    renderReferralLevels();
-    renderWallet();
-    updateMiningUI();
-    save();
-  } catch(e) {
-    console.error('Failed to track share event:', e);
-  }
-}
-
-// Show reward modal when there are pending rewards
-function showRewardModal() {
-  if (!state.pendingRewards || state.pendingRewards.length === 0) return;
-  
-  // Calculate total reward amount
-  const totalReward = state.pendingRewards.reduce((sum, reward) => sum + reward.amount, 0);
-  
-  // Update reward amount text
-  rewardAmountEl.textContent = `+${totalReward} coins`;
-  
-  // Show the modal
-  rewardModal.style.display = 'flex';
-}
-
-// Claim pending referral rewards
-function claimPendingRewards() {
-  if (!state.pendingRewards || state.pendingRewards.length === 0) return;
-  
-  // Calculate total reward amount
-  const totalReward = state.pendingRewards.reduce((sum, reward) => sum + reward.amount, 0);
-  
-  // Add rewards to user's balance
-  state.coins += totalReward;
-  
-  // Add transaction for each reward
-  state.pendingRewards.forEach(reward => {
-    pushTx({
-      type: 'earn', 
-      amount: reward.amount, 
-      note: `Referral reward: ${reward.type}`, 
-      ts: Date.now()
-    });
-  });
-  
-  // Update total referral rewards
-  state.totalReferralRewards += totalReward;
-  
-  // Clear pending rewards
-  state.pendingRewards = [];
-  
-  // Update UI
-  save();
-  renderWallet();
-  renderFriendsBox();
-  updateMiningUI();
-  
-  // Notify backend about claimed rewards
-  try {
-    fetch(`${API_BASE}/referral/claim-rewards`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ 
-        userId: state.profile.userId
-      })
-    });
-  } catch(e) {
-    console.error('Failed to notify backend about claimed rewards:', e);
-  }
-}
-
-// Add a function to manually update friends count (for testing or when API is unavailable)
-function updateFriendsCount(invited, active) {
-  if (typeof invited === 'number') {
-    state.friendsInvited = invited;
-  }
-  if (typeof active === 'number') {
-    state.friendsActive = active;
-  }
-  save();
-  renderFriendsBox();
-  renderReferralLevels();
-}
-
-function shareLink(link, appType) {
-  let shareUrl = '';
-
-  switch(appType) {
-    case 'whatsapp':
-      shareUrl = `https://wa.me/?text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link: ' + link)}`;
-      break;
-    case 'telegram':
-      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link')}`;
-      break;
-    case 'imo':
-      // Imo share URL
-      shareUrl = `imo://share?text=${encodeURIComponent('Join PiProtocol and start mining! Use my referral link: ' + link)}`;
-      break;
-    case 'copy':
-      navigator.clipboard.writeText(link);
-      alert('Invite link copied!');
-      return;
-    case 'more':
-      if (navigator.share) {
-        navigator.share({
-          title: 'PiProtocol Invitation',
-          text: 'Join PiProtocol and start mining!',
-          url: link
-        }).catch(console.error);
-      } else {
-        alert(`Invite link: ${link}`);
-      }
-      return;
-  }
-
-  window.open(shareUrl, '_blank');
-}
-
-function renderFriendsBox(){
-  friendsInvitedEl.textContent = state.friendsInvited;
-  friendsActiveEl.textContent = state.friendsActive;
-  
-  // Update referral rewards display
-  referralRewardEl.textContent = `${state.totalReferralRewards || 0} coins`;
-  
-  // Update message based on referral program
-  invitedFriendsMessageEl.textContent = `Earn ${REFERRAL_INVITE_REWARD} coins when someone joins + ${REFERRAL_ACTIVATION_REWARD} coins when they become active`;
-}
-
-// Render the invited and active friends tables
-function renderFriendsTables() {
-  const invitedTable = document.getElementById('invitedFriendsTable').querySelector('tbody');
-  const activeTable = document.getElementById('activeFriendsTable').querySelector('tbody');
-  
-  // Clear tables
-  invitedTable.innerHTML = '';
-  activeTable.innerHTML = '';
-  
-  // در تابع renderFriendsTables()، این بخش را تغییر دهید:
-// Render invited friends table
-if (state.invitedFriends && state.invitedFriends.length > 0) {
-  state.invitedFriends.forEach(friend => {
-    const tr = document.createElement('tr');
-    
-    const tdName = document.createElement('td');
-    // تغییر از username به id
-    tdName.textContent = friend.id || 'Unknown ID';
-    
-    const tdDate = document.createElement('td');
-    const inviteDate = new Date(friend.inviteDate);
-    tdDate.textContent = inviteDate.toLocaleDateString('en-US');
-    
-    const tdStatus = document.createElement('td');
-    if (friend.isActive) {
-      tdStatus.innerHTML = '<span class="pill good">Active</span>';
-    } else {
-      tdStatus.innerHTML = '<span class="pill">Inactive</span>';
+    function tick(){
+      if(!state.miningStart){ updateMiningUI(); return; }
+      let {remaining,progress,rewardNow}=miningMetrics();
+      $('timer').innerHTML=formatHHMMSS(remaining);
+      $('sessionEarnings').innerHTML=rewardNow.toFixed(3);
+      $('progressBar').style.width=`${progress}%`;
+      if(remaining<=0){ clearInterval(tickId); tickId=null; $('claimBtn').disabled=false; $('startBtn').disabled=false; $('miningStatus').innerHTML='Completed – claim pending'; $('miningStatus').className='pill warn'; }
+      else { $('claimBtn').disabled=true; $('startBtn').disabled=true; $('miningStatus').innerHTML='Active'; $('miningStatus').className='pill good'; }
     }
-    
-    tr.appendChild(tdName);
-    tr.appendChild(tdDate);
-    tr.appendChild(tdStatus);
-    invitedTable.appendChild(tr);
-  });
-}
-  
-  // Render active friends table
-  if (state.activeFriends && state.activeFriends.length > 0) {
-    state.activeFriends.forEach(friend => {
-      const tr = document.createElement('tr');
-      
-      const tdName = document.createElement('td');
-      tdName.textContent = friend.username || 'User';
-      
-      const tdDate = document.createElement('td');
-      const activeDate = new Date(friend.activeDate);
-      tdDate.textContent = activeDate.toLocaleDateString('en-US');
-      
-      const tdBonus = document.createElement('td');
-      tdBonus.textContent = '+0.001';
-      tdBonus.className = 'accent';
-      
-      tr.appendChild(tdName);
-      tr.appendChild(tdDate);
-      tr.appendChild(tdBonus);
-      activeTable.appendChild(tr);
-    });
-  } else {
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
-    td.colSpan = 3;
-    td.textContent = 'No active friends yet';
-    td.className = 'muted';
-    td.style.textAlign = 'center';
-    tr.appendChild(td);
-    activeTable.appendChild(tr);
-  }
-}
-
-// Render referral levels
-function renderReferralLevels() {
-  referralLevelsEl.innerHTML = '';
-  
-  // Get current level and active friends count
-  const currentLevel = state.referralLevel || 1;
-  const activeFriends = state.friendsActive || 0;
-  
-  // Render each level
-  REFERRAL_LEVELS.forEach(level => {
-    const levelDiv = document.createElement('div');
-    levelDiv.className = `referral-level ${level.level === currentLevel ? 'active' : ''}`;
-    
-    const progress = level.level <= currentLevel ? 100 : 
-                     (level.level === currentLevel + 1 ? 
-                      Math.min(100, (activeFriends / level.required) * 100) : 0);
-    
-    levelDiv.innerHTML = `
-      <div>
-        <div><b>Level ${level.level}</b></div>
-        <div class="muted">${level.required} active friends</div>
-      </div>
-      <div style="text-align:right">
-        <div class="accent">+${level.reward} coins</div>
-        <div class="muted">+${level.speedBoost} mining speed</div>
-      </div>
-    `;
-    
-    // Add progress bar
-    const progressBar = document.createElement('div');
-    progressBar.className = 'level-progress';
-    progressBar.innerHTML = `<div style="width:${progress}%"></div>`;
-    levelDiv.appendChild(progressBar);
-    
-    referralLevelsEl.appendChild(levelDiv);
-  });
-  
-  // Add explanation text
-  const explanation = document.createElement('div');
-  explanation.className = 'muted';
-  explanation.style.marginTop = '10px';
-  explanation.textContent = 'Reach higher levels by inviting more friends who become active miners. Each level increases your mining speed and gives you a one-time coin reward.';
-  referralLevelsEl.appendChild(explanation);
-}
-
-// Render referrer information in profile tab
-function renderReferrerInfo() {
-  if (state.referrer && state.referrer.id) {
-    noReferrerEl.style.display = 'none';
-    hasReferrerEl.style.display = 'block';
-    referrerNameEl.textContent = state.referrer.username || 'Unknown User';
-    
-    const referrerDate = new Date(state.referrer.date);
-    referrerDateEl.textContent = referrerDate.toLocaleDateString('en-US');
-  } else {
-    noReferrerEl.style.display = 'block';
-    hasReferrerEl.style.display = 'none';
-  }
-}
-
-/* ================== Tasks (Daily + Social + Manual) ================== */
-const TASKS = [
-  { 
-    id:'daily',   
-    title:'🎁 Daily Reward', 
-    kind:'daily', 
-    reward:15, 
-    url:'' 
-  },
-  { 
-    id:'yt_subscribe',      
-    title:'▶️ Subscribe to YouTube Channel', 
-    kind:'social', 
-    reward:20, 
-    url:'https://youtube.com/@YouTubeChannel',
-    status: 'start' // start, checking, claim
-  },
-  { 
-    id:'yt_like',      
-    title:'👍 Like a YouTube Video', 
-    kind:'social', 
-    reward:20, 
-    url:'https://youtube.com/watch?v=example',
-    status: 'start'
-  },
-  { 
-    id:'yt_comment',      
-    title:'💬 Comment on YouTube Channel', 
-    kind:'social', 
-    reward:20, 
-    url:'https://youtube.com/channel/example',
-    status: 'start'
-  },
-  { 
-    id:'tg_react',      
-    title:'🔥 React to a Telegram Post', 
-    kind:'social', 
-    reward:20, 
-    url:'https://t.me/channel/123',
-    status: 'start'
-  },
-  { 
-    id:'tg_comment',      
-    title:'💬 Comment on a Telegram Post', 
-    kind:'social', 
-    reward:20, 
-    url:'https://t.me/channel/123',
-    status: 'start'
-  },
-  { 
-    id:'invite_friends',      
-    title:'👥 Invite 3 Friends', 
-    kind:'social', 
-    reward:30, 
-    url:'',
-    status: 'start'
-  }
-];
-
-
-/* ================== Daily Reset Functions ================== */
-
-// Check if daily reset is needed
-function checkAndResetDailyTasks() {
-  const today = new Date().toDateString();
-
-  // If today's date is different from the last reset date
-  if (state.lastResetDate !== today) {
-    console.log('Resetting tasks for new day');
-    resetDailyTasks();
-    state.lastResetDate = today;
-    save();
-  }
-}
-
-// Reset daily tasks
-function resetDailyTasks() {
-  console.log('Resetting daily tasks...');
-
-  // Reset daily task status
-  if (!state.taskStatuses) {
-    state.taskStatuses = {};
-  }
-  
-  // Set daily task to claimable state
-  state.taskStatuses['daily'] = 'claim';
-  
-  // Remove daily task from completed tasks list
-  const dailyIndex = state.completedTasks.indexOf('daily');
-  if (dailyIndex > -1) {
-    state.completedTasks.splice(dailyIndex, 1);
-  }
-
-  // Reset other tasks if needed
-  TASKS.forEach(task => {
-    if (task.id !== 'daily') {
-      // Reset status to start for all tasks except daily
-      state.taskStatuses[task.id] = 'start';
-
-      // Remove from completedTasks
-      const index = state.completedTasks.indexOf(task.id);
-      if (index > -1) {
-        state.completedTasks.splice(index, 1);
-      }
+    function updateMiningUI(){
+      if(state.miningStart){ let {remaining,rewardNow,effectiveRate}=miningMetrics(); $('timer').innerHTML=formatHHMMSS(remaining); $('sessionEarnings').innerHTML=rewardNow.toFixed(3); $('progressBar').style.width=`${(1-remaining/DURATION_MS)*100}%`; $('rateText').innerHTML=effectiveRate.toFixed(3); if(remaining<=0){ $('claimBtn').disabled=false; $('startBtn').disabled=false; $('miningStatus').innerHTML='Completed – claim pending'; $('miningStatus').className='pill warn'; }else{ $('claimBtn').disabled=true; $('startBtn').disabled=true; $('miningStatus').innerHTML='Active'; $('miningStatus').className='pill good'; } }
+      else { $('timer').innerHTML='00:00:00'; $('sessionEarnings').innerHTML='0.000'; $('progressBar').style.width='0%'; $('claimBtn').disabled=true; $('startBtn').disabled=false; $('miningStatus').innerHTML='Inactive'; $('miningStatus').className='pill'; $('rateText').innerHTML=(RATE_PER_SEC+calculateMiningBoost()).toFixed(3); }
+      $('balance').innerHTML=state.coins.toFixed(3);
     }
-  });
-
-  save();
-  renderTasks();
-}
-
-
-function setupTasks(){
-  renderTasks();
-  manualMineBtn.addEventListener('click', ()=>{
-    const now = Date.now();
-    const remaining = state.lastManual ? (MANUAL_COOLDOWN - (now - state.lastManual)) : 0;
-    if(remaining>0){
-      manualCooldownEl.textContent = `Cooldown: ${Math.ceil(remaining/1000)}s`;
-      return;
+    $('startBtn').onclick=()=>{ state.miningStart=Date.now(); pushTx({type:'info',amount:0,note:'Started 24h mining'}); save(); updateMiningUI(); if(tickId)clearInterval(tickId); tick(); tickId=setInterval(tick,1000); };
+    $('claimBtn').onclick=()=>{ if(!state.miningStart) return; let {remaining,rewardNow}=miningMetrics(); if(remaining>0) return alert('Timer not finished yet.'); if(rewardNow>0){ state.coins+=rewardNow; pushTx({type:'earn',amount:rewardNow,note:'Mining session reward'}); } state.miningStart=null; save(); updateMiningUI(); renderWallet(); if(state.referrer) fetch(`${API_BASE}/referral/activate`,{method:'POST',body:JSON.stringify({referrerId:state.referrer.id,userId:state.profile.userId})}).catch(e=>{}); };
+    
+    /* ================== WALLET & USDT SPLIT ================== */
+    function renderWallet(){
+      $('coinsBalance').innerHTML=state.coins.toFixed(3);
+      $('piBalance').innerHTML=Number(state.pi).toFixed(2);
+      $('earnedUsdtBalance').innerHTML=Number(state.usdtEarned||0).toFixed(2);
+      $('depositedUsdtBalance').innerHTML=Number(state.usdtDeposited||0).toFixed(2);
+      $('totalUsdtBalance').innerHTML=totalUsdt().toFixed(2);
+      let tbody=$('txList'); tbody.innerHTML='';
+      if(state.tx.length){ $('noTx').style.display='none'; state.tx.slice(0,80).forEach(t=>{ let tr=document.createElement('tr'); tr.innerHTML=`<td><div>${t.note||'—'}</div><div class="muted">${t.type}</div></td><td>${(t.type==='earn'?'+':'')+Number(t.amount).toFixed(3)}</td><td class="muted">${new Date(t.ts).toLocaleString()}</td>`; tbody.appendChild(tr); }); } else $('noTx').style.display='block';
+      renderPlans(); updateActivePlanDisplay();
     }
-    state.coins += MANUAL_GAIN;
-    state.lastManual = now;
-    manualCooldownEl.textContent = `Cooldown: ${MANUAL_COOLDOWN/1000}s`;
-    pushTx({type:'earn', amount:MANUAL_GAIN, note:'Manual mining click', ts: Date.now()});
-    save(); renderWallet(); updateMiningUI();
-
-    const iv = setInterval(()=>{
-      const r = MANUAL_COOLDOWN - (Date.now() - state.lastManual);
-      if(r<=0){ manualCooldownEl.textContent=''; clearInterval(iv); }
-      else manualCooldownEl.textContent = `Cooldown: ${Math.ceil(r/1000)}s`;
-    }, 250);
-  });
-}
-
-function renderTasks(){
-  tasksWrap.innerHTML='';
-
-  // Add reset info above tasks
-  const resetHeader = document.createElement('div');
-  resetHeader.className = 'muted';
-  resetHeader.style.marginBottom = '15px';
-  resetHeader.style.textAlign = 'center';
-  resetHeader.style.fontSize = '12px';
-  resetHeader.id = 'resetTimer';
-
-  // Use stored time or calculate new one
-  let timeUntilReset = state.timeUntilReset;
-  if (!timeUntilReset) {
-    const now = new Date();
-    const resetTime = new Date();
-    resetTime.setHours(24, 0, 0, 0);
-    timeUntilReset = resetTime - now;
-    if (timeUntilReset < 0) {
-      resetTime.setDate(resetTime.getDate() + 1);
-      timeUntilReset = resetTime - now;
+    $('coinsToPiBtn').onclick=()=>{ let coins=Math.floor(Number($('coinsToPiAmt').value)); if(!coins||coins>state.coins) return alert('Invalid amount'); let pi=coins/COINS_PER_PI; state.coins-=coins; state.pi+=pi; pushTx({type:'swap',amount:pi,note:`Convert ${coins} coins → ${pi.toFixed(2)} Pi`}); save(); renderWallet(); updateMiningUI(); $('coinsToPiHint').innerHTML=`≈ ${pi.toFixed(2)} Pi`; };
+    $('piToUsdtBtn').onclick=()=>{ let pi=Number($('piToUsdtAmt').value); if(!pi||pi>state.pi) return alert('Invalid Pi'); let usdt=pi*USDT_PER_PI; state.pi-=pi; state.usdtEarned+=usdt; pushTx({type:'swap',amount:usdt,note:`Convert ${pi} Pi → ${usdt.toFixed(2)} USDT (Earned)`}); save(); renderWallet(); $('piToUsdtHint').innerHTML=`≈ ${usdt.toFixed(2)} USDT`; };
+    $('withdrawBtn').onclick=()=>{ let asset=$('withdrawAsset').value, addr=$('withdrawAddr').value.trim(), amt=Number($('withdrawAmt').value); if(!addr||!amt) return alert('Complete fields'); if(asset==='pi' && amt>state.pi) return alert('Not enough Pi'); if(asset==='usdt' && amt>totalUsdt()) return alert('Not enough total USDT'); if(asset==='usdt'){ let remaining=amt; let fromEarned=Math.min(state.usdtEarned,remaining); state.usdtEarned-=fromEarned; remaining-=fromEarned; if(remaining>0){ state.usdtDeposited-=remaining; } pushTx({type:'withdraw',amount:-amt,note:`Withdraw ${amt} USDT → ${addr.slice(0,12)}`}); } else { state.pi-=amt; pushTx({type:'withdraw',amount:-amt,note:`Withdraw ${amt} Pi → ${addr}`}); } save(); renderWallet(); alert('Withdraw request demo'); };
+    
+    // Deposit TRC20 only
+    $('submitDepositReqBtn').onclick=()=>{ let amount=parseFloat($('depositAmount').value); let hash=$('txHash').value.trim(); if(isNaN(amount)||amount<=0||!hash) return alert('مقدار معتبر و کد تراکنش الزامی است'); state.usdtDeposited+=amount; pushTx({type:'deposit',amount:amount,note:`واریز ${amount} USDT (TRC20) - tx: ${hash.slice(0,10)}`}); save(); renderWallet(); $('depositAmount').value=''; $('txHash').value=''; $('depositStatus').innerHTML='✅ واریز ثبت شد. موجودی deposited افزایش یافت.'; setTimeout(()=>$('depositStatus').innerHTML='',3000); };
+    $('copyWalletBtn').onclick=()=>{ navigator.clipboard.writeText(ADMIN_TRC20_ADDRESS); $('depositStatus').innerHTML='✅ آدرس کپی شد'; setTimeout(()=>$('depositStatus').innerHTML='',2000); };
+    $('adminWalletAddress').innerText=ADMIN_TRC20_ADDRESS;
+    
+    /* ================== INVEST ================== */
+    function renderPlans(){ let container=$('plansContainer'); if(!container)return; container.innerHTML=''; INVEST_PLANS.forEach(plan=>{ let canActivate=(totalUsdt()>=plan.requiredUSDT) && !state.activeInvestment; let isActive=state.activeInvestment?.planId===plan.id; let div=document.createElement('div'); div.className='plan-card'; div.innerHTML=`<div class="plan-price">$${plan.requiredUSDT}</div><div style="font-weight:bold;">${plan.name}</div><div class="profit-badge">1% روزانه</div><div class="muted">مدت: ${plan.durationMonths} ماه</div><button class="btn ${isActive?'btn-outline':'btn-gold'}" data-plan-id="${plan.id}" data-req="${plan.requiredUSDT}" style="width:100%;margin-top:8px;" ${isActive?'disabled':''}>${isActive?'فعال ✓':'فعال‌سازی'}</button>${canActivate&&!isActive?'<div class="pill" style="margin-top:6px;">قابل فعالسازی</div>':(!isActive&&totalUsdt()<plan.requiredUSDT?'<div class="pill" style="background:#ef444420;">موجودی کافی نیست</div>':'')}`; container.appendChild(div); let btn=div.querySelector('button'); if(btn&&!btn.disabled) btn.onclick=()=>{ if(state.activeInvestment) return alert('فقط یک طرح فعال می‌تواند داشته باشید'); let req=parseFloat(btn.dataset.req); if(totalUsdt()>=req){ let found=INVEST_PLANS.find(p=>p.id===btn.dataset.planId); if(found){ let deductFromEarned=Math.min(state.usdtEarned,req); state.usdtEarned-=deductFromEarned; let remain=req-deductFromEarned; if(remain>0) state.usdtDeposited-=remain; pushTx({type:'invest',amount:-req,note:`فعال‌سازی ${found.name}`}); state.activeInvestment={ planId:found.id, totalBase:found.requiredUSDT, startTimestamp:Math.floor(Date.now()/1000), durationSeconds:getDurationSeconds(found.durationMonths), profitRatePerDay:0.01 }; save(); renderWallet(); renderPlans(); updateActivePlanDisplay(); alert(`✅ طرح ${found.name} فعال شد!`); } } else alert(`موجودی کل USDT کافی نیست (نیاز ${req})`); }; }); }
+    let investInterval=null;
+    function updateActivePlanDisplay(){ let cont=$('activePlanInfo'); if(!cont)return; if(!state.activeInvestment){ cont.innerHTML=`<div class="muted">هیچ طرح فعالی ندارید.</div>`; if(investInterval)clearInterval(investInterval); return; }
+    function refresh(){ let inv=state.activeInvestment; let now=Math.floor(Date.now()/1000), elapsed=Math.max(0,now-inv.startTimestamp), remainSec=Math.max(0,inv.durationSeconds-elapsed), profitPerSec=(inv.totalBase*0.01)/86400, earned=Math.min(profitPerSec*elapsed, inv.totalBase*0.01*(inv.durationSeconds/86400)), progress=(elapsed/inv.durationSeconds)*100; let h=Math.floor(remainSec/3600),m=Math.floor((remainSec%3600)/60),s=remainSec%60; cont.innerHTML=`<div class="kicker">📈 فعال: ${INVEST_PLANS.find(p=>p.id===inv.planId)?.name}</div><div class="row"><div><span class="muted">سرمایه:</span> ${inv.totalBase} USDT</div><div><span class="muted">سود کسب‌شده:</span> <span id="liveEarnedInvest">${earned.toFixed(4)}</span> USDT</div></div><div class="progress"><div style="width:${progress}%;"></div></div><div class="row"><div>⏱️ زمان باقی: <span class="timer-text" id="liveTimerInvest">${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span></div><button id="claimInvestProfitBtn" class="btn btn-gold" ${earned<=0.001?'disabled':''}>برداشت سود</button><button id="closeInvestPlanBtn" class="btn btn-outline">انحلال (بدون سود)</button></div><div class="muted">نرخ 1% روزانه پیوسته</div>`; $('claimInvestProfitBtn')?.addEventListener('click',()=>{ if(!state.activeInvestment)return; let now2=Math.floor(Date.now()/1000),el2=now2-state.activeInvestment.startTimestamp, earn2=Math.min((state.activeInvestment.totalBase*0.01/86400)*el2, state.activeInvestment.totalBase*0.01*(state.activeInvestment.durationSeconds/86400)); if(earn2<=0.0001)return alert('سود ناچیز'); state.usdtEarned+=earn2; pushTx({type:'profit',amount:earn2,note:'برداشت سود سرمایه‌گذاری'}); state.activeInvestment.startTimestamp=now2; save(); renderWallet(); refresh(); }); $('closeInvestPlanBtn')?.addEventListener('click',()=>{ if(confirm('انحلال طرح، سرمایه اولیه بدون سود بازگردانده می‌شود')){ if(state.activeInvestment){ state.usdtEarned+=state.activeInvestment.totalBase; pushTx({type:'refund',amount:state.activeInvestment.totalBase,note:`انحلال طرح`}); state.activeInvestment=null; save(); renderWallet(); renderPlans(); updateActivePlanDisplay(); alert('سرمایه برگشت داده شد.'); } } }); }
+    refresh(); if(investInterval)clearInterval(investInterval); investInterval=setInterval(()=>{ if(!state.activeInvestment){ clearInterval(investInterval); updateActivePlanDisplay(); return; } let inv=state.activeInvestment; let now=Math.floor(Date.now()/1000),el=now-inv.startTimestamp, rem=Math.max(0,inv.durationSeconds-el); let h=Math.floor(rem/3600),m=Math.floor((rem%3600)/60),s=rem%60; let timerSpan=$('liveTimerInvest'); if(timerSpan) timerSpan.innerText=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; let earnedSpan=$('liveEarnedInvest'); if(earnedSpan){ let profitPs=(inv.totalBase*0.01)/86400; let maxP=inv.totalBase*0.01*(inv.durationSeconds/86400); let newEarn=Math.min(profitPs*el,maxP); earnedSpan.innerText=newEarn.toFixed(4); } let progDiv=document.querySelector('#activePlanInfo .progress > div'); if(progDiv) progDiv.style.width=`${(el/inv.durationSeconds)*100}%`; },1000); }
+    
+    /* ================== FRIENDS (no invited table) ================== */
+    async function fetchFriendsData(){ try { let res=await fetch(`${API_BASE}/referral/stats`,{method:'POST',body:JSON.stringify({userId:state.profile.userId})}); if(res.ok){ let d=await res.json(); if(d.invited!==undefined) state.friendsInvited=d.invited; if(d.active!==undefined) state.friendsActive=d.active; if(d.activeFriends) state.activeFriends=d.activeFriends; if(d.referralLevel) state.referralLevel=d.referralLevel; if(d.totalReferralRewards) state.totalReferralRewards=d.totalReferralRewards; if(d.pendingRewards && d.pendingRewards.length) state.pendingRewards=d.pendingRewards; save(); renderFriendsBox(); renderActiveFriendsTable(); renderReferralLevels(); updateMiningUI(); } } catch(e){ console.warn(e); if(!state.activeFriends.length) state.activeFriends=[]; renderActiveFriendsTable(); } }
+    function renderActiveFriendsTable(){ let tbody=$('activeFriendsTable').querySelector('tbody'); tbody.innerHTML=''; if(state.activeFriends?.length){ state.activeFriends.forEach(f=>{ let tr=document.createElement('tr'); tr.innerHTML=`<td>${f.username||f.id||'User'}</td><td>${new Date(f.activeDate).toLocaleDateString()}</td><td class="accent">+0.001</td>`; tbody.appendChild(tr); }); } else { let tr=document.createElement('tr'); tr.innerHTML='<td colspan="3" class="muted" style="text-align:center">No active friends yet</td>'; tbody.appendChild(tr); } }
+    function renderFriendsBox(){ $('friendsInvited').innerText=state.friendsInvited; $('friendsActive').innerText=state.friendsActive; $('referralReward').innerText=`${state.totalReferralRewards||0} coins`; }
+    function renderReferralLevels(){ let container=$('referralLevels'); if(!container)return; container.innerHTML=''; let curLevel=state.referralLevel||1, active=state.friendsActive||0; REFERRAL_LEVELS.forEach(lvl=>{ let div=document.createElement('div'); div.className=`referral-level ${lvl.level===curLevel?'active':''}`; let progress=lvl.level<=curLevel?100:(lvl.level===curLevel+1?Math.min(100,(active/lvl.required)*100):0); div.innerHTML=`<div><b>Level ${lvl.level}</b><div class="muted">${lvl.required} active friends</div></div><div style="text-align:right"><div class="accent">+${lvl.reward} coins</div><div class="muted">+${lvl.speedBoost} mining speed</div></div><div class="level-progress"><div style="width:${progress}%"></div></div>`; container.appendChild(div); }); let expl=document.createElement('div'); expl.className='muted'; expl.style.marginTop='10px'; expl.innerText='Higher levels boost mining speed and give one-time coin rewards.'; container.appendChild(expl); }
+    function setupFriends(){
+      let base="https://t.me/piprotocolbot", userCode=state.profile.userId, myLink=`${base}?start=${encodeURIComponent(userCode)}`;
+      $('refLink').innerText=myLink; if(window.QRCode) QRCode.toCanvas($('qrCode'), myLink,{width:120},e=>e&&console.error);
+      $('copyRef').onclick=()=>{ navigator.clipboard.writeText(myLink); alert('Link copied!'); };
+      $('shareRef').onclick=()=>{ $('shareModal').style.display='flex'; };
+      document.querySelectorAll('.share-app').forEach(app=>{ app.onclick=()=>{ let type=app.dataset.app; if(type==='copy') navigator.clipboard.writeText(myLink); else if(type==='more'&&navigator.share) navigator.share({title:'PiProtocol',text:'Join mining!',url:myLink}); else if(type==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(myLink)}`,'_blank'); else if(type==='telegram') window.open(`https://t.me/share/url?url=${encodeURIComponent(myLink)}`,'_blank'); else if(type==='imo') window.open(`imo://share?text=${encodeURIComponent(myLink)}`,'_blank'); $('shareModal').style.display='none'; }; });
+      $('closeShareModal').onclick=()=> $('shareModal').style.display='none';
+      fetchFriendsData();
+      let urlParams=new URLSearchParams(location.search), inviterCode=urlParams.get('start');
+      if(inviterCode && inviterCode!==userCode) fetch(`${API_BASE}/referral/register`,{method:'POST',body:JSON.stringify({inviterCode,userId:userCode,username:state.profile.first})}).then(r=>r.json()).then(data=>{ if(data.success){ state.referrer={id:inviterCode,username:data.inviterName||'Inviter',date:new Date().toISOString()}; save(); renderReferrerInfo(); } }).catch(e=>console.warn);
+      renderFriendsBox(); renderActiveFriendsTable(); renderReferralLevels(); renderReferrerInfo();
+      let fakeLeaderboard=['ShadowFox','NovaStar','PixelWave','IronClad','BlueComet','SilentPeak','QuantumBee','BrightMint','ArcticFlame','NeonDash'];
+      let leaderTbody=$('leaderTable').querySelector('tbody'); leaderTbody.innerHTML=''; fakeLeaderboard.forEach((n,i)=>{ let tr=document.createElement('tr'); tr.innerHTML=`<td>${i+1}</td><td>${n}</td>`; leaderTbody.appendChild(tr); }); $('myRank').innerText=`#${state.myRank}`;
     }
-  }
-
-  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
-  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
-
-  resetHeader.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-  tasksWrap.appendChild(resetHeader);
-
-  // Special handling for invite friends task
-  const inviteFriendsTask = TASKS.find(t => t.id === 'invite_friends');
-  if (inviteFriendsTask) {
-    // Check if the user has invited at least 3 friends
-    if (state.friendsInvited >= 3 && !state.completedTasks.includes('invite_friends')) {
-      state.taskStatuses['invite_friends'] = 'claim';
+    function renderReferrerInfo(){ if(state.referrer){ $('noReferrer').style.display='none'; $('hasReferrer').style.display='block'; $('referrerName').innerText=state.referrer.username; $('referrerDate').innerText=new Date(state.referrer.date).toLocaleDateString(); }else{ $('noReferrer').style.display='block'; $('hasReferrer').style.display='none'; } }
+    
+    /* ================== TASKS (removed invite_friends) ================== */
+    const TASKS = [ { id:'daily', title:'🎁 Daily Reward', kind:'daily', reward:15, url:'' }, { id:'yt_subscribe', title:'▶️ Subscribe to YouTube', reward:20, url:'https://youtube.com/@example' }, { id:'yt_like', title:'👍 Like a YouTube Video', reward:20, url:'https://youtube.com/watch?v=ex' }, { id:'yt_comment', title:'💬 Comment on YouTube', reward:20, url:'https://youtube.com/channel/ex' }, { id:'tg_react', title:'🔥 React to a Telegram Post', reward:20, url:'https://t.me/channel' }, { id:'tg_comment', title:'💬 Comment Telegram Post', reward:20, url:'https://t.me/channel' } ];
+    function checkAndResetDailyTasks(){ let today=new Date().toDateString(); if(state.lastResetDate!==today){ state.taskStatuses={}; state.completedTasks=[]; state.taskStatuses['daily']='claim'; state.lastResetDate=today; save(); renderTasks(); } }
+    function renderTasks(){ let wrap=$('tasksWrap'); wrap.innerHTML=''; let resetDiv=document.createElement('div'); resetDiv.className='muted'; resetDiv.style.marginBottom='15px'; resetDiv.id='resetTimer'; wrap.appendChild(resetDiv); TASKS.forEach(t=>{ let isCompleted=state.completedTasks.includes(t.id); let status=state.taskStatuses[t.id]||(t.id==='daily'?(isCompleted?'completed':'claim'):'start'); let row=document.createElement('div'); row.className='row'; row.style.margin='12px 0'; row.style.padding='12px'; row.style.border='1px solid var(--border)'; row.style.borderRadius='12px'; row.style.backgroundColor='rgba(255,255,255,0.05)'; row.innerHTML=`<div style="flex:1"><b>${t.title}</b><div class="muted">+${t.reward} coins</div></div><div><button class="btn ${status==='start'?'btn-gold':status==='claim'?'btn-success':'btn-ghost'}" ${status==='completed'?'disabled':''}>${status==='start'?'Start':status==='claim'?'Claim':'Completed'}</button></div>`; let btn=row.querySelector('button'); if(btn && status!=='completed') btn.onclick=()=>{ if(status==='start'){ if(t.url) window.open(t.url,'_blank'); state.taskStatuses[t.id]='checking'; save(); renderTasks(); setTimeout(()=>{ if(state.taskStatuses[t.id]==='checking'){ state.taskStatuses[t.id]='claim'; save(); renderTasks(); } },60000); } else if(status==='claim'){ state.coins+=t.reward; state.completedTasks.push(t.id); state.taskStatuses[t.id]='completed'; pushTx({type:'earn',amount:t.reward,note:`Task: ${t.title}`}); save(); renderWallet(); updateMiningUI(); renderTasks(); } }; wrap.appendChild(row); }); }
+    function updateResetTimer(){ let now=new Date(),reset=new Date(); reset.setHours(24,0,0,0); if(reset<now) reset.setDate(reset.getDate()+1); let diff=reset-now; let h=Math.floor(diff/3.6e6),m=Math.floor((diff%3.6e6)/6e4),s=Math.floor((diff%6e4)/1e3); let timerEl=$('resetTimer'); if(timerEl) timerEl.innerHTML=`Reset in: ${h}h ${m}m ${s}s`; state.timeUntilReset=diff; }
+    $('manualMineBtn').onclick=()=>{ let now=Date.now(); if(state.lastManual && now-state.lastManual<MANUAL_COOLDOWN){ $('manualCooldown').innerHTML=`Cooldown: ${Math.ceil((MANUAL_COOLDOWN-(now-state.lastManual))/1000)}s`; return; } state.coins+=MANUAL_GAIN; state.lastManual=now; pushTx({type:'earn',amount:MANUAL_GAIN,note:'Manual mining'}); save(); renderWallet(); updateMiningUI(); $('manualCooldown').innerHTML='Cooldown: 10s'; let iv=setInterval(()=>{ let rem=MANUAL_COOLDOWN-(Date.now()-state.lastManual); if(rem<=0){ $('manualCooldown').innerHTML=''; clearInterval(iv); } else $('manualCooldown').innerHTML=`Cooldown: ${Math.ceil(rem/1000)}s`; },250); };
+    
+    /* ================== PROFILE ================== */
+    function setupProfile(){ $('firstName').value=state.profile.first||''; $('lastName').value=state.profile.last||''; $('userIdDisplay').innerText=state.profile.userId; $('saveProfile').onclick=()=>{ state.profile.first=$('firstName').value.trim(); state.profile.last=$('lastName').value.trim(); save(); alert('Profile saved'); }; renderReferrerInfo(); }
+    
+    /* ================== BOOT ================== */
+    function boot(){
+      checkAndResetDailyTasks(); updateMiningUI(); renderWallet(); setupFriends(); setupTasks(); setupProfile(); loadNews(); renderPlans(); updateActivePlanDisplay(); if(state.miningStart) runTick(); setInterval(()=>{ updateResetTimer(); checkAndResetDailyTasks(); },1000); setInterval(fetchFriendsData,300000); if(state.pendingRewards?.length) $('rewardModal').style.display='flex'; $('claimRewardBtn').onclick=()=>{ if(state.pendingRewards.length){ let total=state.pendingRewards.reduce((a,b)=>a+b.amount,0); state.coins+=total; state.totalReferralRewards+=total; pushTx({type:'earn',amount:total,note:'Referral rewards claimed'}); state.pendingRewards=[]; save(); renderWallet(); updateMiningUI(); renderFriendsBox(); } $('rewardModal').style.display='none'; }; function runTick(){ if(tickId)clearInterval(tickId); tick(); tickId=setInterval(tick,1000); } async function loadNews(){ try{ let res=await fetch(`${API_BASE}/news`); if(res.ok){ let data=await res.json(); if(data.length){ $('newsList').innerHTML=data.slice(0,6).map(n=>`<li style="padding:8px 0"><div><b>${n.title}</b></div><div class="muted">${n.content||''}</div></li>`).join(''); return; } } $('newsList').innerHTML=`<li style="padding:8px 0"><b>🚀 PiProtocol v2.0 Roadmap</b><div class="muted">Launch Oct 2025</div></li><li style="padding:8px 0"><b>🤝 Strategic Partnership</b><div class="muted">With BlockChain Solutions</div></li><li style="padding:8px 0"><b>👥 Referral system live</b><div class="muted">Invite friends, boost speed!</div></li>`; }catch(e){ $('newsList').innerHTML='<li>News unavailable</li>'; } }
     }
-  }
-
-  // Rest of the code unchanged...
-  TASKS.forEach(t=>{
-    const isDailyTask = t.id === 'daily';
-    const isCompleted = state.completedTasks.includes(t.id);
-    const taskStatus = isDailyTask ? (isCompleted ? 'completed' : 'claim') : (state.taskStatuses[t.id] || 'start');
-
-    const row = document.createElement('div');
-    row.className='row'; 
-    row.style.margin='12px 0';
-    row.style.padding='12px';
-    row.style.border='1px solid var(--border)';
-    row.style.borderRadius='12px';
-    row.style.backgroundColor='rgba(255,255,255,0.05)';
-    row.style.alignItems = 'center';
-
-    const left = document.createElement('div'); 
-    left.style.flex = '1';
-    left.innerHTML = `
-      <div><b>${t.title}</b></div>
-      <div class="muted">+${t.reward} coins</div>
-    `;
-
-    const right = document.createElement('div');
-
-    const actionBtn = document.createElement('button'); 
-    actionBtn.className = 'btn';
-
-    switch(taskStatus) {
-      case 'start':
-        actionBtn.className = 'btn btn-gold';
-        actionBtn.textContent = 'Start';
-        actionBtn.disabled = false;
-        break;
-      case 'checking':
-        actionBtn.className = 'btn btn-secondary';
-        actionBtn.textContent = 'Checking...';
-        actionBtn.disabled = true;
-        break;
-      case 'claim':
-        actionBtn.className = 'btn btn-success';
-        actionBtn.textContent = 'Claim';
-        actionBtn.disabled = false;
-        break;
-      case 'completed':
-        actionBtn.className = 'btn btn-ghost';
-        actionBtn.textContent = 'Completed';
-        actionBtn.disabled = true;
-        break;
-    }
-
-    actionBtn.addEventListener('click', () => {
-      if (taskStatus === 'start') {
-        // Open the related app link
-        if (t.url) {
-          window.open(t.url, '_blank');
-        }
-        handleTaskAction(t.id);
-      } else if (taskStatus === 'claim') {
-        claimTaskReward(t.id, t.reward, t.title);
-      }
-    });
-
-    right.appendChild(actionBtn);
-    row.appendChild(left); 
-    row.appendChild(right);
-    tasksWrap.appendChild(row);
-  });
-}
-
-function handleTaskAction(taskId) {
-  // Change task status to checking
-  const task = TASKS.find(t => t.id === taskId);
-  if (task) {
-    task.status = 'checking';
-
-    // Save status in state
-    if (!state.taskStatuses) state.taskStatuses = {};
-    state.taskStatuses[taskId] = 'checking';
-    save();
-
-    // Re-render tasks
-    renderTasks();
-
-    // Set timer to change status to claim after 1 minute
-    setTimeout(() => {
-      task.status = 'claim';
-      if (state.taskStatuses) {
-        state.taskStatuses[taskId] = 'claim';
-      }
-      save();
-      renderTasks();
-    }, 60000); // 1 minute
-  }
-}
-
-function claimTaskReward(taskId, reward, title) {
-  // Pay reward
-  state.coins += reward;
-  state.completedTasks.push(taskId);
-
-  // Change task status to completed
-  const task = TASKS.find(t => t.id === taskId);
-  if (task) {
-    task.status = 'completed';
-  }
-
-  if (!state.taskStatuses) state.taskStatuses = {};
-  state.taskStatuses[taskId] = 'completed';
-
-  pushTx({type:'earn', amount:reward, note:`Task: ${title}`, ts: Date.now()});
-  save(); 
-  renderTasks(); 
-  renderWallet(); 
-  updateMiningUI();
-  
-  // Send task completion to backend
-  try {
-    fetch(`${API_BASE}/tasks/complete`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ 
-        userId: state.profile.userId,
-        taskId,
-        reward
-      })
-    });
-  } catch(e) {
-    console.error('Failed to send task completion to backend:', e);
-  }
-}
-
-/* ================== News ================== */
-async function loadNews(){
-  newsListEl.innerHTML = '';
-  const add = (title, body)=> {
-    const li = document.createElement('li');
-    li.style.padding='8px 0';
-    li.innerHTML = `<div><b>${title}</b></div><div class="muted">${body}</div>`;
-    newsListEl.appendChild(li);
-  };
-  try{
-    const res = await fetch(`${API_BASE}/news`,{method:'GET'});
-    if(res.ok){
-      const data = await res.json(); // [{title, content, published_at}]
-      if(Array.isArray(data) && data.length){
-        data.slice(0,6).forEach(n=> add(n.title, n.content||''));
-        return;
-      }
-    }
-    
-    // Custom news items about the project, roadmap, and partners
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
-    
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
-    
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
-    
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
-    
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
-    
-    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
-    
-  }catch(e){
-    // Fallback news items
-    add('🚀 PiProtocol Platform Version 2.0 Roadmap', 'We are proud to announce that version 2.0 of the PiProtocol platform with new features and improved mining performance will be launched on October 6, 2025.');
-    
-    add('🤝 Strategic Partnership with BlockChain Solutions', 'We are happy to announce our strategic partnership with BlockChain Solutions for developing secure and scalable infrastructure. This partnership will allow us to provide better services to our users.');
-    
-    add('📊 PiProtocol Development Roadmap for 2025', 'The PiProtocol development roadmap for 2025 has been published. In this roadmap, our plans for launching a dedicated wallet, listing PiP token on major blockchain networks, and a staking system with 12% annual interest have been specified.');
-    
-    add('🏆 Reaching 100,000 Active Users', 'We are proud to announce that the number of active users of the PiProtocol platform has exceeded 100,000. We thank all users for their trust and support.');
-    
-    add('💰 Listing PiP Token on Reputable Exchanges', 'The PiP token will soon be listed on several reputable digital currency exchanges. This action will increase liquidity and accessibility for more users to the PiP token.');
-    
-    add('👥 New Referral System Launched', 'We\'ve launched our new multi-level referral system! Invite friends to earn coins and boost your mining speed. Reach higher levels for bigger rewards!');
-  }
-}
-
-/* ================== Profile ================== */
-function setupProfile(){
-  firstNameInput.value = state.profile.first||'';
-  lastNameInput.value  = state.profile.last||'';
-  userIdDisplay.textContent = state.profile.userId;
-  
-  saveProfileBtn.addEventListener('click',()=>{
-    state.profile.first = firstNameInput.value.trim();
-    state.profile.last  = lastNameInput.value.trim();
-    // Note: userId is not changed as it's permanent
-    save(); alert('Profile saved!');
-    // Update referral link
-    setupFriends();
-    
-    // Update profile on backend
-    try {
-      fetch(`${API_BASE}/profile/update`, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ 
-          userId: state.profile.userId,
-          firstName: state.profile.first,
-          lastName: state.profile.last
-        })
-      });
-    } catch(e) {
-      console.error('Failed to update profile on backend:', e);
-    }
-  });
-  
-  // Render referrer information
-  renderReferrerInfo();
-}
-
-/* ================== Persistence ================== */
-function load(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;} }
-function save(){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}catch(e){} }
-function rid(){ return (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)); }
-
-/* ================== Helpers ================== */
-function pushTx(tx){
-  state.tx.unshift(Object.assign({id:rid(), ts: Date.now()}, tx));
-  // keep length reasonable
-  if(state.tx.length>200) state.tx.length=200;
-}
-
-// ========== سرمایه‌گذاری ==========
-let investInterval = null;
-
-function renderPlans() {
-  const container = document.getElementById('plansContainer');
-  if (!container) return;
-  container.innerHTML = '';
-  
-  INVEST_PLANS.forEach(plan => {
-    const canActivate = (state.usdt >= plan.requiredUSDT) && (!state.activeInvestment);
-    const isActive = state.activeInvestment && state.activeInvestment.planId === plan.id;
-    const div = document.createElement('div');
-    div.className = 'plan-card';
-    div.innerHTML = `
-      <div class="plan-price">$${plan.requiredUSDT}</div>
-      <div style="font-weight:bold;">${plan.name}</div>
-      <div class="profit-badge">1% روزانه</div>
-      <div class="muted">مدت: ${plan.durationMonths} ماه</div>
-      <button class="btn ${isActive ? 'btn-outline' : 'btn-gold'}" data-plan-id="${plan.id}" data-req="${plan.requiredUSDT}" style="width:100%; margin-top:8px;" ${isActive ? 'disabled' : ''}>
-        ${isActive ? 'فعال ✓' : 'فعال‌سازی'}
-      </button>
-      ${canActivate && !isActive ? '<div class="pill" style="margin-top:6px;">قابل فعالسازی</div>' : (!isActive && state.usdt < plan.requiredUSDT ? '<div class="pill" style="background:#ef444420;">موجودی کافی نیست</div>' : '')}
-    `;
-    container.appendChild(div);
-    
-    const btn = div.querySelector('button');
-    if (btn && !btn.disabled) {
-      btn.addEventListener('click', () => {
-        if (state.activeInvestment) {
-          alert('شما قبلاً یک طرح فعال دارید. ابتدا آن را تسویه یا منحل کنید.');
-          return;
-        }
-        const required = parseFloat(btn.dataset.req);
-        if (state.usdt >= required) {
-          const found = INVEST_PLANS.find(p => p.id === btn.dataset.planId);
-          if (found) {
-            state.usdt -= found.requiredUSDT;
-            pushTx({ type: 'invest', amount: -found.requiredUSDT, note: `فعال‌سازی ${found.name}`, ts: Date.now() });
-            const nowSec = Math.floor(Date.now() / 1000);
-            state.activeInvestment = {
-              planId: found.id,
-              totalBase: found.requiredUSDT,
-              startTimestamp: nowSec,
-              durationSeconds: getDurationSeconds(found.durationMonths),
-              profitRatePerDay: 0.01
-            };
-            save();
-            renderWallet();
-            renderPlans();
-            updateActivePlanDisplay();
-            updateMiningUI();
-            alert(`✅ طرح ${found.name} فعال شد! سود هر ثانیه محاسبه می‌شود.`);
-          }
-        } else {
-          alert(`موجودی USDT کافی نیست. نیاز به ${required} USDT دارید.`);
-        }
-      });
-    }
-  });
-}
-
-function updateActivePlanDisplay() {
-  const container = document.getElementById('activePlanInfo');
-  if (!container) return;
-  if (!state.activeInvestment) {
-    container.innerHTML = `<div class="muted">هیچ طرح فعالی ندارید. یکی از طرح‌های بالا را فعال کنید.</div>`;
-    if (investInterval) clearInterval(investInterval);
-    return;
-  }
-  
-  const inv = state.activeInvestment;
-  function refresh() {
-    const now = Math.floor(Date.now() / 1000);
-    const elapsed = Math.max(0, now - inv.startTimestamp);
-    const totalDur = inv.durationSeconds;
-    const remaining = Math.max(0, totalDur - elapsed);
-    const hours = Math.floor(remaining / 3600);
-    const minutes = Math.floor((remaining % 3600) / 60);
-    const secs = remaining % 60;
-    const timerStr = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-    const profitPerSec = (inv.totalBase * inv.profitRatePerDay) / 86400;
-    let earned = profitPerSec * elapsed;
-    const maxProfit = inv.totalBase * inv.profitRatePerDay * (totalDur / 86400);
-    earned = Math.min(earned, maxProfit);
-    const progress = (elapsed / totalDur) * 100;
-    
-    container.innerHTML = `
-      <div class="kicker">📈 طرح فعال: ${INVEST_PLANS.find(p=>p.id===inv.planId)?.name || inv.planId}</div>
-      <div class="row"><div><span class="muted">سرمایه:</span> ${inv.totalBase} USDT</div><div><span class="muted">سود کسب‌شده:</span> <span class="accent" id="liveEarned">${earned.toFixed(4)}</span> USDT</div></div>
-      <div class="progress"><div style="width:${progress}%;"></div></div>
-      <div class="row"><div>⏱️ زمان باقیمانده: <span class="timer-text" id="liveTimerInvest">${timerStr}</span></div>
-      <button id="claimInvestProfitBtn" class="btn btn-gold" ${earned <= 0.001 ? 'disabled' : ''}>برداشت سود</button>
-      <button id="closeInvestPlanBtn" class="btn btn-outline">انحلال (بدون سود)</button></div>
-      <div class="muted">نرخ سود 1% روزانه (محاسبه پیوسته بر ثانیه)</div>
-    `;
-    
-    const claimBtn = document.getElementById('claimInvestProfitBtn');
-    if (claimBtn) {
-      claimBtn.onclick = () => {
-        if (!state.activeInvestment) return;
-        const now2 = Math.floor(Date.now() / 1000);
-        const elapsed2 = Math.max(0, now2 - state.activeInvestment.startTimestamp);
-        const profitSec = (state.activeInvestment.totalBase * 0.01) / 86400;
-        let earnedNow = profitSec * elapsed2;
-        const maxP = state.activeInvestment.totalBase * 0.01 * (state.activeInvestment.durationSeconds/86400);
-        earnedNow = Math.min(earnedNow, maxP);
-        if (earnedNow <= 0.0001) { alert("سود هنوز ناچیز است"); return; }
-        state.usdt += earnedNow;
-        pushTx({ type: 'profit', amount: earnedNow, note: `برداشت سود سرمایه‌گذاری`, ts: Date.now() });
-        state.activeInvestment.startTimestamp = now2;
-        save();
-        renderWallet();
-        renderPlans();
-        updateActivePlanDisplay();
-        updateMiningUI();
-        alert(`${earnedNow.toFixed(4)} USDT سود به حساب واریز شد.`);
-      };
-    }
-    
-    const closeBtn = document.getElementById('closeInvestPlanBtn');
-    if (closeBtn) {
-      closeBtn.onclick = () => {
-        if (confirm("انحلال طرح، سرمایه اولیه بدون سود بازگردانده می‌شود. ادامه؟")) {
-          if (state.activeInvestment) {
-            state.usdt += state.activeInvestment.totalBase;
-            pushTx({ type: 'refund', amount: state.activeInvestment.totalBase, note: `انحلال طرح ${INVEST_PLANS.find(p=>p.id===state.activeInvestment.planId)?.name}`, ts: Date.now() });
-            state.activeInvestment = null;
-            save();
-            renderWallet();
-            renderPlans();
-            updateActivePlanDisplay();
-            updateMiningUI();
-            alert("طرح لغو شد. سرمایه به حساب برگشت.");
-          }
-        }
-      };
-    }
-  }
-  
-  refresh();
-  if (investInterval) clearInterval(investInterval);
-  investInterval = setInterval(() => {
-    if (!state.activeInvestment) {
-      clearInterval(investInterval);
-      updateActivePlanDisplay();
-      return;
-    }
-    const now = Math.floor(Date.now() / 1000);
-    const elapsed = now - state.activeInvestment.startTimestamp;
-    const remain = Math.max(0, state.activeInvestment.durationSeconds - elapsed);
-    const h = Math.floor(remain / 3600), m = Math.floor((remain % 3600) / 60), s = remain % 60;
-    const timerSpan = document.getElementById('liveTimerInvest');
-    if (timerSpan) timerSpan.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    const profitPerSec = (state.activeInvestment.totalBase * 0.01) / 86400;
-    let earnedNow = profitPerSec * elapsed;
-    const maxP = state.activeInvestment.totalBase * 0.01 * (state.activeInvestment.durationSeconds/86400);
-    earnedNow = Math.min(earnedNow, maxP);
-    const earnedSpan = document.getElementById('liveEarned');
-    if (earnedSpan) earnedSpan.innerText = earnedNow.toFixed(4);
-    const progDiv = document.querySelector('#activePlanInfo .progress > div');
-    if (progDiv) progDiv.style.width = `${(elapsed / state.activeInvestment.durationSeconds)*100}%`;
-  }, 1000);
-}
-
-// New function for updating reset timer (real-time)
-function updateResetTimer() {
-  const now = new Date();
-  const resetTime = new Date();
-  resetTime.setHours(24, 0, 0, 0); // 24:00 (midnight)
-
-  // If reset time has passed, set for next day
-  if (resetTime < now) {
-    resetTime.setDate(resetTime.getDate() + 1);
-  }
-
-  const timeUntilReset = resetTime - now;
-
-  if (timeUntilReset <= 0) {
-    // If reset time reached, reset tasks
-    checkAndResetDailyTasks();
-    return;
-  }
-
-  const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
-  const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeUntilReset % (1000 * 60)) / 1000);
-
-  // Update timer only if in Tasks tab
-  const resetTimerEl = document.getElementById('resetTimer');
-  if (resetTimerEl) {
-    resetTimerEl.textContent = `Reset in: ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-  }
-
-  // Store remaining time for use in other tabs
-  state.timeUntilReset = timeUntilReset;
-}
-
-/* ================== Boot ================== */
-function boot(){
-  // Check and reset daily tasks
-  checkAndResetDailyTasks();
-
-  updateMiningUI();
-  renderWallet();
-  setupFriends();
-  setupTasks();
-  setupProfile();
-  loadNews();
-
-renderPlans();
-updateActivePlanDisplay();
-
-  // Start real-time timer for reset (every 1 second)
-  setInterval(() => {
-    updateResetTimer();
-  }, 1000);
-  
-  // Periodically refresh friends data (every 5 minutes)
-  setInterval(() => {
-    fetchFriendsData();
-  }, 5 * 60 * 1000);
-
-  // Restore task statuses from state
-  if (state.taskStatuses) {
-    TASKS.forEach(task => {
-      if (state.taskStatuses[task.id]) {
-        task.status = state.taskStatuses[task.id];
-      }
-    });
-  }
-
-  // If mining is active, continue the tick or if finished but not claimed yet, just update UI
-  if(state.miningStart){
-    const {remaining} = miningMetrics();
-    if(remaining>0) {
-      runTick();
-      startBtn.disabled = true; // Disable start button while mining is active
-    }
-    else {
-      // Timer finished but user hasn't claimed yet — just update UI so button is active
-      updateMiningUI();
-      startBtn.disabled = false; // Enable start button when timer completes
-    }
-  } else {
-    startBtn.disabled = false; // Enable start button when not mining
-  }
-  
-  // Check for pending rewards
-  if (state.pendingRewards && state.pendingRewards.length > 0) {
-    showRewardModal();
-  }
-}
-boot();
-
-</script>
+    boot();
+  </script>
  </body>
 </html>
+```
