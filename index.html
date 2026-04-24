@@ -1043,7 +1043,9 @@ function renderWallet(){
   // Display coin balance with 3 decimal places
   coinsBalanceEl.textContent = state.coins.toFixed(3);
   piBalanceEl.textContent = Number(state.pi).toFixed(2);
-  usdtBalanceEl.textContent = Number(state.usdt).toFixed(2);
+  document.getElementById('earnedUsdtBalance').textContent = (state.usdtEarned || 0).toFixed(2);
+document.getElementById('depositedUsdtBalance').textContent = (state.usdtDeposited || 0).toFixed(2);
+document.getElementById('totalUsdtBalance').textContent = totalUsdt().toFixed(2);
 
   // transactions
   txListEl.innerHTML='';
