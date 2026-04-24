@@ -688,6 +688,9 @@ usdtDeposited: 0,   // واریز دستی فقط TRC20
 activeInvestment: null,   // ذخیره اطلاعات طرح فعال
  // Total coins earned from referrals
 };
+function totalUsdt() { 
+  return (state.usdtEarned || 0) + (state.usdtDeposited || 0); 
+}
 // ========== سرمایه‌گذاری ==========
 const INVEST_PLANS = [
   { id: 'plan500', name: 'پلن ۵۰۰ دلاری', requiredUSDT: 500, durationMonths: 3, profitPercent: 1, baseAmount: 500 },
